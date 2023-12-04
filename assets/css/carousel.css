@@ -1,0 +1,38 @@
+#myCarousel {
+    height: 100vh;
+  }
+  
+  .carousel-inner {
+    height: 100%;
+  }
+  
+  .carousel-item {
+    height: 100%;
+  }
+  
+  .carousel-caption {
+    display: flex;
+    align-items: center;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    color: #000;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: invert(100%);
+  }
+  
+  .carousel-button {
+    background: #4154f1;
+    padding: 8px 20px;
+    margin-left: 30px;
+    border-radius: 4px;
+    color: #fff;
+  }
