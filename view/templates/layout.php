@@ -43,7 +43,7 @@
         
         <ul>
           <li><a href="/" class="nav-link scrollto">Register</a></li>
-          <li><a style="margin-right: 450px;" href="/" class="nav-link scrollto">Login</a></li>
+          <li><a style="margin-right: 400px;" href="/" class="nav-link scrollto">Login</a></li>
           <li><a class="nav-link scrollto" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/#about">About</a></li>
           <li><a class="nav-link scrollto" href="/#tech">Tech</a></li>
