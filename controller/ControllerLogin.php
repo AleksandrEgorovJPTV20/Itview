@@ -1,15 +1,5 @@
 <?php 
 class ControllerLogin {
-	//Логин
-	public static function FormLogin(){
-		$allgenres = Model::getGenres();
-		include_once('view/formLogin.php');
-	}
-	//Регистрация
-	public static function FormSignUp(){
-		$allgenres = Model::getGenres();
-		include_once('view/formSignUp.php');
-	}
 	//Профиль
 	public static function FormProfile(){
 		$users = ModelLogin::getUsers();
@@ -18,11 +8,11 @@ class ControllerLogin {
 	
 	//Результат входа
 	public static function LoginAction(){
+		$years = [2021, 2022, 2023];
 		$result = ModelLogin::userLogin();
 		$users = ModelLogin::getUsers();
-		$allgenres = Model::getGenres();
 		if ($result == true) {
-			include_once('view/loginResult.php');
+			include_once('view/homepage.php');
 		}
 		else{
 			include_once('view/formLogin.php');
@@ -31,17 +21,22 @@ class ControllerLogin {
 
 
 	//Результат регистрации
-	public static function signUpResult(){
-		$allgenres = Model::getGenres();
-		$result = ModelLogin::SignUp();
-		include_once('view/formSignUp.php');
+	public static function registerResult(){
+		$years = [2021, 2022, 2023];
+		$result = ModelLogin::register();
+		if ($result == true) {
+			include_once('view/formSignUp.php');
+		}
+		else{
+			include_once('view/formSignUp.php');
+		}
 	}
 
 	//выход
 	public static function LogoutAction(){
+		$years = [2021, 2022, 2023];
 		$result = ModelLogin::userLogout();
-		$allgenres = Model::getGenres();
-		include_once('view/formLogin.php');
+		include_once('view/homepage.php');
 	}
 
 

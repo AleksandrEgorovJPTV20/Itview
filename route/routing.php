@@ -25,6 +25,26 @@ elseif ($route == 'tech'){
 	}else{
 	}
 }
+elseif(!isset($_SESSION['userId'])){
+	if ($route == 'login'){
+		ControllerLogin::LoginAction();
+	}
+	elseif ($route == 'register'){
+		ControllerLogin::registerResult();
+	}
+	else{
+		Controller::error();
+	}
+}
+elseif ($route == 'logout'){
+	ControllerLogin::LogoutAction();
+}
+elseif ($route == 'contact'){
+	Controller::sendmessage();
+}
+else{
+	Controller::error();
+}
 
 
 

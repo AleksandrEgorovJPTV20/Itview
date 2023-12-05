@@ -34,10 +34,10 @@ class ModelLogin {
 						$_SESSION['message']='Успешно вошли';
 					}						
 					else{
-						$_SESSION['error']='Неправильное имя пользователя или пароль';
+						$_SESSION['message']='Неправильное имя пользователя или пароль';
 					}
 				}else{
-					$_SESSION['error']='Пользователя несуществует';
+					$_SESSION['message']='Пользователя несуществует';
 				}
 			}
 			return $result;
@@ -58,7 +58,7 @@ class ModelLogin {
 	}
 
 	//Регистрация
-	public static function SignUp() {
+	public static function register() {
 		$result=false;
 		//читаем данные форм в переменные
 		if(isset($_POST['send'])){
@@ -81,10 +81,10 @@ class ModelLogin {
 						$_SESSION['message']='Успешно создали аккаунт';
 					}
 				}else{
-					$_SESSION['error']='Неправильный формат почты или пароль';
+					$_SESSION['message']='Неправильный формат почты или пароль';
 				}
 			}else{
-				$_SESSION['error']='Пользователь уже существует';
+				$_SESSION['message']='Пользователь уже существует';
 			}
 		}
 		return $result;

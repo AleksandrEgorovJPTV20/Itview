@@ -42,8 +42,15 @@
       <nav id="navbar" class="navbar">
         
         <ul>
-          <li><a href="/" class="nav-link scrollto">Register</a></li>
-          <li><a style="margin-right: 400px;" href="/" class="nav-link scrollto">Login</a></li>
+        <?php
+          if(!isset($_SESSION['userId'])){
+            echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#registerModal">Register</a></li>';
+            echo '<li><a type="button" style="margin-right: 400px; color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#loginModal">Login</a></li>';
+          }else{
+            echo '<li><a class="nav-link"href="logout">Logout</a></li>';
+            echo '<li><a style="margin-right: 400px;" class="nav-link" href="profile">Profile</a></li>';
+          }
+        ?>
           <li><a class="nav-link scrollto" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/#about">About</a></li>
           <li><a class="nav-link scrollto" href="/#tech">Tech</a></li>
@@ -63,17 +70,67 @@
 			if(isset($content))
 			echo $content;
 		?>
+  <div class="modal fade" id="loginModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
+            <p style="margin-left: 20px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
+          </div>
+          <form action="login" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px;">
+              <h1 style="text-align: center; color: #013289;">Login</h1>
+              <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
+              </div>
+             <div class="mb-3">
+                  <input type="password" name="password" class="form-control" placeholder="Enter your password" style="margin-bottom: 20px;" required>
+              </div>
+              <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Login</button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="registerModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
+            <p style="margin-left: 20px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
+          </div>
+          <form action="register" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px;">
+              <h1 style="text-align: center; color: #013289;">Register new user</h1>
+              <div class="mb-3">
+                  <input type="text" name="username" class="form-control" placeholder="Enter your username" style="margin-bottom: 20px;" required>
+              </div>
+              <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
+              </div>
+             <div class="mb-3">
+                  <input type="password" name="password" class="form-control" placeholder="Enter your password" style="margin-bottom: 20px;" required>
+              </div>
+              <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Register</button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
 		<!-- end content -->
 	</main>
 
   <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
+  <footer id="footer" class="footer" style="position: fixed; bottom: 0%; width: 100%;">
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong><span>FlexStart</span></strong>. All Rights Reserved
+        &copy; Aleksandr Egorov, Rustem Kurshutov
       </div>
       <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        JPTV20
       </div>
     </div>
   </footer><!-- End Footer -->

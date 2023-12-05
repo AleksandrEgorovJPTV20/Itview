@@ -3,11 +3,14 @@
 <?php 
 	ob_start();
  ?>
- 	<h2 style="text-align: center;">Error</h2>
-	<div class="center" style="display: flex;">
-		<img style="margin: auto;" src="images/404.png" >    
-	</div> 
+<section id="about" class="about">
+<div class="container" data-aos="fade-up">
+  <header class="section-header" style="margin-top: 30%;">
+	  <p>Error 404</p>
+  </header>
+</div>
 
+</section>
 <?php 
 	$content = ob_get_clean(); 
 	include "view/templates/layout.php";

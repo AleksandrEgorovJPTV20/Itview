@@ -13,6 +13,17 @@ class Controller {
 		include_once('view/techByYear.php');
 		return;
 	}
+	public static function sendmessage() {
+		$message = Model::sendmessage();
+		include_once('view/homepage.php');
+		return;
+	}
+	
+	public static function error() {
+		include_once('view/error404.php');
+		return;
+	}
+
 }//END CLASS
 ?>
 
