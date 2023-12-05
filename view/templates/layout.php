@@ -70,9 +70,11 @@
 			if(isset($content))
 			echo $content;
 		?>
+
+  <!-- Login -->
   <div class="modal fade" id="loginModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
           <div class="content" style="display: flex; justify-content: center; margin: auto; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             <p style="margin-left: 20px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
@@ -93,10 +95,12 @@
       </div>
     </div>
   </div>
+<!-- End Login -->
 
+<!-- End Register -->
   <div class="modal fade" id="registerModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
           <div class="content" style="display: flex; justify-content: center; margin: auto; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             <p style="margin-left: 20px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
@@ -120,6 +124,7 @@
       </div>
     </div>
   </div>
+    <!-- End Register -->
 		<!-- end content -->
 	</main>
 
@@ -147,7 +152,6 @@
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>

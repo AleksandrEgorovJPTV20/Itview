@@ -23,6 +23,7 @@ elseif ($route == 'tech'){
 	if (isset($id)) {
 		Controller::tech($id);
 	}else{
+		Controller::error();
 	}
 }
 elseif(!isset($_SESSION['userId'])){
@@ -40,7 +41,7 @@ elseif ($route == 'logout'){
 	ControllerLogin::LogoutAction();
 }
 elseif ($route == 'contact'){
-	Controller::sendmessage();
+	Controller::contact();
 }
 else{
 	Controller::error();

@@ -13,7 +13,7 @@ class Controller {
 		include_once('view/techByYear.php');
 		return;
 	}
-	public static function sendmessage() {
+	public static function contact() {
 		$message = Model::sendmessage();
 		include_once('view/homepage.php');
 		return;

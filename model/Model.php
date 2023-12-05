@@ -8,7 +8,7 @@ class Model {
 		return $item;
 	}
 
-    public static function sendmessage($year) {
+    public static function sendmessage() {
 		if (isset($_POST['send'])) {
 			$name = $_POST['name'];
 			$email = $_POST['email'];
@@ -32,6 +32,7 @@ class Model {
 				echo 'Error sending message.';
 			}
 		}
+		return;
 	}
 }
 ?>
