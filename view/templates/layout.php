@@ -56,7 +56,7 @@
           <li><a class="nav-link scrollto" href="/#tech">Tech</a></li>
           <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
           <li><a class="nav-link scrollto" href="/#contact">Contacts</a></li>
-          <li><a class="getstarted scrollto" href="">Forum</a></li>
+          <li><a class="getstarted scrollto" href="/forum">Forum</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -79,7 +79,7 @@
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             <p style="margin-left: 20px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
-          <form action="login" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px;">
+          <form action="login" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Login</h1>
               <div class="mb-3">
                 <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
@@ -105,7 +105,7 @@
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             <p style="margin-left: 20px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
-          <form action="register" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px;">
+          <form action="register" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Register new user</h1>
               <div class="mb-3">
                   <input type="text" name="username" class="form-control" placeholder="Enter your username" style="margin-bottom: 20px;" required>

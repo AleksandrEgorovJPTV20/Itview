@@ -4,7 +4,7 @@ require_once 'vendor/autoload.php'; // Load Composer's autoloader
 use Dotenv\Dotenv;
 class database {
 
-    private $conn;
+    public $conn;
     private $host;
     private $user;
     private $password;

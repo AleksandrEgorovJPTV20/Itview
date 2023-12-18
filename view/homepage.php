@@ -1,4 +1,4 @@
-<!-- Главная страница -->
+<!-- Homepage -->
 <?php
 	ob_start();
 ?>
@@ -6,27 +6,27 @@
     <div id="myCarousel" class="carousel slide" data-ride="carousel" data-aos="fade-up">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://via.placeholder.com/1920x1080" class="d-block w-100" style="height: 100vh;" alt="First Slide">
+                <img src="assets/img/about.jpg" class="d-block w-100" style="height: 100vh;" alt="First Slide">
                 <div class="carousel-caption text-center section-header" >
-                    <p style="font-size: 48px;">Slide 1</p>
-                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Your caption for the first slide.</p>
-                    <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="/">Forum</a></div>
+                    <p style="font-size: 48px;">Welcome to IT Forum</p>
+                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Connect with tech enthusiasts worldwide.</p>
+                    <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="/register">Register</a></div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://via.placeholder.com/1920x1080" class="d-block w-100" style="height: 100vh;"alt="Second Slide">
+                <img src="assets/img/hero-img.png" class="d-block w-100" style="height: 100vh;"alt="Second Slide">
                 <div class="carousel-caption text-center section-header">
-                    <p style="font-size: 48px;">Slide 2</p>
-                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Your caption for the second slide.</p>
+                    <p style="font-size: 48px;">Explore the Tech Forum</p>
+                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Join discussions on the latest in technology.</p>
                         <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;" href="/">Forum</a></div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://via.placeholder.com/1920x1080" class="d-block w-100" style="height: 100vh;" alt="Third Slide">
+                <img src="assets/img/values-1.png" class="d-block w-100" style="height: 100vh;" alt="Third Slide">
                 <div class="carousel-caption text-center section-header">
-                    <p style="font-size: 48px;">Slide 3</p>
-                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Your caption for the third slide.</p>
-                    <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="/">Forum</a></div>
+                    <p style="font-size: 48px;">Stay Updated with Tech News</p>
+                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Get the latest tech insights and trends.</p>
+                    <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="/#tech">Tech</a></div>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <div class="content">
               <h2>Goal of the website</h2>
               <p>
-                Quisquam vel ut sint cum eos hic dolores aperiam. Sed deserunt et. Inventore et et dolor consequatur itaque ut voluptate sed et. Magnam nam ipsum tenetur suscipit voluptatum nam et est corrupti.
+              To create a vibrant and inclusive online community at IT View, where technology enthusiasts, professionals, and learners converge to exchange knowledge, discuss the latest trends, and foster collaborative learning in the field of information and computer technologies. Our goal is to provide a user-friendly platform that encourages active participation, networking, and the sharing of insights, ultimately contributing to the growth and enrichment of the global tech community.
               </p>
               <div class="text-center text-lg-start">
                 <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
@@ -100,7 +100,6 @@
             <img src="assets/img/about.png" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
             <h3>Nesciunt Mete</h3>
             <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
-            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
         </div>
         </div>
 
@@ -109,7 +108,6 @@
             <img src="assets/img/about.png" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
             <h3>Eosle Commodi</h3>
             <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
-            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
         </div>
         </div>
 
@@ -118,7 +116,6 @@
             <img src="assets/img/about.png" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
             <h3>Ledo Markt</h3>
             <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
-            <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
         </div>
         </div>
 
@@ -145,12 +142,12 @@
             <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                Non consectetur a erat nam at lectus urna duis?
+                How to register on the IT Vaade forum?
                 </button>
             </h2>
             <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
                 <div class="accordion-body">
-                Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
+                To register, click on the "Register" button in the header, fill in the required information, and click register.
                 </div>
             </div>
             </div>
@@ -158,12 +155,12 @@
             <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?
+                How to create a new topic on the forum?
                 </button>
             </h2>
             <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
                 <div class="accordion-body">
-                Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                After logging in, go to the forum page, where you'll find the "Create a Topic" button. Fill in the title and content of the topic, then publish it.
                 </div>
             </div>
             </div>
@@ -171,12 +168,12 @@
             <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi?
+                How to edit your profile on IT View?
                 </button>
             </h2>
             <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
                 <div class="accordion-body">
-                Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
+                Go to your profile, where you can edit your information, add an avatar, and customize other settings.
                 </div>
             </div>
             </div>
@@ -192,12 +189,12 @@
             <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?
+                How to contact the forum administration?
                 </button>
             </h2>
             <div id="faq2-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
                 <div class="accordion-body">
-                Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                You can contact the administration by sending a message through the contact form on the Homepage page.
                 </div>
             </div>
             </div>
@@ -205,12 +202,12 @@
             <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                Tempus quam pellentesque nec nam aliquam sem et tortor consequat?
+                How to use the search function on IT View?
                 </button>
             </h2>
             <div id="faq2-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
                 <div class="accordion-body">
-                Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in
+                On the forum page, you will find the search field. Enter keywords related to your problem and review the results to find similar topics and solutions.
                 </div>
             </div>
             </div>
@@ -218,12 +215,12 @@
             <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-3" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                Varius vel pharetra vel turpis nunc eget lorem dolor?
+                How to participate in solving technical questions?
                 </button>
             </h2>
             <div id="faq2-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
                 <div class="accordion-body">
-                Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque. Pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus. Nibh tellus molestie nunc non blandit massa enim nec.
+                Actively engage in discussions, provide quality answers to other participants' questions, and share your experience. The administration may appoint you as an expert based on your contribution and experience in the community.
                 </div>
             </div>
             </div>

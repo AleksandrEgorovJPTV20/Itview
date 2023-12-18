@@ -26,6 +26,23 @@ elseif ($route == 'tech'){
 		Controller::error();
 	}
 }
+elseif ($route == 'contact'){
+	Controller::contact();
+}
+elseif ($route == 'forum'){
+    // Assuming $id is the page number
+    if (isset($id) && strpos($id, 'page=') === 0) {
+        // Extract the page number from the id
+        $page = intval(substr($id, 5));
+    } else {
+        $page = 1; //default page number
+    }
+
+    Controller::forum($page);
+}
+elseif ($route == 'logout'){
+	ControllerLogin::LogoutAction();
+}
 elseif(!isset($_SESSION['userId'])){
 	if ($route == 'login'){
 		ControllerLogin::LoginAction();
@@ -36,12 +53,6 @@ elseif(!isset($_SESSION['userId'])){
 	else{
 		Controller::error();
 	}
-}
-elseif ($route == 'logout'){
-	ControllerLogin::LogoutAction();
-}
-elseif ($route == 'contact'){
-	Controller::contact();
 }
 else{
 	Controller::error();

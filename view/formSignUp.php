@@ -34,8 +34,6 @@
     </div>
 </section>
 
-
-
 <?php
 	$content = ob_get_clean();
 	include "view/templates/layout.php";
