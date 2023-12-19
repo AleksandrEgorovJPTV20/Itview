@@ -11,7 +11,12 @@ class Model {
     public static function getAllTopics($page = 1, $itemsPerPage = 2) {
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT * FROM `topics` LIMIT :offset, :limit";
+		$sql = "SELECT topics.*, users.username
+        FROM topics
+        JOIN users ON topics.userid = users.id
+        ORDER BY topics.id DESC
+        LIMIT :offset, :limit";
+
 		$db = new database();
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);

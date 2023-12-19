@@ -36,7 +36,26 @@ h5,
 h6 {
   font-family: "Nunito", sans-serif;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
+.pagination a {
+  color: #007BFF;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #007BFF;
+  margin: 0 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+  background-color: #007BFF;
+  color: white;
+}
 /*--------------------------------------------------------------
 # Sections
 --------------------------------------------------------------*/

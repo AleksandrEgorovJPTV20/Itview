@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 18 2023 г., 18:54
+-- Время создания: Дек 19 2023 г., 06:25
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -52,19 +52,19 @@ INSERT INTO `tech` (`id`, `name`, `description`, `image`, `year`) VALUES
 
 CREATE TABLE `topics` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Дамп данных таблицы `topics`
 --
 
-INSERT INTO `topics` (`id`, `name`) VALUES
-(1, 'announcements'),
-(2, 'general'),
-(3, 'test2\r\n'),
-(4, 'test1\r\n\r\n'),
-(5, 'test3\r\n\r\n');
+INSERT INTO `topics` (`id`, `name`, `userid`) VALUES
+(1, 'Announcements', 1),
+(2, 'General', 1),
+(3, 'Other', 1),
+(4, 'Test', 3);
 
 -- --------------------------------------------------------
 
@@ -108,14 +108,14 @@ ALTER TABLE `tech`
 -- Индексы таблицы `topics`
 --
 ALTER TABLE `topics`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`);
 
 --
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -128,16 +128,20 @@ ALTER TABLE `tech`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `topics`
---
-ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `topics`
+--
+ALTER TABLE `topics`
+  ADD CONSTRAINT `topics_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
