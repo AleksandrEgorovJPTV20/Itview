@@ -13,9 +13,17 @@
                 <h2 style="font-size: 30px; padding-top: 30px;  margin-left: 20px;">Author</h2>
                 <h2 style="font-size: 30px; padding-top: 30px; ">Topic</h2>
                 <h2 style="font-size: 30px; padding-top: 30px; ">Posts</h2>
-                <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center;">
-                    <button style="margin: 0px; border: none;" variant="primary" class="getstarted scrollto">Create Topic</button>
-                </div>
+                <?php 
+                if(!isset($_SESSION['userId'])){
+                    echo '<div class="navbar" style="display: flex; justify-content: center;">
+                            <a type="button" style="margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">Login to create topic</a>
+                        </div>';
+                  }else{
+                    echo '<div class="navbar text-center text-lg-start" style="display: flex; justify-content: center;">
+                            <a type="button" style="margin: 0px; color: white;" variant="primary" class="getstarted scrollto">Create topic</a>
+                        </div>';
+                  }
+                ?>
             </div>
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
                 <?php

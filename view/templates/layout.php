@@ -47,7 +47,7 @@
             echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#registerModal">Register</a></li>';
             echo '<li><a type="button" style="margin-right: 400px; color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#loginModal">Login</a></li>';
           }else{
-            echo '<li><a class="nav-link"href="logout">Logout</a></li>';
+            echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#logoutModal">Logout</a></li>';
             echo '<li><a style="margin-right: 400px;" class="nav-link" href="profile">Profile</a></li>';
           }
         ?>
@@ -97,7 +97,7 @@
   </div>
 <!-- End Login -->
 
-<!-- End Register -->
+<!-- Register -->
   <div class="modal fade" id="registerModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
@@ -125,6 +125,22 @@
     </div>
   </div>
     <!-- End Register -->
+
+    <!-- Logout -->
+  <div class="modal fade" id="logoutModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
+          <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 10px 10px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+              <h1 style="text-align: center; color: #013289;">Are you sure?</h1>
+              <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Confirm</button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+    <!-- End Logout -->
 		<!-- end content -->
 	</main>
 
