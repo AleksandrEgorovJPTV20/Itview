@@ -10,13 +10,17 @@ class ControllerLogin {
 	public static function LoginAction(){
 		$years = [2021, 2022, 2023];
 		$result = ModelLogin::userLogin();
-		$users = ModelLogin::getUsers();
-		if ($result == true) {
-			include_once('view/homepage.php');
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
+		if (!empty($redirectRoute)) {
+			if($redirectRoute == 'tech'){
+				header("Location: /");
+			}else{
+				header("Location: /$redirectRoute");
+			}
+		} else {
+			header("Location: /");
 		}
-		else{
-			include_once('view/formLogin.php');
-		}
+		exit();
 	}
 
 
@@ -24,19 +28,34 @@ class ControllerLogin {
 	public static function registerResult(){
 		$years = [2021, 2022, 2023];
 		$result = ModelLogin::register();
-		if ($result == true) {
-			include_once('view/formSignUp.php');
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
+		if (!empty($redirectRoute)) {
+			if($redirectRoute == 'tech'){
+				header("Location: /");
+			}else{
+				header("Location: /$redirectRoute");
+			}
+		} else {
+			header("Location: /");
 		}
-		else{
-			include_once('view/formSignUp.php');
-		}
+		exit();
 	}
 
 	//выход
 	public static function LogoutAction(){
 		$years = [2021, 2022, 2023];
 		$result = ModelLogin::userLogout();
-		include_once('view/homepage.php');
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
+		if (!empty($redirectRoute)) {
+			if($redirectRoute == 'tech'){
+				header("Location: /");
+			}else{
+				header("Location: /$redirectRoute");
+			}
+		} else {
+			header("Location: /");
+		}
+		exit();
 	}
 
 

@@ -7,9 +7,9 @@ class ModelLogin {
 		$item = $db->getAll($sql);
 		return $item;
 	}
+	
 	//Авторизация
 	public static function userLogin(){
-		$result = false;
 		if(isset($_POST['send'])){
 			//данные введёные в форме
 			if(isset($_POST['email']) && isset($_POST['password']) && $_POST['email']!="" && $_POST['password']!=""){
@@ -31,16 +31,15 @@ class ModelLogin {
 						$_SESSION['role']=$item['role'];
 						$_SESSION['userId']=$item['id'];
 						$result=true;
-						$_SESSION['message']='Успешно вошли';
+						$_SESSION['loginMessage']='Successfully logged in';
 					}						
 					else{
-						$_SESSION['message']='Неправильное имя пользователя или пароль';
+						$_SESSION['loginMessage']='Wrong email or password';
 					}
 				}else{
-					$_SESSION['message']='Пользователя несуществует';
+					$_SESSION['loginMessage']="User doesn't exist";
 				}
 			}
-			return $result;
 		}
 	}
 
@@ -59,7 +58,6 @@ class ModelLogin {
 
 	//Регистрация
 	public static function register() {
-		$result=false;
 		//читаем данные форм в переменные
 		if(isset($_POST['send'])){
 			$username =$_POST['username'];
@@ -74,20 +72,18 @@ class ModelLogin {
 					$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 					$sql2="INSERT INTO `users` (`Email`, `Password`, `Username`)
 					VALUES ('$email','$passwordHash','$username')";
-					$database2 = new database();
-					$item2 = $database2->executeRun($sql2);
+					$item2 = $database->executeRun($sql2);
 					if($item2==true){
 						$result=true;
-						$_SESSION['message']='Успешно создали аккаунт';
+						$_SESSION['registerMessage']='Account successfully created';
 					}
 				}else{
-					$_SESSION['message']='Неправильный формат почты или пароль';
+					$_SESSION['registerMessage']='Wrong email';
 				}
 			}else{
-				$_SESSION['message']='Пользователь уже существует';
+				$_SESSION['registerMessage']='User already exists';
 			}
 		}
-		return $result;
 	}
 
 }

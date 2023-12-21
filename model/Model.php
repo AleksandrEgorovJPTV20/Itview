@@ -66,7 +66,6 @@ class Model {
 				echo 'Error sending message.';
 			}
 		}
-		return;
 	}
 }
 ?>
