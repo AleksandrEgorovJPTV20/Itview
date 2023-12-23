@@ -12,6 +12,7 @@ $route = explode('/', $path)[$num];
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -39,6 +40,8 @@ $route = explode('/', $path)[$num];
 </head>
 
 <body>
+
+  <div id="loading-animation"></div>
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top">
@@ -197,6 +200,7 @@ $route = explode('/', $path)[$num];
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="assets/js/loadinganim.js"></script>
 </body>
 
 </html>
