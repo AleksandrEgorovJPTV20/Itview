@@ -33,6 +33,8 @@ $route = explode('/', $path)[$num];
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="assets/js/livesearch.js"></script>
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -87,8 +89,8 @@ $route = explode('/', $path)[$num];
   <!-- Login -->
   <div class="modal fade" id="loginModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             <p style="margin-left: 20px; margin-top: 10px; color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
@@ -117,8 +119,8 @@ $route = explode('/', $path)[$num];
 <!-- Register -->
   <div class="modal fade" id="registerModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             <p style="margin-left: 20px; margin-top: 10px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
@@ -150,12 +152,12 @@ $route = explode('/', $path)[$num];
     <!-- Logout -->
   <div class="modal fade" id="logoutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             <p style="margin-left: 20px; margin-top: 10px;color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
-          <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 10px 10px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Are you sure?</h1>
               <input type="hidden" name="redirect_route" value="<?= $route ?>">
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
@@ -174,10 +176,7 @@ $route = explode('/', $path)[$num];
   <footer id="footer" class="footer" style="position: fixed; bottom: 0%; width: 100%;">
     <div class="container">
       <div class="copyright">
-        &copy; Aleksandr Egorov, Rustem Kurshutov
-      </div>
-      <div class="credits">
-        JPTV20
+        &copy; Aleksandr Egorov, Rustem Kurshutov <br>JPTV20
       </div>
     </div>
   </footer><!-- End Footer -->

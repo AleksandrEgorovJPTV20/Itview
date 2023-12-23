@@ -1,14 +1,6 @@
 <?php 
 class ModelLogin {
-	//Просмотр пользователей
-	public static function getUsers() {
-		$sql = "SELECT * FROM `users`";
-		$db = new database();
-		$item = $db->getAll($sql);
-		return $item;
-	}
-	
-	//Авторизация
+	//Login method
 	public static function userLogin(){
 		if(isset($_POST['send'])){
 			//данные введёные в форме
@@ -44,7 +36,7 @@ class ModelLogin {
 	}
 
 
-	//Выход. Удаление переменных сессии и разрушаем сессию.
+	//Logout method
 	public static function userLogout(){
 		unset($_SESSION['sessionId']);
 		unset($_SESSION['name']);
@@ -56,7 +48,7 @@ class ModelLogin {
 		return;
 	}
 
-	//Регистрация
+	//Register method
 	public static function register() {
 		//читаем данные форм в переменные
 		if(isset($_POST['send'])){

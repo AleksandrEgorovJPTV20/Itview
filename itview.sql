@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 19 2023 г., 06:25
+-- Время создания: Дек 23 2023 г., 20:47
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -87,12 +87,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`) VALUES
 (1, 'admin@test.ee', '$2y$12$mjv/GPng4oQFohhkPl8RPucmgRDFVs/UCVP02US.r92ra09kK4d7u', 'Admin', 'admin'),
 (2, 'user@test.ee', '$2y$12$mjv/GPng4oQFohhkPl8RPucmgRDFVs/UCVP02US.r92ra09kK4d7u', 'User', 'user'),
-(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager'),
-(5, 'furranous@mail.ru', '$2y$10$fgoncbrf2IzemtWn0j3qRusHY4NBDS9.szZmpQSG374Gc1So3nOm6', 'Furranous', 'user'),
-(6, 'test@test.ee', '$2y$10$hwtsiIzw2nrzHLwHs/r00.Ao9Ciw0fZTAE0sA42QDmjtycH4/ZJFq', 'Furranous', 'user'),
-(7, 'test2@mail.ru', '$2y$10$0M/T0mBfJB0Nwk/hU7bil.2FnK1AaSQr/FI8r7Osaj/gNTBBYLIR6', 'test2', 'user'),
-(8, 'test3@mail.ru', '$2y$10$eF3netPWj8NG1S6E7I2kC.UNQcSTIdAon06FlG9UwfWxxDbwCU1Ca', 'test3', 'user'),
-(9, 'aaaaa@mail.ru', '$2y$10$9Y6x4Jkvu5Trs0zFYuPJmeKFFunQQHFv.5dnOXJGe7oCGIUztZg3K', 'chromaticalarci@gmail.com', 'user');
+(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager');
 
 --
 -- Индексы сохранённых таблиц
@@ -128,10 +123,16 @@ ALTER TABLE `tech`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT для таблицы `topics`
+--
+ALTER TABLE `topics`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -1,12 +1,12 @@
 <?php 
 class ControllerLogin {
-	//Профиль
+	// Profile
 	public static function FormProfile(){
 		$users = ModelLogin::getUsers();
 		include_once('view/profileTable.php');
 	}
 	
-	//Результат входа
+	// Login method
 	public static function LoginAction(){
 		$years = [2021, 2022, 2023];
 		$result = ModelLogin::userLogin();
@@ -24,7 +24,7 @@ class ControllerLogin {
 	}
 
 
-	//Результат регистрации
+	// Register method
 	public static function registerResult(){
 		$years = [2021, 2022, 2023];
 		$result = ModelLogin::register();
@@ -41,7 +41,7 @@ class ControllerLogin {
 		exit();
 	}
 
-	//выход
+	// Exit
 	public static function LogoutAction(){
 		$years = [2021, 2022, 2023];
 		$result = ModelLogin::userLogout();

@@ -2445,3 +2445,30 @@ section {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.forum {
+  margin: 5% 0%;
+}
+
+.description {
+  width: 230px; 
+  display: flex; 
+  flex-wrap: wrap; 
+  align-items: center;  
+  word-break: break-all;
+}
+
+@media screen and (max-width: 768px) {
+  .description {
+    width: 100%; 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center;  
+    word-break: break-all;
+  }
+
+  .forum {
+    margin-top: 15%;
+    margin-bottom: 25%;
+  }
+}

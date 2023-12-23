@@ -30,12 +30,10 @@ elseif ($route == 'contact'){
 	Controller::contact();
 }
 elseif ($route == 'forum'){
-    // Assuming $id is the page number
     if (isset($id) && strpos($id, 'page=') === 0) {
-        // Extract the page number from the id
         $page = intval(substr($id, 5));
     } else {
-        $page = 1; //default page number
+        $page = 1;
     }
 
     Controller::forum($page);
