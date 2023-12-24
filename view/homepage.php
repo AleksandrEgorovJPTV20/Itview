@@ -58,7 +58,7 @@
               To create a vibrant and inclusive online community at IT View, where technology enthusiasts, professionals, and learners converge to exchange knowledge, discuss the latest trends, and foster collaborative learning in the field of information and computer technologies. Our goal is to provide a user-friendly platform that encourages active participation, networking, and the sharing of insights, ultimately contributing to the growth and enrichment of the global tech community.
               </p>
               <div class="text-center text-lg-start">
-                <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+                <a href="/forum" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Forum</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>

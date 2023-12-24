@@ -2451,11 +2451,11 @@ section {
 }
 
 .description {
-  width: 230px; 
   display: flex; 
   flex-wrap: wrap; 
   align-items: center;  
   word-break: break-all;
+  flex-basis: 40%;
 }
 
 @media screen and (max-width: 768px) {
@@ -2465,6 +2465,7 @@ section {
     flex-wrap: wrap; 
     align-items: center;  
     word-break: break-all;
+    flex-basis: 100%;
   }
 
   .forum {

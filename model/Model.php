@@ -73,6 +73,79 @@ class Model {
 	
 		return 0;
 	}
+	
+    // Method to get the count of comments for each topic
+    public static function getCommentCountForTopics($topics)
+    {
+        $db = new Database();
+        
+        // Prepare the SQL query
+        $sql = "SELECT topicid, COUNT(*) AS comment_count FROM comments WHERE topicid IN (";
+        $sql .= implode(", ", array_map(function ($topic) {
+            return $topic['id'];
+        }, $topics));
+        $sql .= ") GROUP BY topicid";
+
+        // Execute the query
+        $stmt = $db->conn->prepare($sql);
+        $stmt->execute();
+
+        // Fetch the results
+        $commentCounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Organize the counts by topic id
+        $countsByTopicId = [];
+        foreach ($commentCounts as $count) {
+            $countsByTopicId[$count['topicid']] = $count['comment_count'];
+        }
+
+        return $countsByTopicId;
+    }
+	// Create topic method
+	public static function createTopic($topicName, $topicDescription, $comment = null) {
+		$db = new Database();
+
+		// Start a transaction to ensure data consistency
+		$db->conn->beginTransaction();
+
+		try {
+			// Insert into topics table
+			$sqlTopic = "INSERT INTO topics (userid, name, description) VALUES (:userid, :name, :description)";
+			$stmtTopic = $db->conn->prepare($sqlTopic);
+			$stmtTopic->bindParam(':userid', $_SESSION['userId'], PDO::PARAM_INT);
+			$stmtTopic->bindParam(':name', $topicName, PDO::PARAM_STR);
+			$stmtTopic->bindParam(':description', $topicDescription, PDO::PARAM_STR);
+			$stmtTopic->execute();
+
+			// Retrieve the topic ID
+			$topicId = $db->conn->lastInsertId();
+
+			// Insert into comments table (if comment is provided)
+			if ($comment !== null && $comment !== '') {
+				$sqlComment = "INSERT INTO comments (userid, topicid, text) VALUES (:userid, :topicid, :text)";
+				$stmtComment = $db->conn->prepare($sqlComment);
+				$stmtComment->bindParam(':userid', $_SESSION['userId'], PDO::PARAM_INT);
+				$stmtComment->bindParam(':topicid', $topicId, PDO::PARAM_INT);
+				$stmtComment->bindParam(':text', $comment, PDO::PARAM_STR);
+				$stmtComment->execute();
+			}
+
+			// Commit the transaction
+			$db->conn->commit();
+
+			// Set success message
+			$_SESSION['createMessage'] = 'Topic created successfully';
+			return true; // Success
+		} catch (Exception $e) {
+			// Rollback the transaction on error
+			$db->conn->rollBack();
+
+			// Set error message
+			$_SESSION['createMessage'] = 'Failed to create topic';
+			return false; // Error
+		}
+	}
+
 
 	//Work in progress
     public static function sendmessage() {

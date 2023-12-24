@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 23 2023 г., 20:47
+-- Время создания: Дек 24 2023 г., 13:36
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- База данных: `itview`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `text` text DEFAULT NULL,
+  `userid` int(11) NOT NULL,
+  `topicid` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Дамп данных таблицы `comments`
+--
+
+INSERT INTO `comments` (`id`, `text`, `userid`, `topicid`, `created_at`, `updated_at`) VALUES
+(5, '12', 1, 31, '2023-12-24 14:31:34', '2023-12-24 14:31:34');
 
 -- --------------------------------------------------------
 
@@ -53,6 +75,7 @@ INSERT INTO `tech` (`id`, `name`, `description`, `image`, `year`) VALUES
 CREATE TABLE `topics` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -60,11 +83,11 @@ CREATE TABLE `topics` (
 -- Дамп данных таблицы `topics`
 --
 
-INSERT INTO `topics` (`id`, `name`, `userid`) VALUES
-(1, 'Announcements', 1),
-(2, 'General', 1),
-(3, 'Other', 1),
-(4, 'Test', 3);
+INSERT INTO `topics` (`id`, `name`, `description`, `userid`) VALUES
+(1, 'Announcements', 'test', 1),
+(29, 'Other', 't', 1),
+(30, 'General', 'test', 1),
+(31, 'Алексей Егоров', '12312', 1);
 
 -- --------------------------------------------------------
 
@@ -94,6 +117,14 @@ INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`) VALUES
 --
 
 --
+-- Индексы таблицы `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`),
+  ADD KEY `topicid` (`topicid`);
+
+--
 -- Индексы таблицы `tech`
 --
 ALTER TABLE `tech`
@@ -104,6 +135,7 @@ ALTER TABLE `tech`
 --
 ALTER TABLE `topics`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique` (`name`),
   ADD KEY `userid` (`userid`);
 
 --
@@ -117,6 +149,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT для таблицы `tech`
 --
 ALTER TABLE `tech`
@@ -126,7 +164,7 @@ ALTER TABLE `tech`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
@@ -137,6 +175,13 @@ ALTER TABLE `users`
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
+
+--
+-- Ограничения внешнего ключа таблицы `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`topicid`) REFERENCES `topics` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `topics`
