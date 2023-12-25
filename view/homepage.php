@@ -86,8 +86,9 @@
         <p style="font-size: 18px;">Learn about popular and useful technologies<br>Use our filter by clicking buttons to learn about popular tech of the year</p>
         <div class="navbar">
         <?php 
-                foreach ($years as $year) {
-                  echo '<a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="tech?'.$year.'">'.$year.'</a>';
+        		$years = [2021, 2022, 2023];
+                foreach ($years as $loopYear) {
+                  echo '<a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="tech?year='.$loopYear.'">'.$loopYear.'</a>';
                 }
         ?>
          </div>

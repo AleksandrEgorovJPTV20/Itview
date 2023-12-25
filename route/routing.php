@@ -20,7 +20,8 @@ if ($route == '' OR $route == 'index.php'){
     Controller::StartSite();
 }
 elseif ($route == 'tech'){
-	if (isset($id)) {
+    if (isset($_GET['year'])) {
+        $id = $_GET['year'];
 		Controller::tech($id);
 	}else{
 		Controller::error();
@@ -37,6 +38,15 @@ elseif ($route == 'forum'){
     }
 
     Controller::forum($page);
+}
+elseif ($route == 'comments'){
+    if (isset($_GET['topic'])) {
+        // Get the topic ID from the query string
+        $id = $_GET['topic'];
+        Controller::comments($id);
+    } else {
+        Controller::error();
+    }
 }
 elseif ($route == 'logout'){
 	ControllerLogin::LogoutAction();

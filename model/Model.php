@@ -61,7 +61,7 @@ class Model {
         return $result;
     }
 
-	// Calculating all topics, for pages generatiion buttons method
+	// Calculating all topics, for pages generation buttons method
     public static function getTotalTopics() {
 		$sql = "SELECT COUNT(*) as count FROM `topics`";
 		$db = new database();
@@ -145,6 +145,41 @@ class Model {
 			return false; // Error
 		}
 	}
+
+	// Get all comments of a topic by id + pages
+	public static function getAllCommentsById($id, $page = 1, $itemsPerPage = 2) {
+        $db = new Database();
+
+        $offset = ($page - 1) * $itemsPerPage;
+
+        $sql = "SELECT comments.*, users.username
+                FROM comments 
+                INNER JOIN users ON comments.userid = users.id
+                WHERE comments.topicid = :id 
+                LIMIT :limit OFFSET :offset";
+
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+		// Calculating all comments, for pages generation buttons method
+    public static function getTotalCommentsById($id) {
+		$sql = "SELECT COUNT(*) as count FROM `comments`";
+		$db = new database();
+		$result = $db->getOne($sql);
+	
+		if (!empty($result) && isset($result['count'])) {
+			return $result['count'];
+		}
+	
+		return 0;
+	}
+	
 
 
 	//Work in progress

@@ -6,7 +6,7 @@
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-aos="fade-up">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://via.placeholder.com/1920x1080" class="d-block w-100" style="height: 100vh;" alt="First Slide">
+                <img src="assets/img/about.jpg" class="d-block w-100" style="height: 100vh;" alt="First Slide">
                 <div class="carousel-caption text-center section-header" >
                     <p style="font-size: 48px;">Welcome to IT Forum</p>
                     <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Connect with tech enthusiasts worldwide.</p>
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://via.placeholder.com/1920x1080" class="d-block w-100" style="height: 100vh;"alt="Second Slide">
+                <img src="assets/img/hero-img.png" class="d-block w-100" style="height: 100vh;"alt="Second Slide">
                 <div class="carousel-caption text-center section-header">
                     <p style="font-size: 48px;">Explore the Tech Forum</p>
                     <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Join discussions on the latest in technology.</p>
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://via.placeholder.com/1920x1080" class="d-block w-100" style="height: 100vh;" alt="Third Slide">
+                <img src="assets/img/values-1.png" class="d-block w-100" style="height: 100vh;" alt="Third Slide">
                 <div class="carousel-caption text-center section-header">
                     <p style="font-size: 48px;">Stay Updated with Tech News</p>
                     <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Get the latest tech insights and trends.</p>
@@ -58,7 +58,7 @@
               To create a vibrant and inclusive online community at IT View, where technology enthusiasts, professionals, and learners converge to exchange knowledge, discuss the latest trends, and foster collaborative learning in the field of information and computer technologies. Our goal is to provide a user-friendly platform that encourages active participation, networking, and the sharing of insights, ultimately contributing to the growth and enrichment of the global tech community.
               </p>
               <div class="text-center text-lg-start">
-                <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+                <a href="/forum" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Forum</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
@@ -86,8 +86,9 @@
         <p style="font-size: 18px;">Learn about popular and useful technologies<br>Use our filter by clicking buttons to learn about popular tech of the year</p>
         <div class="navbar">
         <?php 
-                foreach ($years as $year) {
-                  echo '<a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="tech?'.$year.'">'.$year.'</a>';
+        		$years = [2021, 2022, 2023];
+                foreach ($years as $loopYear) {
+                  echo '<a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="tech?year='.$loopYear.'">'.$loopYear.'</a>';
                 }
         ?>
          </div>

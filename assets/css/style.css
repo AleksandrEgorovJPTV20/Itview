@@ -2458,6 +2458,12 @@ section {
   flex-basis: 40%;
 }
 
+.comment {
+  text-align: justify;
+  word-break: break-all;
+  flex-basis: 60%;
+}
+
 @media screen and (max-width: 768px) {
   .description {
     width: 100%; 
@@ -2467,6 +2473,12 @@ section {
     word-break: break-all;
     flex-basis: 100%;
   }
+
+  .comment {
+    text-align: center;
+    flex-basis: 100%;
+  }
+  
 
   .forum {
     margin-top: 15%;

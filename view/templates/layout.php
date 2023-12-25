@@ -100,7 +100,15 @@ $route = explode('/', $path)[$num];
                 <?php if (isset($_SESSION['loginMessage'])) {echo $_SESSION['loginMessage']; unset($_SESSION['loginMessage']);} ?>
               </p>
               <div class="mb-3">
-                <input type="hidden" name="redirect_route" value="<?= $route ?>">
+                <?php 
+                  if (isset($id) && $route == 'comments') {
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '">';
+                  } elseif(isset($year) && $route == 'tech'){
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '?year=' . $year . '">';
+                  } else {
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                  }
+                ?>
                 <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
@@ -130,7 +138,15 @@ $route = explode('/', $path)[$num];
                 <?php if (isset($_SESSION['registerMessage'])) {echo $_SESSION['registerMessage']; unset($_SESSION['registerMessage']);} ?>
               </p>
               <div class="mb-3">
-                  <input type="hidden" name="redirect_route" value="<?= $route ?>">
+                <?php 
+                  if (isset($id) && $route == 'comments') {
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '">';
+                  } elseif(isset($year) && $route == 'tech'){
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '?year=' . $year . '">';
+                  } else {
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                  }
+                ?>
                   <input type="text" name="username" class="form-control" placeholder="Enter your username" style="margin-bottom: 20px;" required>
               </div>
               <div class="mb-3">
@@ -159,7 +175,15 @@ $route = explode('/', $path)[$num];
           </div>
           <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Are you sure?</h1>
-              <input type="hidden" name="redirect_route" value="<?= $route ?>">
+              <?php 
+                  if (isset($id) && $route == 'comments') {
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '">';
+                  } elseif(isset($year) && $route == 'tech'){
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '?year=' . $year . '">';
+                  } else {
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                  }
+              ?>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Confirm</button>
                 <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>

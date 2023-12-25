@@ -2,13 +2,11 @@
 class Controller { 
    //homepage controller
    public static function StartSite() {
-		$years = [2021, 2022, 2023];
 		include_once('view/homepage.php');
 		return;
 	}
 	//tech by year controller
 	public static function tech($year) {
-		$years = [2021, 2022, 2023];
 		$alltech = Model::getAlltechByYear($year);
 		include_once('view/techByYear.php');
 		return;
@@ -21,7 +19,7 @@ class Controller {
 
 	//forum controller
 	public static function forum($page = 1) {
-		$itemsPerPage = 10; // Set the number of items per page
+		$itemsPerPage = 5; // Set the number of items per page
 		$searchTerm = isset($_GET['search']) ? $_GET['search'] : null;
 	
 		// Check if the form for creating a topic was submitted
@@ -61,8 +59,21 @@ class Controller {
 		include_once('view/forum.php');
 		return;
 	}
-	
-	
+
+	//comments controller
+	public static function comments($id) {
+		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $itemsPerPage = 5; // Set your desired items per page
+
+        $comments = Model::getAllCommentsById($id, $page, $itemsPerPage);
+
+        $totalItems = Model::getTotalCommentsById($id);
+        $totalPages = ceil($totalItems / $itemsPerPage);
+
+		include_once('view/comments.php');
+		return;
+	}
+
 	//error controller
 	public static function error() {
 		include_once('view/error404.php');

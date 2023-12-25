@@ -32,6 +32,7 @@ CREATE TABLE `comments` (
   `text` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `topicid` int(11) NOT NULL,
+  `parentid` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -122,7 +123,8 @@ INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`) VALUES
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`),
-  ADD KEY `topicid` (`topicid`);
+  ADD KEY `topicid` (`topicid`),
+  ADD KEY `parentid` (`parentid`);
 
 --
 -- Индексы таблицы `tech`
@@ -181,7 +183,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`topicid`) REFERENCES `topics` (`id`);
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`topicid`) REFERENCES `topics` (`id`),
+  ADD CONSTRAINT `fk_comments_parent` FOREIGN KEY (`parentid`) REFERENCES `comments` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `topics`

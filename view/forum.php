@@ -33,12 +33,12 @@
                         foreach ($topics as $topic) {
                             $topicId = $topic['id'];
                             $commentCount = isset($commentCounts[$topicId]) ? $commentCounts[$topicId] : 0;
-                            echo '<div style="border-radius: 10px; text-decoration: none; padding: 0px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
+                            echo '<a href="comments?topic=' . $topic['id'] . '" style="border-radius: 10px; text-decoration: none; padding: 0px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
                             echo '<div style="flex-basis: 20%;"><p>'.$topic['username'].'</p></div>';
                             echo '<div style="flex-basis: 20%;"><p>'.$topic['name'].'</p></div>';
                             echo '<div style="flex-basis: 20%;"><p>'.$commentCount.'</p></div>';
-                            echo '<div class="description"><p>'.($topic['description'] ? $topic['description'] : 'No descriptssssssssssssssssssssssssisssssssssssssson').'</p></div>';
-                            echo '</div>';
+                            echo '<div class="description"><p>'.($topic['description'] ? $topic['description'] : 'No description').'</p></div>';
+                            echo '</a>';
                         }
                     }
                 ?>
