@@ -7,6 +7,10 @@
     <div class="container" data-aos="fade-up">
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
             <form class="d-flex justify-content-center align-items-center my-4" data-aos="fade-up" data-aos-delay="200">
+                <?php
+                    // Assuming $topicId contains the current topic ID
+                    echo '<input type="hidden" name="topic" value="' . $id . '">';
+                ?>
                 <input type="search" name="search" class="form-control me-2" style="border-radius: 50px; border: none; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: #D9D9D9; width: 60%;" placeholder="Search comment">
             </form>
             <div class="col-lg-6 d-flex" style="padding: 10px 20px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
@@ -33,7 +37,11 @@
                             echo '<div style="border-radius: 10px; text-decoration: none; padding: 10px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
                             echo '<div style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; background: black;"></img></div>';
                             echo '<div class="comment"><p style="margin: 0; margin-top: 10px;">'.$comment['username'].'</p><p style="font-size: 16px; margin: 0;">'.$comment['created_at'].'</p><p>'.$comment['text'].'</p></div>';
-                            echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end;" class="navbar text-center text-lg-start"><button type="button" style="border: none; margin: 0px; margin-left: 20px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal" data-comment-id="'.$comment['id'].'">Reply</button></div>';
+                            if(isset($_SESSION['userId'])){
+                                echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end;" class="navbar text-center text-lg-start"><button type="button" style="border: none; margin: 0px; margin-left: 20px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal" data-comment-id="'.$comment['id'].'">Reply</button></div>';
+                            }else{
+                                echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end;" class="navbar text-center text-lg-start"><button type="button" style="border: none; margin: 0px; margin-left: 20px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">Login to reply</button></div>';
+                            }
                             echo '</div>';
                         }
                     }

@@ -20,7 +20,7 @@ class Controller {
 	//forum controller
 	public static function forum($page = 1) {
 		$itemsPerPage = 5; // Set the number of items per page
-		$searchTerm = isset($_GET['search']) ? $_GET['search'] : null;
+		$searchQuery = isset($_GET['search']) ? $_GET['search'] : null;
 	
 		// Check if the form for creating a topic was submitted
 		if (isset($_POST['send']) && isset($_POST['name']) && isset($_POST['description'])) {
@@ -43,8 +43,8 @@ class Controller {
 		}
 	
 		// Handle search or display all topics
-		if ($searchTerm) {
-			$topics = Model::searchTopics($searchTerm, $page, $itemsPerPage);
+		if ($searchQuery) {
+			$topics = Model::searchTopics($searchQuery, $page, $itemsPerPage);
 			$totalItems = 0;
 		} else {
 			// If no search term, use getAllTopics method
@@ -63,13 +63,19 @@ class Controller {
 	//comments controller
 	public static function comments($id) {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $itemsPerPage = 5; // Set your desired items per page
-
-        $comments = Model::getAllCommentsById($id, $page, $itemsPerPage);
-
-        $totalItems = Model::getTotalCommentsById($id);
-        $totalPages = ceil($totalItems / $itemsPerPage);
-
+		$itemsPerPage = 5; // Set your desired items per page
+	
+		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+	
+		if (!empty($searchQuery)) {
+			$comments = Model::searchComments($id, $searchQuery);
+		} else {
+			$comments = Model::getAllCommentsById($id, $page, $itemsPerPage);
+		}
+	
+		$totalItems = Model::getTotalCommentsById($id);
+		$totalPages = ceil($totalItems / $itemsPerPage);
+	
 		include_once('view/comments.php');
 		return;
 	}

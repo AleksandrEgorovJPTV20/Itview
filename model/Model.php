@@ -38,28 +38,30 @@ class Model {
 	}
 
 
-    // Searching topics topics method
-    public static function searchTopics($searchTerm, $page = 1, $itemsPerPage = 2) {
-        $offset = ($page - 1) * $itemsPerPage;
+	// Model for searching topics by name, username, or description
+	public static function searchTopics($searchTerm, $page = 1, $itemsPerPage = 2) {
+		$offset = ($page - 1) * $itemsPerPage;
 
-        $sql = "SELECT topics.*, users.username
-                FROM topics
-                JOIN users ON topics.userid = users.id
-                WHERE topics.name LIKE :searchTerm
-                ORDER BY topics.id DESC
-                LIMIT :offset, :limit";
+		$sql = "SELECT topics.*, users.username
+				FROM topics
+				JOIN users ON topics.userid = users.id
+				WHERE topics.name LIKE :searchTerm 
+					OR users.username LIKE :searchTerm
+					OR topics.description LIKE :searchTerm
+				ORDER BY topics.id DESC
+				LIMIT :offset, :limit";
 
-        $db = new Database();
-        $stmt = $db->conn->prepare($sql);
-        $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-        $stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
-        $stmt->execute();
+		$db = new Database();
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
+		$stmt->execute();
 
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $result;
-    }
+		return $result;
+	}
 
 	// Calculating all topics, for pages generation buttons method
     public static function getTotalTopics() {
@@ -75,32 +77,39 @@ class Model {
 	}
 	
     // Method to get the count of comments for each topic
-    public static function getCommentCountForTopics($topics)
-    {
-        $db = new Database();
-        
-        // Prepare the SQL query
-        $sql = "SELECT topicid, COUNT(*) AS comment_count FROM comments WHERE topicid IN (";
-        $sql .= implode(", ", array_map(function ($topic) {
-            return $topic['id'];
-        }, $topics));
-        $sql .= ") GROUP BY topicid";
+	public static function getCommentCountForTopics($topics)
+	{
+		// Check if there are topics to search for
+		if (empty($topics)) {
+			return [];
+		}
+	
+		$db = new Database();
+	
+		// Prepare the SQL query
+		$sql = "SELECT topicid, COUNT(*) AS comment_count FROM comments WHERE topicid IN (";
+		$sql .= implode(", ", array_map(function ($topic) {
+			return $topic['id'];
+		}, $topics));
+		$sql .= ") GROUP BY topicid";
+	
+		// Execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->execute();
+	
+		// Fetch the results
+		$commentCounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+		// Organize the counts by topic id
+		$countsByTopicId = [];
+		foreach ($commentCounts as $count) {
+			$countsByTopicId[$count['topicid']] = $count['comment_count'];
+		}
+	
+		return $countsByTopicId;
+	}
 
-        // Execute the query
-        $stmt = $db->conn->prepare($sql);
-        $stmt->execute();
-
-        // Fetch the results
-        $commentCounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Organize the counts by topic id
-        $countsByTopicId = [];
-        foreach ($commentCounts as $count) {
-            $countsByTopicId[$count['topicid']] = $count['comment_count'];
-        }
-
-        return $countsByTopicId;
-    }
+	
 	// Create topic method
 	public static function createTopic($topicName, $topicDescription, $comment = null) {
 		$db = new Database();
@@ -146,28 +155,48 @@ class Model {
 		}
 	}
 
-	// Get all comments of a topic by id + pages
+	// Get all comments of a topic by id + pages, ordered by comments.id in descending order
 	public static function getAllCommentsById($id, $page = 1, $itemsPerPage = 2) {
-        $db = new Database();
+		$db = new Database();
 
-        $offset = ($page - 1) * $itemsPerPage;
+		$offset = ($page - 1) * $itemsPerPage;
 
-        $sql = "SELECT comments.*, users.username
-                FROM comments 
-                INNER JOIN users ON comments.userid = users.id
-                WHERE comments.topicid = :id 
-                LIMIT :limit OFFSET :offset";
+		$sql = "SELECT comments.*, users.username
+				FROM comments 
+				INNER JOIN users ON comments.userid = users.id
+				WHERE comments.topicid = :id 
+				ORDER BY comments.id DESC
+				LIMIT :limit OFFSET :offset";
 
-        $stmt = $db->conn->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
+		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+		$stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
 
-		// Calculating all comments, for pages generation buttons method
+	// Model for searching comments for a certain topic, ordered by comments.id in descending order
+	public static function searchComments($id, $searchQuery) {
+		$db = new Database();
+
+		$sql = "SELECT comments.*, users.username
+				FROM comments 
+				INNER JOIN users ON comments.userid = users.id
+				WHERE comments.topicid = :id 
+				AND (comments.text LIKE :searchQuery OR users.username LIKE :searchQuery)
+				ORDER BY comments.id DESC";
+
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
+		$stmt->execute();
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	// Calculating all comments, for pages generation buttons method
     public static function getTotalCommentsById($id) {
 		$sql = "SELECT COUNT(*) as count FROM `comments`";
 		$db = new database();

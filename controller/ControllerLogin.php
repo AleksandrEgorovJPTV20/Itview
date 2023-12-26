@@ -11,7 +11,11 @@ class ControllerLogin {
 		$result = ModelLogin::userLogin();
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 		if (!empty($redirectRoute)) {
-			header("Location: /$redirectRoute");
+			if($redirectRoute == 'tech'){
+				header("Location: /");
+			}else{
+				header("Location: /$redirectRoute");
+			}
 		} else {
 			header("Location: /");
 		}
@@ -24,7 +28,11 @@ class ControllerLogin {
 		$result = ModelLogin::register();
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 		if (!empty($redirectRoute)) {
-			header("Location: /$redirectRoute");
+			if($redirectRoute == 'tech'){
+				header("Location: /");
+			}else{
+				header("Location: /$redirectRoute");
+			}
 		} else {
 			header("Location: /");
 		}
@@ -36,7 +44,11 @@ class ControllerLogin {
 		$result = ModelLogin::userLogout();
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 		if (!empty($redirectRoute)) {
-			header("Location: /$redirectRoute");
+			if($redirectRoute == 'tech'){
+				header("Location: /");
+			}else{
+				header("Location: /$redirectRoute");
+			}
 		} else {
 			header("Location: /");
 		}
