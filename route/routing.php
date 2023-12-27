@@ -41,10 +41,12 @@ elseif ($route == 'forum'){
 }
 elseif ($route == 'comments'){
     if (isset($_GET['topic'])) {
-        // Get the topic ID from the query string
-        $id = $_GET['topic'];
-        Controller::comments($id);
-    } else {
+        $topicid = $_GET['topic'];
+        Controller::comments($topicid);
+    }elseif(isset($_GET['replies'])){
+		$commentid = $_GET['replies'];
+		Controller::replies($commentid);
+	} else {
         Controller::error();
     }
 }

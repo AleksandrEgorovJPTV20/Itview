@@ -16,11 +16,11 @@
                 <?php 
                 if(!isset($_SESSION['userId'])){
                     echo '<div class="navbar description text-center text-lg-start description" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                            <button type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">Login to create topic</button>
+                            <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">Login to create topic</a>
                         </div>';
                   }else{
                     echo '<div class="navbar description text-center text-lg-start description" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                            <button type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#topicModal">Create topic</button>
+                            <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#topicModal">Create topic</a>
                         </div>';
                   }
                 ?>

@@ -141,22 +141,16 @@ class Model {
 
 			// Commit the transaction
 			$db->conn->commit();
-
-			// Set success message
-			$_SESSION['createMessage'] = 'Topic created successfully';
 			return true; // Success
 		} catch (Exception $e) {
 			// Rollback the transaction on error
 			$db->conn->rollBack();
-
-			// Set error message
-			$_SESSION['createMessage'] = 'Failed to create topic';
 			return false; // Error
 		}
 	}
 
 	// Get all comments of a topic by id + pages, ordered by comments.id in descending order
-	public static function getAllCommentsById($id, $page = 1, $itemsPerPage = 2) {
+	public static function getAllCommentsById($topicid, $page = 1, $itemsPerPage = 5) {
 		$db = new Database();
 
 		$offset = ($page - 1) * $itemsPerPage;
@@ -164,12 +158,12 @@ class Model {
 		$sql = "SELECT comments.*, users.username
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
-				WHERE comments.topicid = :id 
+				WHERE comments.topicid = :topicid 
 				ORDER BY comments.id DESC
 				LIMIT :limit OFFSET :offset";
 
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+		$stmt->bindParam(':topicid', $topicid, PDO::PARAM_INT);
 		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
 		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$stmt->execute();
@@ -178,39 +172,137 @@ class Model {
 	}
 
 	// Model for searching comments for a certain topic, ordered by comments.id in descending order
-	public static function searchComments($id, $searchQuery) {
+	public static function searchComments($topicid, $searchQuery) {
 		$db = new Database();
 
 		$sql = "SELECT comments.*, users.username
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
-				WHERE comments.topicid = :id 
+				WHERE comments.topicid = :topicid 
 				AND (comments.text LIKE :searchQuery OR users.username LIKE :searchQuery)
 				ORDER BY comments.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+		$stmt->bindParam(':topicid', $topicid, PDO::PARAM_INT);
 		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
 		$stmt->execute();
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	// Calculating all comments, for pages generation buttons method
-    public static function getTotalCommentsById($id) {
-		$sql = "SELECT COUNT(*) as count FROM `comments`";
-		$db = new database();
-		$result = $db->getOne($sql);
+	// Model method to create a new comment
+	public static function createComment($topicid, $userId, $commentText)
+	{
+		$db = new Database();
 	
+		// Prepare the SQL query
+		$sql = "INSERT INTO comments (text, userid, topicid, created_at, updated_at) 
+				VALUES (:commentText, :userid, :topicid, NOW(), NOW())";
+	
+		// Execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
+		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
+		$stmt->bindParam(':topicid', $topicid, PDO::PARAM_INT);
+	
+		// Check if the query executed successfully
+		if ($stmt->execute()) {
+			return true; // Comment creation successful
+		} else {
+			return false; // Comment creation failed
+		}
+	}
+
+	// Calculating total comments for a specific topic
+	public static function getTotalCommentsById($topicid) {
+		$sql = "SELECT COUNT(*) as count FROM `comments` WHERE `topicid` = $topicid";
+		$db = new Database();
+		$result = $db->getOne($sql);
+
 		if (!empty($result) && isset($result['count'])) {
 			return $result['count'];
 		}
-	
+
 		return 0;
 	}
 	
+	// Get all replies of a comment by id + pages, ordered by replies.id in descending order
+	public static function getAllRepliesByCommentId($commentid, $page = 1, $itemsPerPage = 5) {
+		$db = new Database();
 
+		$offset = ($page - 1) * $itemsPerPage;
 
+		$sql = "SELECT replies.*, users.username
+				FROM replies 
+				INNER JOIN users ON replies.userid = users.id
+				WHERE replies.commentid = :commentid 
+				ORDER BY replies.id DESC
+				LIMIT :limit OFFSET :offset";
+
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
+		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+		$stmt->execute();
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	// Get a single comment by ID
+	public static function getCommentById($commentid) {
+		$db = new Database();
+
+		$sql = "SELECT comments.*, users.username
+				FROM comments
+				INNER JOIN users ON comments.userid = users.id
+				WHERE comments.id = :commentid";
+
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->execute();
+
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+	// Model method to create a new reply
+	public static function createReply($commentid, $userId, $commentText)
+	{
+		$db = new Database();
+	
+		// Prepare the SQL query
+		$sql = "INSERT INTO replies (text, userid, commentid, created_at, updated_at) 
+				VALUES (:commentText, :userid, :commentid, NOW(), NOW())";
+	
+		// Execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
+		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
+		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+	
+		// Check if the query executed successfully
+		if ($stmt->execute()) {
+			return true; // Comment creation successful
+		} else {
+			return false; // Comment creation failed
+		}
+	}
+
+	// Get the total number of replies for a specific comment
+	public static function getTotalRepliesByCommentId($commentid) {
+		$db = new Database();
+
+		$sql = "SELECT COUNT(*) as count FROM `replies` WHERE `commentid` = :commentid";
+		
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->execute();
+
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if (!empty($result) && isset($result['count'])) {
+			return $result['count'];
+		}
+
+		return 0;
+	}
 	//Work in progress
     public static function sendmessage() {
 		if (isset($_POST['send'])) {

@@ -2447,7 +2447,8 @@ section {
 }
 
 .forum {
-  margin: 5% 0%;
+  margin-top: 5%;
+  margin-bottom: 6%;
 }
 
 .description {

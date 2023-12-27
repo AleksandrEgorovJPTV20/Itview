@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 24 2023 г., 13:36
+-- Время создания: Дек 27 2023 г., 16:03
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -32,7 +32,6 @@ CREATE TABLE `comments` (
   `text` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `topicid` int(11) NOT NULL,
-  `parentid` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -42,7 +41,40 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `text`, `userid`, `topicid`, `created_at`, `updated_at`) VALUES
-(5, '12', 1, 31, '2023-12-24 14:31:34', '2023-12-24 14:31:34');
+(5, '12', 1, 31, '2023-12-24 14:31:34', '2023-12-24 14:31:34'),
+(7, 'test', 1, 31, '2023-12-27 13:58:42', '2023-12-27 13:58:42'),
+(17, 'new', 1, 31, '2023-12-27 14:18:37', '2023-12-27 14:18:37'),
+(18, 'asda', 1, 31, '2023-12-27 14:20:19', '2023-12-27 14:20:19'),
+(19, 'asdasd', 1, 32, '2023-12-27 14:46:10', '2023-12-27 14:46:10'),
+(20, 'test', 1, 32, '2023-12-27 16:57:47', '2023-12-27 16:57:47');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `replies`
+--
+
+CREATE TABLE `replies` (
+  `id` int(11) NOT NULL,
+  `text` text DEFAULT NULL,
+  `userid` int(11) NOT NULL,
+  `commentid` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Дамп данных таблицы `replies`
+--
+
+INSERT INTO `replies` (`id`, `text`, `userid`, `commentid`, `created_at`, `updated_at`) VALUES
+(5, 'sadsad', 1, 18, '2023-12-27 14:20:26', '2023-12-27 14:20:26'),
+(6, 'test again\r\n', 1, 7, '2023-12-27 14:20:51', '2023-12-27 14:20:51'),
+(7, 'new', 1, 5, '2023-12-27 14:21:22', '2023-12-27 14:21:22'),
+(8, 'asdasd', 1, 19, '2023-12-27 14:46:15', '2023-12-27 14:46:15'),
+(9, 'new reply test', 1, 19, '2023-12-27 15:11:31', '2023-12-27 15:11:31'),
+(10, 'туц', 1, 19, '2023-12-27 16:53:02', '2023-12-27 16:53:02'),
+(13, 'lol new reply test', 1, 20, '2023-12-27 17:01:54', '2023-12-27 17:01:54');
 
 -- --------------------------------------------------------
 
@@ -88,7 +120,8 @@ INSERT INTO `topics` (`id`, `name`, `description`, `userid`) VALUES
 (1, 'Announcements', 'test', 1),
 (29, 'Other', 't', 1),
 (30, 'General', 'test', 1),
-(31, 'Алексей Егоров', '12312', 1);
+(31, 'Алексей Егоров', '12312', 1),
+(32, 'ыфвфы', 'фывфв', 1);
 
 -- --------------------------------------------------------
 
@@ -123,8 +156,15 @@ INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`) VALUES
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`),
-  ADD KEY `topicid` (`topicid`),
-  ADD KEY `parentid` (`parentid`);
+  ADD KEY `topicid` (`topicid`);
+
+--
+-- Индексы таблицы `replies`
+--
+ALTER TABLE `replies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`),
+  ADD KEY `commentid` (`commentid`);
 
 --
 -- Индексы таблицы `tech`
@@ -154,7 +194,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT для таблицы `replies`
+--
+ALTER TABLE `replies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `tech`
@@ -166,7 +212,7 @@ ALTER TABLE `tech`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
@@ -183,8 +229,14 @@ ALTER TABLE `users`
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`topicid`) REFERENCES `topics` (`id`),
-  ADD CONSTRAINT `fk_comments_parent` FOREIGN KEY (`parentid`) REFERENCES `comments` (`id`);
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`topicid`) REFERENCES `topics` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `replies`
+--
+ALTER TABLE `replies`
+  ADD CONSTRAINT `replies_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `replies_ibfk_2` FOREIGN KEY (`commentid`) REFERENCES `comments` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `topics`
