@@ -212,6 +212,62 @@ class Model {
 			return false; // Comment creation failed
 		}
 	}
+	// Model method to edit a comment
+	public static function editComment($commentId, $topicId, $userId, $commentText)
+	{
+		$db = new Database();
+	
+		// Prepare the SQL query
+		$sql = "UPDATE comments 
+				SET text = :commentText, updated_at = NOW()
+				WHERE id = :commentId";
+	
+		// Execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
+		$stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
+	
+		// Check if the query executed successfully
+		if ($stmt->execute()) {
+			return true; // Comment edit successful
+		} else {
+			return false; // Comment edit failed
+		}
+	}
+
+	// Model method to delete a comment and its associated replies
+	public static function deleteComment($commentId)
+	{
+		// Start by deleting replies associated with the comment
+		self::deleteRepliesByCommentId($commentId);
+	
+		// Now, delete the comment
+		$db = new database();
+		$stmt = $db->connect()->prepare("DELETE FROM comments WHERE id = :commentId");
+		$stmt->bindValue(':commentId', $commentId, PDO::PARAM_INT);
+	
+		try {
+			$stmt->execute();
+			return true;
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
+			return false;
+		}
+	}
+	
+	// Helper method to delete replies associated with a comment
+	private static function deleteRepliesByCommentId($commentId)
+	{
+		$db = new database();
+		$stmt = $db->connect()->prepare("DELETE FROM replies WHERE commentid = :commentId");
+		$stmt->bindValue(':commentId', $commentId, PDO::PARAM_INT);
+	
+		try {
+			$stmt->execute();
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
+		}
+	}
 
 	// Calculating total comments for a specific topic
 	public static function getTotalCommentsById($topicid) {
@@ -247,6 +303,27 @@ class Model {
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+	// Model for searching replies for a certain comment, ordered by replies.id in descending order
+	public static function searchReplies($commentid, $searchQuery) {
+		$db = new Database();
+
+		$sql = "SELECT replies.*, users.username
+				FROM replies
+				INNER JOIN users ON replies.userid = users.id
+				WHERE replies.commentid = :commentid
+				AND (replies.text LIKE :searchQuery OR users.username LIKE :searchQuery)
+				ORDER BY replies.id DESC";
+
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
+		$stmt->execute();
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+
 	// Get a single comment by ID
 	public static function getCommentById($commentid) {
 		$db = new Database();
@@ -282,6 +359,41 @@ class Model {
 			return true; // Comment creation successful
 		} else {
 			return false; // Comment creation failed
+		}
+	}
+	// Model method to edit a reply
+	public static function editReply($replyId, $userId, $replyText)
+	{
+		$db = new Database();
+
+		// Prepare the SQL query
+		$sql = "UPDATE replies 
+				SET text = :replyText, updated_at = NOW()
+				WHERE id = :replyId";
+
+		// Execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':replyText', $replyText, PDO::PARAM_STR);
+		$stmt->bindParam(':replyId', $replyId, PDO::PARAM_INT);
+
+		// Check if the query executed successfully
+		return $stmt->execute();
+	}
+
+	// Model method to delete a reply
+	public static function deleteReply($replyId)
+	{
+		$db = new database();
+
+		$stmt = $db->connect()->prepare("DELETE FROM replies WHERE id = :replyId");
+		$stmt->bindValue(':replyId', $replyId, PDO::PARAM_INT);
+
+		try {
+			$stmt->execute();
+			return true;
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
+			return false;
 		}
 	}
 

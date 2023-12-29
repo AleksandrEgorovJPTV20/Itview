@@ -61,48 +61,67 @@ class Controller {
 	}
 
 	// comments controller
-	public static function comments($topicid)
+	public static function comments($topicId)
 	{
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 		$itemsPerPage = 5; // Set your desired items per page
-	
+
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-	
-		// Handle comment creation if the form is submitted
-		if (isset($_POST['send']) && isset($_POST['comment'])) {
-			$commentText = $_POST['comment'];
-	
-			// Check if the user is logged in
-			if (isset($_SESSION['userId'])) {
-				$userId = $_SESSION['userId'];
-				
-				$commentCreated = Model::createComment($topicid, $userId, $commentText);
-				header("Location: /comments?topic=".$topicid);
-	
-				// Set createMessage session variable based on the comment creation result
-				if ($commentCreated) {
-					$_SESSION['createMessage'] = 'Comment created successfully';
-					exit();
+
+		// Handle comment creation, editing, or deletion if the form is submitted
+		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
+			$userId = $_SESSION['userId'];
+
+			if (isset($_POST['comment'])) {
+				$commentText = $_POST['comment'];
+
+				if (isset($_POST['commentId'])) {
+					// Edit existing comment
+					$commentId = $_POST['commentId'];
+					$commentEdited = Model::editComment($commentId, $topicId, $userId, $commentText);
+					$messageKey = 'editCommentMessage';
+					$successMessage = 'Comment edited successfully';
+					$errorMessage = 'Error editing comment';
 				} else {
-					$_SESSION['createMessage'] = 'Error creating comment';
-					exit();
+					// Create new comment
+					$commentCreated = Model::createComment($topicId, $userId, $commentText);
+					$messageKey = 'createMessage';
+					$successMessage = 'Comment created successfully';
+					$errorMessage = 'Error creating comment';
 				}
+
+				// Set session variable based on the result
+				$_SESSION[$messageKey] = $result ? $successMessage : $errorMessage;
+
+				// Redirect to refresh the page
+				header("Location: /comments?topic=" . $topicId);
+				exit();
+			}
+
+			// Handle comment deletion
+			if (isset($_POST['deleteId'])) {
+				$commentIdToDelete = $_POST['deleteId'];
+				$commentDeleted = Model::deleteComment($commentIdToDelete);
+
+				// Set session variable based on the deletion result
+				$_SESSION['deleteCommentMessage'] = $commentDeleted ? 'Comment deleted successfully' : 'Error deleting comment';
+
+				// Redirect to refresh the page
+				header("Location: /comments?topic=" . $topicId);
+				exit();
 			}
 		}
-	
+
 		// Retrieve comments based on search or regular retrieval
-		if (!empty($searchQuery)) {
-			$comments = Model::searchComments($topicid, $searchQuery);
-		} else {
-			$comments = Model::getAllCommentsById($topicid, $page, $itemsPerPage);
-		}
-	
-		$totalItems = Model::getTotalCommentsById($topicid);
+		$comments = !empty($searchQuery) ? Model::searchComments($topicId, $searchQuery) : Model::getAllCommentsById($topicId, $page, $itemsPerPage);
+
+		$totalItems = Model::getTotalCommentsById($topicId);
 		$totalPages = ceil($totalItems / $itemsPerPage);
-	
+
 		include_once('view/comments.php');
 		return;
 	}
+
 
 	// replies controller
 	public static function replies($commentid)
@@ -116,27 +135,44 @@ class Controller {
 		$replies = Model::getAllRepliesByCommentId($commentid, $page, $itemsPerPage);
 		$originalComment = Model::getCommentById($commentid);
 
-		// Handle reply creation if the form is submitted
-		if (isset($_POST['send']) && isset($_POST['comment'])) {
-			$commentText = $_POST['comment'];
-	
-			// Check if the user is logged in
-			if (isset($_SESSION['userId'])) {
-				$userId = $_SESSION['userId'];
-				
-				$createReply = Model::createReply($commentid, $userId, $commentText);
-				header("Location: /comments?replies=".$commentid);
-	
-				// Set createMessage session variable based on the comment creation result
-				if ($createReply) {
-					$_SESSION['createReply'] = 'Reply created successfully';
-					exit();
-				} else {
-					$_SESSION['createReply'] = 'Error creating reply';
-					exit();
-				}
+		// Handle reply creation, editing, or deletion if the form is submitted
+		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
+			$userId = $_SESSION['userId'];
+
+			if (isset($_POST['replyId'])) {
+				// Editing a reply
+				$replyId = $_POST['replyId'];
+				$replyText = $_POST['reply'];
+				$result = Model::editReply($replyId, $userId, $replyText);
+				$messageKey = 'editReplyMessage';
+				$successMessage = 'Reply edited successfully';
+				$errorMessage = 'Error editing reply';
+			} elseif (isset($_POST['comment'])) {
+				// Creating a new reply
+				$commentText = $_POST['comment'];
+				$result = Model::createReply($commentid, $userId, $commentText);
+				$messageKey = 'replyMessage';
+				$successMessage = 'Reply created successfully';
+				$errorMessage = 'Error creating reply';
+			} elseif (isset($_POST['deleteId'])) {
+				// Deleting a reply
+				$deleteId = $_POST['deleteId'];
+				$result = Model::deleteReply($deleteId);
+				$messageKey = 'deleteReplyMessage';
+				$successMessage = 'Reply deleted successfully';
+				$errorMessage = 'Error deleting reply';
 			}
+
+			// Set session variable based on the result
+			$_SESSION[$messageKey] = $result ? $successMessage : $errorMessage;
+
+			// Redirect to refresh the page
+			header("Location: /comments?replies=" . $commentid);
+			exit();
 		}
+
+		// Handle search query
+		$replies = !empty($searchQuery) ? Model::searchReplies($commentid, $searchQuery) : $replies;
 
 		$totalItems = Model::getTotalRepliesByCommentId($commentid);
 		$totalPages = ceil($totalItems / $itemsPerPage);
@@ -144,6 +180,7 @@ class Controller {
 		include_once('view/replies.php');
 		return;
 	}
+
 	//error controller
 	public static function error() {
 		include_once('view/error404.php');

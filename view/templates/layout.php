@@ -25,7 +25,7 @@ $route = explode('/', $path)[$num];
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-
+  
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -33,10 +33,12 @@ $route = explode('/', $path)[$num];
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script src="assets/js/livesearch.js"></script>
 
-  <!-- Template Main CSS File -->
+  <!-- Font Awesome CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
   <link href="assets/css/style.css" rel="stylesheet">
   <link href="assets/css/carousel.css" rel="stylesheet">
 </head>
@@ -62,8 +64,15 @@ $route = explode('/', $path)[$num];
             echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#registerModal">Register</a></li>';
             echo '<li><a type="button" style="margin-right: 400px; color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#loginModal">Login</a></li>';
           }else{
-            echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#logoutModal">Logout</a></li>';
-            echo '<li><a style="margin-right: 400px;" class="nav-link" href="profile">Profile</a></li>';
+            if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'){
+              echo '<li><a href="/dashboard" style="color: #013289;" class="nav-link scrollto">Admin Panel</a></li>';
+              echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#logoutModal">Logout</a></li>';
+              echo '<li><a style="margin-right: 250px;" class="nav-link" href="profile">Profile</a></li>';
+            }else{
+              echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#logoutModal">Logout</a></li>';
+              echo '<li><a style="margin-right: 400px;" class="nav-link" href="profile">Profile</a></li>';
+            }
+
           }
         ?>
           <li><a class="nav-link scrollto" href="/">Home</a></li>
@@ -102,15 +111,15 @@ $route = explode('/', $path)[$num];
               <div class="mb-3">
               <?php 
                   if ($route == 'comments') {
-                    if(isset($topicid)){
+                    if(isset($topicId)){
                       if(!empty($page)){
                         if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicid . '&search='. $searchQuery .'">';
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
                         }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicid . '&page='. $page .'">';
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
                         }
                       }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicid . '">';
+                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
                       }
                     }
                     if(isset($commentid)){
@@ -168,15 +177,15 @@ $route = explode('/', $path)[$num];
               <div class="mb-3">
               <?php 
                   if ($route == 'comments') {
-                    if(isset($id)){
+                    if(isset($topicId)){
                       if(!empty($page)){
                         if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '&search='. $searchQuery .'">';
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
                         }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '&page='. $page .'">';
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
                         }
                       }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '">';
+                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
                       }
                     }
                     if(isset($commentid)){
@@ -233,15 +242,15 @@ $route = explode('/', $path)[$num];
               <h1 style="text-align: center; color: #013289;">Are you sure?</h1>
               <?php 
                   if ($route == 'comments') {
-                    if(isset($id)){
+                    if(isset($topicId)){
                       if(!empty($page)){
                         if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '&search='. $searchQuery .'">';
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
                         }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '&page='. $page .'">';
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
                         }
                       }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $id . '">';
+                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
                       }
                     }
                     if(isset($commentid)){
