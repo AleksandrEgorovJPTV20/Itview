@@ -259,7 +259,6 @@ section {
 
 .navbar a i,
 .navbar a:focus i {
-  font-size: 12px;
   line-height: 0;
   margin-left: 5px;
 }
@@ -2456,13 +2455,17 @@ section {
   flex-wrap: wrap; 
   align-items: center;  
   word-break: break-all;
-  flex-basis: 40%;
+  flex-basis: 20%;
 }
 
 .comment {
   text-align: justify;
   word-break: break-all;
   flex-basis: 60%;
+}
+
+.forum-button {
+  flex-basis: 25%;
 }
 
 @media screen and (max-width: 768px) {
@@ -2473,6 +2476,9 @@ section {
     align-items: center;  
     word-break: break-all;
     flex-basis: 100%;
+  }
+  .forum-button {
+    flex-basis: 70%;
   }
 
   .comment {

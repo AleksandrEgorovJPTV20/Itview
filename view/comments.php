@@ -42,7 +42,7 @@
                             if(isset($_SESSION['userId'])){
                                 if ($comment['userid'] == $_SESSION['userId']) {
                                     echo '<a type="button" 
-                                             style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-left: 5px;" 
+                                             style="border: none; margin: 0px 5px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
                                              data-toggle="modal" 
                                              data-target="#editCommentModal" 
                                              data-comment-id="' . $comment['id'] . '" 
@@ -51,7 +51,7 @@
                                              <i class="fas fa-edit"></i>
                                           </a>';
                                           echo '<a type="button" 
-                                          style="border: none; margin: 0px; color: white; height: 43px; margin-left: 5px;" 
+                                          style="border: none; margin: 0px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
                                           data-toggle="modal" 
                                           data-target="#deleteCommentModal" 
                                           data-delete-id="' . $comment['id'] . '" 

@@ -148,7 +148,50 @@ class Model {
 			return false; // Error
 		}
 	}
+	// Edit topic method
+	public static function editTopic($topicId, $topicName, $topicDescription) {
+		$db = new Database();
 
+		try {
+			// Update the topic in the topics table
+			$sql = "UPDATE topics SET name = :name, description = :description WHERE id = :id";
+			$stmt = $db->conn->prepare($sql);
+			$stmt->bindParam(':id', $topicId, PDO::PARAM_INT);
+			$stmt->bindParam(':name', $topicName, PDO::PARAM_STR);
+			$stmt->bindParam(':description', $topicDescription, PDO::PARAM_STR);
+			$stmt->execute();
+
+			return true; // Success
+		} catch (Exception $e) {
+			return false; // Error
+		}
+	}
+	// Delete topic method
+	public static function deleteTopic($topicId) {
+		// Check if the user is allowed to delete this topic (authorization logic goes here)
+
+		// Get all comments for the topic
+		$comments = self::getAllCommentsById($topicId);
+
+		// Delete comments and their associated replies
+		foreach ($comments as $comment) {
+			self::deleteComment($comment['id']);
+		}
+
+		// Finally, delete the topic
+		$db = new Database();
+		$stmt = $db->conn->prepare("DELETE FROM topics WHERE id = :topicId");
+		$stmt->bindParam(':topicId', $topicId, PDO::PARAM_INT);
+
+		try {
+			$stmt->execute();
+			return true;
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
+			return false;
+		}
+	}
+	
 	// Get all comments of a topic by id + pages, ordered by comments.id in descending order
 	public static function getAllCommentsById($topicid, $page = 1, $itemsPerPage = 5) {
 		$db = new Database();

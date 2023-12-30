@@ -53,7 +53,7 @@
                                 echo '<a type="button" style="border: none; margin: 5px 5px; margin-bottom: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#replyModal">Reply</a>';
                                 if ($reply['userid'] == $_SESSION['userId']) {
                                     echo '<a type="button" 
-                                             style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px;" 
+                                             style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-right: 5px;" 
                                              data-toggle="modal" 
                                              data-target="#editReplyModal" 
                                              data-reply-id="' . $reply['id'] . '" 
@@ -62,7 +62,7 @@
                                              <i class="fas fa-edit"></i>
                                           </a>';
                                 echo '<a type="button" 
-                                          style="border: none; margin: 0px; color: white; height: 43px; margin-left: 5px;" 
+                                          style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px;" 
                                           data-toggle="modal" 
                                           data-target="#deleteReplyModal" 
                                           data-delete-id="' . $reply['id'] . '" 
