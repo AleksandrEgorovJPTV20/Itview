@@ -28,7 +28,7 @@ class Controller {
 				// If 'deleteId' is set, it means we are deleting a topic
 				$topicId = $_POST['deleteId'];
 
-				if (Model::deleteTopic($topicId)) {
+				if (ModelAdmin::deleteTopic($topicId)) {
 					$_SESSION['deleteTopicMessage'] = 'Topic deleted successfully';
 				} else {
 					$_SESSION['deleteTopicMessage'] = 'Failed to delete topic';
@@ -42,7 +42,7 @@ class Controller {
 					$topicName = $_POST['name'];
 					$topicDescription = $_POST['description'];
 
-					if (Model::editTopic($topicId, $topicName, $topicDescription)) {
+					if (ModelAdmin::editTopic($topicId, $topicName, $topicDescription)) {
 						$_SESSION['editTopicMessage'] = 'Topic edited successfully';
 					} else {
 						$_SESSION['editTopicMessage'] = 'Failed to edit topic';
@@ -109,20 +109,13 @@ class Controller {
 				if (isset($_POST['commentId'])) {
 					// Edit existing comment
 					$commentId = $_POST['commentId'];
-					$commentEdited = Model::editComment($commentId, $topicId, $userId, $commentText);
-					$messageKey = 'editCommentMessage';
-					$successMessage = 'Comment edited successfully';
-					$errorMessage = 'Error editing comment';
+					$commentEdited = ModelAdmin::editComment($commentId, $topicId, $userId, $commentText);
+					$_SESSION['editCommentMessage'] = $commentEdited ? 'Comment edited successfully' : 'Error editing comment';
 				} else {
 					// Create new comment
 					$commentCreated = Model::createComment($topicId, $userId, $commentText);
-					$messageKey = 'createMessage';
-					$successMessage = 'Comment created successfully';
-					$errorMessage = 'Error creating comment';
+					$_SESSION['createMessage'] = $commentCreated ? 'Comment created successfully' : 'Error creating comment';
 				}
-
-				// Set session variable based on the result
-				$_SESSION[$messageKey] = $result ? $successMessage : $errorMessage;
 
 				// Redirect to refresh the page
 				header("Location: /comments?topic=" . $topicId);
@@ -132,7 +125,7 @@ class Controller {
 			// Handle comment deletion
 			if (isset($_POST['deleteId'])) {
 				$commentIdToDelete = $_POST['deleteId'];
-				$commentDeleted = Model::deleteComment($commentIdToDelete);
+				$commentDeleted = ModelAdmin::deleteComment($commentIdToDelete);
 
 				// Set session variable based on the deletion result
 				$_SESSION['deleteCommentMessage'] = $commentDeleted ? 'Comment deleted successfully' : 'Error deleting comment';
@@ -174,28 +167,19 @@ class Controller {
 				// Editing a reply
 				$replyId = $_POST['replyId'];
 				$replyText = $_POST['reply'];
-				$result = Model::editReply($replyId, $userId, $replyText);
-				$messageKey = 'editReplyMessage';
-				$successMessage = 'Reply edited successfully';
-				$errorMessage = 'Error editing reply';
+				$result = ModelAdmin::editReply($replyId, $userId, $replyText);
+				$_SESSION['editReplyMessage'] = $result ? 'Reply edited successfully' : 'Error editing reply';
 			} elseif (isset($_POST['comment'])) {
 				// Creating a new reply
 				$commentText = $_POST['comment'];
 				$result = Model::createReply($commentid, $userId, $commentText);
-				$messageKey = 'replyMessage';
-				$successMessage = 'Reply created successfully';
-				$errorMessage = 'Error creating reply';
+				$_SESSION['replyMessage'] = $result ? 'Reply created successfully' : 'Error creating reply';
 			} elseif (isset($_POST['deleteId'])) {
 				// Deleting a reply
 				$deleteId = $_POST['deleteId'];
-				$result = Model::deleteReply($deleteId);
-				$messageKey = 'deleteReplyMessage';
-				$successMessage = 'Reply deleted successfully';
-				$errorMessage = 'Error deleting reply';
+				$result = ModelAdmin::deleteReply($deleteId);
+				$_SESSION['deleteReplyMessage'] = $result ? 'Reply deleted successfully' : 'Error deleting reply';
 			}
-
-			// Set session variable based on the result
-			$_SESSION[$messageKey] = $result ? $successMessage : $errorMessage;
 
 			// Redirect to refresh the page
 			header("Location: /comments?replies=" . $commentid);

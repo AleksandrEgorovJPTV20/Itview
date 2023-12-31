@@ -146,7 +146,7 @@
             <p style="margin-left: 20px; margin-top: 10px; color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
           <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289;">Delete your reply</h1>
+              <h1 style="text-align: center; color: #013289;">Delete your comment</h1>
               <p style="text-align: center; color: #013289;">
                 <?php
                     if (isset($_SESSION['deleteCommentMessage'])) {

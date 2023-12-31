@@ -1,260 +1,256 @@
 <?php 
 class ModelAdmin {
-	//Запрос для добавление лайков
-	public static function addLike($code) {
-		$sql="UPDATE `music` SET `likes`=likes + 1 WHERE `music`.`id` ='".$code."'";
-		$database = new database();
-		$item = $database->executeRun($sql);
-		if($item==true) $result=true;
-	}
-	//Изменение пароля
-	public static function ChangePassword(){
-		$result=array(false,"Пароль не изменён");
-		if(isset($_POST['send'])){
-			$newPassword = $_POST['newPassword'];
-			$confirmPassword = $_POST['confirmPassword'];
-			//Проверка полей
-			if ($newPassword == $confirmPassword && $newPassword!="") {
-				$passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
-					$sql="UPDATE `users`  SET password = '$passwordHash' WHERE users.id = ".$_SESSION['userId'];
-					$database = new database();
-					$item = $database->executeRun($sql);
-				if($item==true){
-					$result= array(true, "Пароль успешно изменён");
-				}else{
-					$result=array(false, "Пароль не изменён");
-				} 					
-			}
-		}
-		return $result;
-	}
-	//Изменение имени
-	public static function ChangeUsername(){
-		$result=array(false,"Имя не изменено");
-		if(isset($_POST['send'])){
-			$confirmUsername = $_POST['confirmUsername'];
-			//Проверка полей
-			if ($confirmUsername!="") {
-					$sql="UPDATE `users` SET username = '$confirmUsername' WHERE users.id = ".$_SESSION['userId'];
-					$database = new database();
-					$item = $database->executeRun($sql);
+	// Edit topic method
+	public static function editTopic($topicId, $topicName, $topicDescription) {
+		$db = new Database();
 
-					$_SESSION['name']=$confirmUsername;
-				if($item==true){
-					$result= array(true, "Имя успешно измененo");
-				}else{
-					$result=array(false, "Имя не изменено");
-				} 					
-			}
+		try {
+			// Update the topic in the topics table
+			$sql = "UPDATE topics SET name = :name, description = :description WHERE id = :id";
+			$stmt = $db->conn->prepare($sql);
+			$stmt->bindParam(':id', $topicId, PDO::PARAM_INT);
+			$stmt->bindParam(':name', $topicName, PDO::PARAM_STR);
+			$stmt->bindParam(':description', $topicDescription, PDO::PARAM_STR);
+			$stmt->execute();
+
+			return true; // Success
+		} catch (Exception $e) {
+			return false; // Error
 		}
-		return $result;
 	}
-	//Изменение почты
-	public static function ChangeEmail(){
-		$result=array(false,"Почта не изменена");
-		if(isset($_POST['send'])){
-			$newEmail = filter_input(INPUT_POST, 'newEmail', FILTER_VALIDATE_EMAIL);
-			$confirmEmail = $_POST['confirmEmail'];
-			$sql = 'SELECT * FROM users WHERE email = "'.$newEmail.'"';
-			$database = new database();
-			$item = $database->getOne($sql);
-			//Проверка полей
-			if($item == null){
-				if ($newEmail!="" && $confirmEmail == $_SESSION['email']) {
-						$sql="UPDATE `users`  SET email = '$newEmail' WHERE users.id = ".$_SESSION['userId'];
-						$database = new database();
-						$item = $database->executeRun($sql);
-						$_SESSION['email']=$newEmail;
-					if($item==true){
-						$result= array(true, "Почта успешно измененa");
-					}else{
-						$result=array(false, "Почта не изменена");
-					} 					
-				}
-			}else{
-				$result=array(false, "Почта должна быть уникальной");
-			}
+	// Delete topic method
+	public static function deleteTopic($topicId) {
+		// Check if the user is allowed to delete this topic (authorization logic goes here)
+
+		// Get all comments for the topic
+		$comments = Model::getAllCommentsById($topicId);
+
+		// Delete comments and their associated replies
+		foreach ($comments as $comment) {
+			self::deleteComment($comment['id']);
 		}
-		return $result;
-	}
-	//Изменение роли
-	public static function Changerole(){
-		$result=array(false,"Неудалось поменять роль");
-		if(isset($_POST['send'])){
-			$user = $_POST['user'];
-			$roleSelect = $_POST['roleSelect'];
-			if ($user!="" && $roleSelect!="") {
-				$sql="UPDATE `users` SET role = '$roleSelect' WHERE users.id = ".$user;
-				$database = new database();
-				$item = $database->executeRun($sql);
-				if($item==true){
-					$result= array(true, "Успешно поменяли роль пользователю");
-				}else{
-					$result=array(false, "Неудалось поменять роль");
-				} 					
-			}
+
+		// Finally, delete the topic
+		$db = new Database();
+		$stmt = $db->conn->prepare("DELETE FROM topics WHERE id = :topicId");
+		$stmt->bindParam(':topicId', $topicId, PDO::PARAM_INT);
+
+		try {
+			$stmt->execute();
+			return true;
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
+			return false;
 		}
-		return $result;
 	}
 
-	//Удаление профиля
-	public static function deleteProfile(){
-		$result=array(false,"Неудалось удалить профиль");
-		if(isset($_POST['send'])){
-			$sql="DELETE FROM `users` WHERE users.id = ".$_SESSION['userId'];
-			$database = new database();
-			$item = $database->executeRun($sql);
+	// Model method to edit a comment
+	public static function editComment($commentId, $topicId, $userId, $commentText)
+	{
+		$db = new Database();
+	
+		// Prepare the SQL query
+		$sql = "UPDATE comments 
+				SET text = :commentText, updated_at = NOW()
+				WHERE id = :commentId";
+	
+		// Execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
+		$stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
+	
+		// Check if the query executed successfully
+		if ($stmt->execute()) {
+			return true; // Comment edit successful
+		} else {
+			return false; // Comment edit failed
+		}
+	}
 
-			unset($_SESSION['sessionId']);
-			unset($_SESSION['name']);
-			unset($_SESSION['role']);
-			unset($_SESSION['error']);
-			unset($_SESSION['email']);
-			unset($_SESSION['userId']);
-			session_destroy();
-			if($item==true){
-				$result= array(true, "Профиль удалён");
-			}else{
-				$result=array(false, "Неудалось удалить профиль");
-			} 					
+	// Model method to delete a comment and its associated replies
+	public static function deleteComment($commentId)
+	{
+		// Start by deleting replies associated with the comment
+		self::deleteRepliesByCommentId($commentId);
+	
+		// Now, delete the comment
+		$db = new database();
+		$stmt = $db->connect()->prepare("DELETE FROM comments WHERE id = :commentId");
+		$stmt->bindValue(':commentId', $commentId, PDO::PARAM_INT);
+	
+		try {
+			$stmt->execute();
+			return true;
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
+			return false;
 		}
-		return $result;
 	}
-	//Добавление музыки
-	public static function addMusic() {
-		$result= array(false, "Не удалось добавить музыку");
-		//читаем данные форм в переменные
-		if(isset($_POST['send'])){
-			$musicName =$_POST['musicName'];
-			$performer = $_POST['performer'];
-			$releaseDate = $_POST['releaseDate'];
-			$image = $_POST['image'];
-			$audio = $_POST['audio'];
-			$genreSelect = $_POST['genreSelect'];
-			$sql = 'SELECT * FROM music WHERE name = "'.$musicName.'"';
-			$database = new database();
-			$item = $database->getOne($sql);
-			if($item == null){
-				if($performer!="" && $musicName != "" && $releaseDate != ""){
-					$sql="INSERT INTO `music` (`name`, `performer`, `releaseDate`,`image`,`audioLink`,`genreID`)
-					VALUES ('$musicName','$performer','$releaseDate','$image','$audio','$genreSelect')";
-					$database = new database();
-					$item = $database->executeRun($sql);
-					if($item==true){
-						$result= array(true, "Успешно добавили музыку");
-					}
-				}else{
-					$result= array(false, "Не удалось добавить музыку");
-				}
-			}else{
-				$result= array(false, "Название музыки должна быть уникальной");
-			}
+	
+	// Helper method to delete replies associated with a comment
+	private static function deleteRepliesByCommentId($commentId)
+	{
+		$db = new database();
+		$stmt = $db->connect()->prepare("DELETE FROM replies WHERE commentid = :commentId");
+		$stmt->bindValue(':commentId', $commentId, PDO::PARAM_INT);
+	
+		try {
+			$stmt->execute();
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
 		}
-		return $result;
 	}
-	//Изменение музыки
-	public static function editMusic($code) {
-		$result = array(false, "Не удалось изменить музыку");
-		//читаем данные форм в переменные
-		if(isset($_POST['send'])){
-			$musicName =$_POST['music'];
-			$performer = $_POST['performer'];
-			$releaseDate = $_POST['releaseDate'];
-			$image = $_POST['image'];
-			$audio = $_POST['audio'];
-			$genreSelect = $_POST['genreSelect'];
-			if($performer!="" && $musicName != "" && $releaseDate != ""){
-				$sql="UPDATE `music` SET name = '$musicName', performer = '$performer', releaseDate = '$releaseDate', image = '$image', audioLink = '$audio', genreID = '$genreSelect' WHERE music.id = ".$code;
-				$database = new database();
-				$item = $database->executeRun($sql);
-				if($item==true){
-					$result= array(true, "Успешно изменили музыку");
-				}
-			}else{
-				$result = array(false, "Не удалось изменить музыку");
-			}
+
+	// Model method to edit a reply
+	public static function editReply($replyId, $userId, $replyText)
+	{
+		$db = new Database();
+
+		// Prepare the SQL query
+		$sql = "UPDATE replies 
+				SET text = :replyText, updated_at = NOW()
+				WHERE id = :replyId";
+
+		// Execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':replyText', $replyText, PDO::PARAM_STR);
+		$stmt->bindParam(':replyId', $replyId, PDO::PARAM_INT);
+
+		// Check if the query executed successfully
+		return $stmt->execute();
+	}
+
+	// Model method to delete a reply
+	public static function deleteReply($replyId)
+	{
+		$db = new database();
+
+		$stmt = $db->connect()->prepare("DELETE FROM replies WHERE id = :replyId");
+		$stmt->bindValue(':replyId', $replyId, PDO::PARAM_INT);
+
+		try {
+			$stmt->execute();
+			return true;
+		} catch (PDOException $e) {
+			// Handle the exception if necessary
+			return false;
 		}
-		return $result;
 	}
-	//Удаление музыки
-	public static function deleteMusic($code){
-		$result=array(false,"Неудалось удалить музыку");
-		if(isset($_POST['send'])){
-			$sql="DELETE FROM `music` WHERE music.id = ".$code;
-			$database = new database();
-			$item = $database->executeRun($sql);
-			if($item==true){
-				$result= array(true, "Музыка удалена");
-			}else{
-				$result=array(false, "Неудалось удалить музыку");
-			} 					
-		}
-		return $result;
+
+	// Model method to get all comments with pagination
+	public static function getAllComments($page = 1, $itemsPerPage = 5) {
+		$db = new Database();
+
+		$offset = ($page - 1) * $itemsPerPage;
+
+		$sql = "SELECT comments.*, users.username, topics.name AS topic_name
+				FROM comments 
+				INNER JOIN users ON comments.userid = users.id
+				INNER JOIN topics ON comments.topicid = topics.id
+				ORDER BY comments.id DESC
+				LIMIT :limit OFFSET :offset";
+
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
+		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+		$stmt->execute();
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
-	//Добавление жанров
-	public static function addGenre() {
-		$result= array(false, "Не удалось добавить жанр");
-		//читаем данные форм в переменные
-		if(isset($_POST['send'])){
-			$genreName =$_POST['genreName'];
-			$description = $_POST['description'];
-			$image = $_POST['image'];
-			$sql = 'SELECT * FROM genre WHERE name = "'.$genreName.'"';
-			$database = new database();
-			$item = $database->getOne($sql);
-			if($item == null){
-				if($genreName!="" && $description != ""){
-					$sql="INSERT INTO `genre` (`name`, `description`,`image`)
-					VALUES ('$genreName','$description','$image')";
-					$database = new database();
-					$item = $database->executeRun($sql);
-					if($item==true){
-						$result= array(true, "Успешно добавили жанр");
-					}
-				}else{
-					$result= array(false, "Не удалось добавить Жанр");
-				}
-			}else{
-				$result= array(false, "Жанр должен быть уникальным");
-			}
-		}
-		return $result;
+
+	// Model method to search comments
+	public static function searchComments($searchQuery) {
+		$db = new Database();
+
+		// Prepare the SQL query with a search condition
+		$sql = "SELECT comments.*, users.username, topics.name AS topic_name
+				FROM comments
+				INNER JOIN users ON comments.userid = users.id
+				INNER JOIN topics ON comments.topicid = topics.id
+				WHERE comments.text LIKE :searchQuery
+				ORDER BY comments.id DESC";
+
+		// Bind parameters and execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
+		$stmt->execute();
+
+		// Fetch the results
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
-	//Изменение жанров
-	public static function editGenre($code) {
-		$result = array(false, "Не удалось изменить жанр");
-		//читаем данные форм в переменные
-		if(isset($_POST['send'])){
-			$genreName =$_POST['genreName'];
-			$description = $_POST['description'];
-			$image = $_POST['image'];
-			if($genreName!="" && $description != ""){
-				$sql="UPDATE `genre` SET name = '$genreName', description = '$description', image = '$image' WHERE genre.id = ".$code;
-				$database = new database();
-				$item = $database->executeRun($sql);
-				if($item==true){
-					$result= array(true, "Успешно изменили жанр");
-				}
-			}else{
-				$result = array(false, "Не удалось изменить жанр");
-			}
-		}
-		return $result;
+
+	// Model method to get the total number of comments
+	public static function getTotalComments() {
+		$db = new Database();
+
+		// Prepare the SQL query to count the total number of comments
+		$sql = "SELECT COUNT(id) AS totalComments FROM comments";
+
+		// Execute the query
+		$stmt = $db->conn->query($sql);
+
+		// Fetch the result
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		// Return the total number of comments
+		return $result['totalComments'];
 	}
-	//Удаление жанров
-	public static function deleteGenre($code){
-		$result=array(false,"Неудалось удалить Жанр");
-		if(isset($_POST['send'])){
-			$sql="DELETE FROM `genre` WHERE genre.id = ".$code;
-			$database = new database();
-			$item = $database->executeRun($sql);
-			if($item==true){
-				$result= array(true, "Жанр удален");
-			}else{
-				$result=array(false, "Неудалось удалить жанр");
-			} 					
-		}
-		return $result;
+
+	// Model method to get all replies with pagination
+	public static function getAllReplies($page = 1, $itemsPerPage = 5) {
+		$db = new Database();
+
+		$offset = ($page - 1) * $itemsPerPage;
+
+		$sql = "SELECT replies.*, users.username, comments.text AS comment_text
+				FROM replies
+				INNER JOIN users ON replies.userid = users.id
+				INNER JOIN comments ON replies.commentid = comments.id
+				ORDER BY replies.id DESC
+				LIMIT :limit OFFSET :offset";
+
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
+		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+		$stmt->execute();
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+    public static function searchReplies($searchQuery) {
+        $db = new Database();
+
+        // Prepare the SQL query with a search condition and inner join
+        $sql = "SELECT replies.*, users.username
+                FROM replies
+                INNER JOIN users ON replies.userid = users.id
+                WHERE replies.text LIKE :searchQuery
+                ORDER BY replies.id DESC";
+
+        // Bind parameters and execute the query
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Fetch the results
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Model method to get the total number of replies
+    public static function getTotalReplies() {
+        $db = new Database();
+
+        // Prepare the SQL query to count the total number of replies
+        $sql = "SELECT COUNT(id) AS totalReplies FROM replies";
+
+        // Execute the query
+        $stmt = $db->conn->query($sql);
+
+        // Fetch the result
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Return the total number of replies
+        return $result['totalReplies'];
+    }
 }
 ?>

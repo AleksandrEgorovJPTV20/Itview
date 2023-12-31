@@ -39,7 +39,13 @@ if ($route == '' || $route == 'index.php') {
 } elseif ($route == 'logout') {
     ControllerLogin::LogoutAction();
 } elseif (isset($_SESSION['role']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager') && $route == 'dashboard') {
-    Controller::forum();
+    if(isset($_GET['comments'])){
+        ControllerAdmin::dashboardComments();
+    } elseif(isset($_GET['replies'])){
+        ControllerAdmin::dashboardReplies();
+    }else{
+        ControllerAdmin::dashboard();
+    }
 } elseif (!isset($_SESSION['userId'])) {
     if ($route == 'login') {
         ControllerLogin::LoginAction();

@@ -148,49 +148,6 @@ class Model {
 			return false; // Error
 		}
 	}
-	// Edit topic method
-	public static function editTopic($topicId, $topicName, $topicDescription) {
-		$db = new Database();
-
-		try {
-			// Update the topic in the topics table
-			$sql = "UPDATE topics SET name = :name, description = :description WHERE id = :id";
-			$stmt = $db->conn->prepare($sql);
-			$stmt->bindParam(':id', $topicId, PDO::PARAM_INT);
-			$stmt->bindParam(':name', $topicName, PDO::PARAM_STR);
-			$stmt->bindParam(':description', $topicDescription, PDO::PARAM_STR);
-			$stmt->execute();
-
-			return true; // Success
-		} catch (Exception $e) {
-			return false; // Error
-		}
-	}
-	// Delete topic method
-	public static function deleteTopic($topicId) {
-		// Check if the user is allowed to delete this topic (authorization logic goes here)
-
-		// Get all comments for the topic
-		$comments = self::getAllCommentsById($topicId);
-
-		// Delete comments and their associated replies
-		foreach ($comments as $comment) {
-			self::deleteComment($comment['id']);
-		}
-
-		// Finally, delete the topic
-		$db = new Database();
-		$stmt = $db->conn->prepare("DELETE FROM topics WHERE id = :topicId");
-		$stmt->bindParam(':topicId', $topicId, PDO::PARAM_INT);
-
-		try {
-			$stmt->execute();
-			return true;
-		} catch (PDOException $e) {
-			// Handle the exception if necessary
-			return false;
-		}
-	}
 	
 	// Get all comments of a topic by id + pages, ordered by comments.id in descending order
 	public static function getAllCommentsById($topicid, $page = 1, $itemsPerPage = 5) {
@@ -253,62 +210,6 @@ class Model {
 			return true; // Comment creation successful
 		} else {
 			return false; // Comment creation failed
-		}
-	}
-	// Model method to edit a comment
-	public static function editComment($commentId, $topicId, $userId, $commentText)
-	{
-		$db = new Database();
-	
-		// Prepare the SQL query
-		$sql = "UPDATE comments 
-				SET text = :commentText, updated_at = NOW()
-				WHERE id = :commentId";
-	
-		// Execute the query
-		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
-		$stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
-	
-		// Check if the query executed successfully
-		if ($stmt->execute()) {
-			return true; // Comment edit successful
-		} else {
-			return false; // Comment edit failed
-		}
-	}
-
-	// Model method to delete a comment and its associated replies
-	public static function deleteComment($commentId)
-	{
-		// Start by deleting replies associated with the comment
-		self::deleteRepliesByCommentId($commentId);
-	
-		// Now, delete the comment
-		$db = new database();
-		$stmt = $db->connect()->prepare("DELETE FROM comments WHERE id = :commentId");
-		$stmt->bindValue(':commentId', $commentId, PDO::PARAM_INT);
-	
-		try {
-			$stmt->execute();
-			return true;
-		} catch (PDOException $e) {
-			// Handle the exception if necessary
-			return false;
-		}
-	}
-	
-	// Helper method to delete replies associated with a comment
-	private static function deleteRepliesByCommentId($commentId)
-	{
-		$db = new database();
-		$stmt = $db->connect()->prepare("DELETE FROM replies WHERE commentid = :commentId");
-		$stmt->bindValue(':commentId', $commentId, PDO::PARAM_INT);
-	
-		try {
-			$stmt->execute();
-		} catch (PDOException $e) {
-			// Handle the exception if necessary
 		}
 	}
 
@@ -402,41 +303,6 @@ class Model {
 			return true; // Comment creation successful
 		} else {
 			return false; // Comment creation failed
-		}
-	}
-	// Model method to edit a reply
-	public static function editReply($replyId, $userId, $replyText)
-	{
-		$db = new Database();
-
-		// Prepare the SQL query
-		$sql = "UPDATE replies 
-				SET text = :replyText, updated_at = NOW()
-				WHERE id = :replyId";
-
-		// Execute the query
-		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':replyText', $replyText, PDO::PARAM_STR);
-		$stmt->bindParam(':replyId', $replyId, PDO::PARAM_INT);
-
-		// Check if the query executed successfully
-		return $stmt->execute();
-	}
-
-	// Model method to delete a reply
-	public static function deleteReply($replyId)
-	{
-		$db = new database();
-
-		$stmt = $db->connect()->prepare("DELETE FROM replies WHERE id = :replyId");
-		$stmt->bindValue(':replyId', $replyId, PDO::PARAM_INT);
-
-		try {
-			$stmt->execute();
-			return true;
-		} catch (PDOException $e) {
-			// Handle the exception if necessary
-			return false;
 		}
 	}
 

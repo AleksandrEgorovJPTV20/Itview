@@ -142,6 +142,8 @@ $route = explode('/', $path)[$num];
                     }else{
                       echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
                     }
+                  }elseif($route == 'dashboard'){
+                    echo '<input type="hidden" name="redirect_route" value="">';
                   } else {
                     echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
                   }
@@ -208,6 +210,8 @@ $route = explode('/', $path)[$num];
                     }else{
                       echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
                     }
+                  }elseif($route == 'dashboard'){
+                    echo '<input type="hidden" name="redirect_route" value="">';
                   } else {
                     echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
                   }
@@ -273,6 +277,8 @@ $route = explode('/', $path)[$num];
                     }else{
                       echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
                     }
+                  }elseif($route == 'dashboard'){
+                    echo '<input type="hidden" name="redirect_route" value="">';
                   } else {
                     echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
                   }
