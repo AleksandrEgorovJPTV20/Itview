@@ -20,7 +20,7 @@ class Model {
     public static function getAllTopics($page = 1, $itemsPerPage = 2) {
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT topics.*, users.username
+		$sql = "SELECT topics.*, users.username, users.imgpath
         FROM topics
         JOIN users ON topics.userid = users.id
         ORDER BY topics.id DESC
@@ -42,7 +42,7 @@ class Model {
 	public static function searchTopics($searchTerm, $page = 1, $itemsPerPage = 2) {
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT topics.*, users.username
+		$sql = "SELECT topics.*, users.username, users.imgpath
 				FROM topics
 				JOIN users ON topics.userid = users.id
 				WHERE topics.name LIKE :searchTerm 
@@ -150,12 +150,12 @@ class Model {
 	}
 	
 	// Get all comments of a topic by id + pages, ordered by comments.id in descending order
-	public static function getAllCommentsById($topicid, $page = 1, $itemsPerPage = 5) {
+	public static function getAllCommentsById($topicId, $page = 1, $itemsPerPage = 5) {
 		$db = new Database();
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT comments.*, users.username
+		$sql = "SELECT comments.*, users.username, users.imgpath
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.topicid = :topicid 
@@ -163,7 +163,7 @@ class Model {
 				LIMIT :limit OFFSET :offset";
 
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':topicid', $topicid, PDO::PARAM_INT);
+		$stmt->bindParam(':topicid', $topicId, PDO::PARAM_INT);
 		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
 		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$stmt->execute();
@@ -172,10 +172,10 @@ class Model {
 	}
 
 	// Model for searching comments for a certain topic, ordered by comments.id in descending order
-	public static function searchComments($topicid, $searchQuery) {
+	public static function searchComments($topicId, $searchQuery) {
 		$db = new Database();
 
-		$sql = "SELECT comments.*, users.username
+		$sql = "SELECT comments.*, users.username, users.imgpath
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.topicid = :topicid 
@@ -183,7 +183,7 @@ class Model {
 				ORDER BY comments.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':topicid', $topicid, PDO::PARAM_INT);
+		$stmt->bindParam(':topicid', $topicId, PDO::PARAM_INT);
 		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
 		$stmt->execute();
 
@@ -191,7 +191,7 @@ class Model {
 	}
 
 	// Model method to create a new comment
-	public static function createComment($topicid, $userId, $commentText)
+	public static function createComment($topicId, $userId, $commentText)
 	{
 		$db = new Database();
 	
@@ -203,7 +203,7 @@ class Model {
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
 		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
-		$stmt->bindParam(':topicid', $topicid, PDO::PARAM_INT);
+		$stmt->bindParam(':topicid', $topicId, PDO::PARAM_INT);
 	
 		// Check if the query executed successfully
 		if ($stmt->execute()) {
@@ -214,8 +214,8 @@ class Model {
 	}
 
 	// Calculating total comments for a specific topic
-	public static function getTotalCommentsById($topicid) {
-		$sql = "SELECT COUNT(*) as count FROM `comments` WHERE `topicid` = $topicid";
+	public static function getTotalCommentsById($topicId) {
+		$sql = "SELECT COUNT(*) as count FROM `comments` WHERE `topicid` = $topicId";
 		$db = new Database();
 		$result = $db->getOne($sql);
 
@@ -227,12 +227,12 @@ class Model {
 	}
 	
 	// Get all replies of a comment by id + pages, ordered by replies.id in descending order
-	public static function getAllRepliesByCommentId($commentid, $page = 1, $itemsPerPage = 5) {
+	public static function getAllRepliesByCommentId($commentId, $page = 1, $itemsPerPage = 5) {
 		$db = new Database();
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT replies.*, users.username
+		$sql = "SELECT replies.*, users.username, users.imgpath
 				FROM replies 
 				INNER JOIN users ON replies.userid = users.id
 				WHERE replies.commentid = :commentid 
@@ -240,7 +240,7 @@ class Model {
 				LIMIT :limit OFFSET :offset";
 
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
 		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
 		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$stmt->execute();
@@ -249,10 +249,10 @@ class Model {
 	}
 
 	// Model for searching replies for a certain comment, ordered by replies.id in descending order
-	public static function searchReplies($commentid, $searchQuery) {
+	public static function searchReplies($commentId, $searchQuery) {
 		$db = new Database();
 
-		$sql = "SELECT replies.*, users.username
+		$sql = "SELECT replies.*, users.username, users.imgpath
 				FROM replies
 				INNER JOIN users ON replies.userid = users.id
 				WHERE replies.commentid = :commentid
@@ -260,7 +260,7 @@ class Model {
 				ORDER BY replies.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
 		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
 		$stmt->execute();
 
@@ -269,22 +269,22 @@ class Model {
 
 
 	// Get a single comment by ID
-	public static function getCommentById($commentid) {
+	public static function getCommentById($commentId) {
 		$db = new Database();
 
-		$sql = "SELECT comments.*, users.username
+		$sql = "SELECT comments.*, users.username, users.imgpath
 				FROM comments
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.id = :commentid";
 
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
 		$stmt->execute();
 
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 	// Model method to create a new reply
-	public static function createReply($commentid, $userId, $commentText)
+	public static function createReply($commentId, $userId, $commentText)
 	{
 		$db = new Database();
 	
@@ -296,7 +296,7 @@ class Model {
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
 		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
-		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
 	
 		// Check if the query executed successfully
 		if ($stmt->execute()) {
@@ -307,13 +307,13 @@ class Model {
 	}
 
 	// Get the total number of replies for a specific comment
-	public static function getTotalRepliesByCommentId($commentid) {
+	public static function getTotalRepliesByCommentId($commentId) {
 		$db = new Database();
 
 		$sql = "SELECT COUNT(*) as count FROM `replies` WHERE `commentid` = :commentid";
 		
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':commentid', $commentid, PDO::PARAM_INT);
+		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
 		$stmt->execute();
 
 		$result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -324,6 +324,77 @@ class Model {
 
 		return 0;
 	}
+
+	//Get user info by userId 
+    public static function getUserById($userId) {
+        $db = new Database();
+
+        // Prepare the SQL query
+        $sql = "SELECT * FROM users WHERE id = :userId";
+
+        // Bind parameters and execute the query
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Fetch the result
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Return the user information
+        return $user;
+    }
+
+	// Model method to edit user profile by ID
+	public static function editUserById($userId) {
+		$db = new Database();
+
+		// Fetch user data
+		$user = self::getUserById($userId);
+
+		// Validate and update user data
+		$username = !empty($_POST['username']) ? $_POST['username'] : $user['username'];
+		$email = !empty($_POST['email']) ? $_POST['email'] : $user['email'];
+		$password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
+		$description = !empty($_POST['description']) ? $_POST['description'] : $user['description'];
+
+		// Handle image upload
+		if ($_FILES['userImage']['error'] === UPLOAD_ERR_OK) {
+			$uploadDir = 'uploads/';
+			$uploadPath = $uploadDir . basename($_FILES['userImage']['name']);
+			move_uploaded_file($_FILES['userImage']['tmp_name'], $uploadPath);
+
+			// Update the user's image path in the database
+			$user['imgpath'] = $uploadPath;
+		}
+
+		// Check if confirm password matches current password
+		$confirmPassword = !empty($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
+
+		if (!password_verify($confirmPassword, $user['password'])) {
+			// Password and confirm password do not match
+			$_SESSION['userEditMessage'] = 'Error: Confirm password does not match the current password.';
+			return false;
+		}
+
+		// Update the user in the database
+		$sql = "UPDATE users SET username = :username, email = :email, password = :password, imgpath = :imgpath, description = :description WHERE id = :userId";
+		$stmt = $db->conn->prepare($sql);
+
+		$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+		$stmt->bindParam(':password', $password, PDO::PARAM_STR);
+		$stmt->bindParam(':imgpath', $user['imgpath'], PDO::PARAM_STR); // No change if image not uploaded
+		$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+		$stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+		// Execute the query
+		$stmt->execute();
+
+		// Return updated user data
+		return $user;
+	}
+
+
 	//Work in progress
     public static function sendmessage() {
 		if (isset($_POST['send'])) {

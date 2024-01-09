@@ -2468,6 +2468,16 @@ section {
   flex-basis: 25%;
 }
 
+.user-profile-description {
+  text-align: center; 
+  word-break: break-all; 
+  flex-basis: 50%; 
+  margin-top: 60px; 
+  border: 2px solid #63BDFF; border-radius: 10px; 
+  padding: 20px;
+  margin-left: 40px;
+}
+
 @media screen and (max-width: 768px) {
   .description {
     width: 100%; 
@@ -2477,6 +2487,11 @@ section {
     word-break: break-all;
     flex-basis: 100%;
   }
+  .user-profile-description {
+    flex-basis: 100%; 
+    margin-left: 0px;
+  }
+
   .forum-button {
     flex-basis: 70%;
   }

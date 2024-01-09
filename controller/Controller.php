@@ -109,7 +109,7 @@ class Controller {
 				if (isset($_POST['commentId'])) {
 					// Edit existing comment
 					$commentId = $_POST['commentId'];
-					$commentEdited = ModelAdmin::editComment($commentId, $topicId, $userId, $commentText);
+					$commentEdited = ModelAdmin::editComment($commentId, $commentText);
 					$_SESSION['editCommentMessage'] = $commentEdited ? 'Comment edited successfully' : 'Error editing comment';
 				} else {
 					// Create new comment
@@ -148,7 +148,7 @@ class Controller {
 
 
 	// replies controller
-	public static function replies($commentid)
+	public static function replies($commentId)
 	{
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 		$itemsPerPage = 5; // Set your desired items per page
@@ -156,8 +156,8 @@ class Controller {
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
 		// Call the model method to get all replies for a comment
-		$replies = Model::getAllRepliesByCommentId($commentid, $page, $itemsPerPage);
-		$originalComment = Model::getCommentById($commentid);
+		$replies = Model::getAllRepliesByCommentId($commentId, $page, $itemsPerPage);
+		$originalComment = Model::getCommentById($commentId);
 
 		// Handle reply creation, editing, or deletion if the form is submitted
 		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
@@ -167,12 +167,12 @@ class Controller {
 				// Editing a reply
 				$replyId = $_POST['replyId'];
 				$replyText = $_POST['reply'];
-				$result = ModelAdmin::editReply($replyId, $userId, $replyText);
+				$result = ModelAdmin::editReply($replyId, $replyText);
 				$_SESSION['editReplyMessage'] = $result ? 'Reply edited successfully' : 'Error editing reply';
 			} elseif (isset($_POST['comment'])) {
 				// Creating a new reply
 				$commentText = $_POST['comment'];
-				$result = Model::createReply($commentid, $userId, $commentText);
+				$result = Model::createReply($commentId, $userId, $commentText);
 				$_SESSION['replyMessage'] = $result ? 'Reply created successfully' : 'Error creating reply';
 			} elseif (isset($_POST['deleteId'])) {
 				// Deleting a reply
@@ -182,17 +182,38 @@ class Controller {
 			}
 
 			// Redirect to refresh the page
-			header("Location: /comments?replies=" . $commentid);
+			header("Location: /comments?replies=" . $commentId);
 			exit();
 		}
 
 		// Handle search query
-		$replies = !empty($searchQuery) ? Model::searchReplies($commentid, $searchQuery) : $replies;
+		$replies = !empty($searchQuery) ? Model::searchReplies($commentId, $searchQuery) : $replies;
 
-		$totalItems = Model::getTotalRepliesByCommentId($commentid);
+		$totalItems = Model::getTotalRepliesByCommentId($commentId);
 		$totalPages = ceil($totalItems / $itemsPerPage);
 
 		include_once('view/replies.php');
+		return;
+	}
+
+	//profile controller
+	public static function profile($userId) {
+		$user = Model::getUserById($userId);
+		if (isset($_POST['send'])) {
+			$updatedUser = Model::editUserById($userId);
+			if ($updatedUser) {
+				$_SESSION['name'] = $updatedUser['username'];
+				$_SESSION['email'] = $updatedUser['email'];
+				$_SESSION['password'] = $updatedUser['password'];
+				$_SESSION['userEditMessage'] = 'User profile updated successfully';
+
+			} else {
+				$_SESSION['userEditMessage'] = 'Failed to update user profile';
+			}
+			header("Location: /profile?user=" . $userId);
+			exit();
+		}
+		include_once('view/profile.php');
 		return;
 	}
 

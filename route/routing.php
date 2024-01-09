@@ -28,22 +28,31 @@ if ($route == '' || $route == 'index.php') {
     Controller::forum($page);
 } elseif ($route == 'comments') {
     if (isset($_GET['topic'])) {
-        $topicid = $_GET['topic'];
-        Controller::comments($topicid);
+        $topicId = $_GET['topic'];
+        Controller::comments($topicId);
     } elseif (isset($_GET['replies'])) {
-        $commentid = $_GET['replies'];
-        Controller::replies($commentid);
+        $commentId = $_GET['replies'];
+        Controller::replies($commentId);
     } else {
         Controller::error();
     }
 } elseif ($route == 'logout') {
     ControllerLogin::LogoutAction();
+} elseif($route == 'profile'){
+    if (isset($_GET['user'])) {
+        $userId = $_GET['user'];
+        Controller::profile($userId);
+    } else {
+        Controller::error();
+    }
 } elseif (isset($_SESSION['role']) && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager') && $route == 'dashboard') {
     if(isset($_GET['comments'])){
         ControllerAdmin::dashboardComments();
     } elseif(isset($_GET['replies'])){
         ControllerAdmin::dashboardReplies();
-    }else{
+    } elseif(isset($_GET['users'])){
+        ControllerAdmin::dashboardUsers();
+    } else{
         ControllerAdmin::dashboard();
     }
 } elseif (!isset($_SESSION['userId'])) {

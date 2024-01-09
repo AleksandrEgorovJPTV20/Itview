@@ -1,4 +1,4 @@
-<!-- Forum -->
+<!-- Forum Replies -->
 <?php
 	ob_start();
 ?>
@@ -8,7 +8,7 @@
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
             <form class="d-flex justify-content-center align-items-center my-4" data-aos="fade-up" data-aos-delay="200">
                 <?php
-                    echo '<input type="hidden" name="replies" value="' . $commentid . '">';
+                    echo '<input type="hidden" name="replies" value="' . $commentId . '">';
                 ?>
                 <input type="search" name="search" class="form-control me-2" style="border-radius: 50px; border: none; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: #D9D9D9; width: 60%;" placeholder="Search replies">
             </form>
@@ -35,7 +35,7 @@
                         // Display the original comment
                         echo '<div style="border-radius: 10px; text-decoration: none; padding: 10px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
                         echo '<h2 style="width: 100%; text-align: center;">Original Comment</h2>';
-                        echo '<div style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; background: black;"></img></div>';
+                        echo '<a href="profile?user='.$originalComment['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$originalComment['imgpath'].'"></img></a>';
                         echo '<div class="comment"><p style="margin: 0; margin-top: 10px;">'.$originalComment['username'].'</p><p style="font-size: 16px; margin: 0;">'.$originalComment['created_at'].'</p><p>'.$originalComment['text'].'</p></div>';
                         echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start">';
                         echo '</div>';
@@ -46,7 +46,7 @@
 
                         foreach ($replies as $reply) {
                             echo '<div style="border-radius: 10px; text-decoration: none; padding: 10px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
-                            echo '<div style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; background: black;"></img></div>';
+                            echo '<a href="profile?user='.$reply['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$reply['imgpath'].'"></img></a>';
                             echo '<div class="comment"><p style="margin: 0; margin-top: 10px;">'.$reply['username'].'</p><p style="font-size: 16px; margin: 0;">'.$reply['created_at'].'</p><p>'.$reply['text'].'</p></div>';
                             if (isset($_SESSION['userId'])) {
                                 echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start">';
@@ -86,7 +86,7 @@
         <?php
             // Pages amount
             for ($i = 1; $i <= $totalPages; $i++) {
-                echo "<a href='/comments?replies={$commentid}&page=$i'>$i</a> ";
+                echo "<a href='/comments?replies={$commentId}&page=$i'>$i</a> ";
             }
         ?>
         </div>
@@ -99,9 +99,8 @@
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            <p style="margin-left: 20px; margin-top: 10px; color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
-          <form action="comments?replies=<?php echo $commentid; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="comments?replies=<?php echo $commentId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Create reply</h1>
               <p style="text-align: center; color: #013289;">
                 <?php
@@ -128,9 +127,8 @@
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            <p style="margin-left: 20px; margin-top: 10px; color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
-          <form action="comments?replies=<?php echo $commentid; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="comments?replies=<?php echo $commentId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Edit your reply</h1>
               <p style="text-align: center; color: #013289;">
                 <?php
@@ -158,9 +156,8 @@
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            <p style="margin-left: 20px; margin-top: 10px; color: #FFF; text-align: center; font-size: 40px; font-style: normal; font-weight: 600; line-height: normal;">IT View</p>
           </div>
-          <form action="comments?replies=<?php echo $commentid; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="comments?replies=<?php echo $commentId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Delete your reply</h1>
               <p style="text-align: center; color: #013289;">
                 <?php

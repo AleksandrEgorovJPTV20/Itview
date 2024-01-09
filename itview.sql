@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 27 2023 г., 16:03
+-- Время создания: Янв 09 2024 г., 09:45
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -41,12 +41,11 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `text`, `userid`, `topicid`, `created_at`, `updated_at`) VALUES
-(5, '12', 1, 31, '2023-12-24 14:31:34', '2023-12-24 14:31:34'),
-(7, 'test', 1, 31, '2023-12-27 13:58:42', '2023-12-27 13:58:42'),
-(17, 'new', 1, 31, '2023-12-27 14:18:37', '2023-12-27 14:18:37'),
-(18, 'asda', 1, 31, '2023-12-27 14:20:19', '2023-12-27 14:20:19'),
-(19, 'asdasd', 1, 32, '2023-12-27 14:46:10', '2023-12-27 14:46:10'),
-(20, 'test', 1, 32, '2023-12-27 16:57:47', '2023-12-27 16:57:47');
+(33, 'lol  dsada', 1, 1, '2023-12-31 08:11:26', '2023-12-31 08:19:00'),
+(34, 'd sad dsad', 1, 1, '2023-12-31 08:19:59', '2023-12-31 08:20:23'),
+(35, 'sad', 1, 1, '2023-12-31 08:20:18', '2023-12-31 08:20:18'),
+(36, 'sadas', 1, 1, '2023-12-31 08:44:15', '2023-12-31 08:44:15'),
+(40, 'дщд', 3, 1, '2024-01-09 10:37:21', '2024-01-09 10:37:21');
 
 -- --------------------------------------------------------
 
@@ -68,13 +67,10 @@ CREATE TABLE `replies` (
 --
 
 INSERT INTO `replies` (`id`, `text`, `userid`, `commentid`, `created_at`, `updated_at`) VALUES
-(5, 'sadsad', 1, 18, '2023-12-27 14:20:26', '2023-12-27 14:20:26'),
-(6, 'test again\r\n', 1, 7, '2023-12-27 14:20:51', '2023-12-27 14:20:51'),
-(7, 'new', 1, 5, '2023-12-27 14:21:22', '2023-12-27 14:21:22'),
-(8, 'asdasd', 1, 19, '2023-12-27 14:46:15', '2023-12-27 14:46:15'),
-(9, 'new reply test', 1, 19, '2023-12-27 15:11:31', '2023-12-27 15:11:31'),
-(10, 'туц', 1, 19, '2023-12-27 16:53:02', '2023-12-27 16:53:02'),
-(13, 'lol new reply test', 1, 20, '2023-12-27 17:01:54', '2023-12-27 17:01:54');
+(43, 'sadsa dsads', 1, 33, '2023-12-31 08:47:17', '2023-12-31 08:47:17'),
+(44, 'lol', 1, 33, '2023-12-31 08:47:21', '2024-01-09 08:17:07'),
+(45, 'sad asd sad sa', 1, 33, '2023-12-31 08:47:21', '2023-12-31 08:47:21'),
+(46, 'new test', 2, 36, '2023-12-31 08:49:19', '2024-01-09 08:19:16');
 
 -- --------------------------------------------------------
 
@@ -120,8 +116,7 @@ INSERT INTO `topics` (`id`, `name`, `description`, `userid`) VALUES
 (1, 'Announcements', 'test', 1),
 (29, 'Other', 't', 1),
 (30, 'General', 'test', 1),
-(31, 'Алексей Егоров', '12312', 1),
-(32, 'ыфвфы', 'фывфв', 1);
+(33, 'te yeeeeeeee', 'tesdassdsadasdasdsaddassadsadada asasdsadsadd asdad aadad adad ad sad asd ad adasdasd asd sadsa d sa dsadsadsad ad sad sad sadasd sad ad sad sad sa da das', 1);
 
 -- --------------------------------------------------------
 
@@ -134,17 +129,19 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `role` enum('admin','manager','user') NOT NULL DEFAULT 'user'
+  `role` enum('admin','manager','user') NOT NULL DEFAULT 'user',
+  `imgpath` varchar(255) NOT NULL DEFAULT 'https://i.ibb.co/CKqT1FV/questionmark.jpg',
+  `description` text NOT NULL DEFAULT 'This user description is empty'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`) VALUES
-(1, 'admin@test.ee', '$2y$12$mjv/GPng4oQFohhkPl8RPucmgRDFVs/UCVP02US.r92ra09kK4d7u', 'Admin', 'admin'),
-(2, 'user@test.ee', '$2y$12$mjv/GPng4oQFohhkPl8RPucmgRDFVs/UCVP02US.r92ra09kK4d7u', 'User', 'user'),
-(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager');
+INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`, `imgpath`, `description`) VALUES
+(1, 'admin@test.ee', '$2y$10$r8xcQsYIm35EIS99fZcnY.gncYL0QgYmxMAwAD7ggr0OqVTNC/1d6', 'Admin', 'admin', 'uploads/questionmark.jpg', 'test'),
+(2, 'user@test.ee', '$2y$12$mjv/GPng4oQFohhkPl8RPucmgRDFVs/UCVP02US.r92ra09kK4d7u', 'User', 'user', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', 'This user description is empty'),
+(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager', 'uploads/questionmark.jpg', 'This user description is empty');
 
 --
 -- Индексы сохранённых таблиц
@@ -194,13 +191,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT для таблицы `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT для таблицы `tech`
@@ -212,7 +209,7 @@ ALTER TABLE `tech`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT для таблицы `users`

@@ -58,8 +58,7 @@ class ControllerAdmin {
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 	
 		// Handle comment creation, editing, or deletion if the form is submitted
-		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
-			$userId = $_SESSION['userId'];
+		if (isset($_POST['send'])) {
 	
 			if (isset($_POST['comment'])) {
 				$commentText = $_POST['comment'];
@@ -67,7 +66,7 @@ class ControllerAdmin {
 				if (isset($_POST['commentId'])) {
 					// Edit existing comment
 					$commentId = $_POST['commentId'];
-					$commentEdited = ModelAdmin::editComment($commentId, $topicId, $userId, $commentText);
+					$commentEdited = ModelAdmin::editComment($commentId, $topicId, $commentText);
 					$_SESSION['editCommentMessage'] = $commentEdited ? 'Comment edited successfully' : 'Error editing comment';
 				} 
 	
@@ -103,7 +102,6 @@ class ControllerAdmin {
 		$itemsPerPage = 5; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-		$replies = ModelAdmin::getAllReplies($page, $itemsPerPage);
 
 		// Handle reply creation, editing, or deletion if the form is submitted
 		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
@@ -113,12 +111,12 @@ class ControllerAdmin {
 				// Editing a reply
 				$replyId = $_POST['replyId'];
 				$replyText = $_POST['reply'];
-				$result = ModelAdmin::editReply($replyId, $userId, $replyText);
+				$result = ModelAdmin::editReply($replyId, $replyText);
 				$_SESSION['editReplyMessage'] = $result ? 'Reply edited successfully' : 'Error editing reply';
 			} elseif (isset($_POST['comment'])) {
 				// Creating a new reply
 				$commentText = $_POST['comment'];
-				$result = Model::createReply($commentid, $userId, $commentText);
+				$result = Model::createReply($commentId, $userId, $commentText);
 				$_SESSION['replyMessage'] = $result ? 'Reply created successfully' : 'Error creating reply';
 			} elseif (isset($_POST['deleteId'])) {
 				// Deleting a reply
@@ -132,12 +130,45 @@ class ControllerAdmin {
 			exit();
 		}
 		// Handle search query
-		$replies = !empty($searchQuery) ? ModelAdmin::searchReplies($searchQuery) : $replies;
+		$replies = !empty($searchQuery) ? ModelAdmin::searchReplies($searchQuery) : ModelAdmin::getAllReplies($page, $itemsPerPage);
 
 		$totalItems = ModelAdmin::getTotalReplies();
 		$totalPages = ceil($totalItems / $itemsPerPage);
 
 		include_once('view/dashboardReplies.php');
+		return;
+	}
+
+	public static function dashboardUsers() {
+		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+		$itemsPerPage = 5; // Set your desired items per page
+	
+		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+	
+		// Check if the form is submitted
+		if (isset($_POST['send'])) {
+			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
+	
+			// Call the method to edit the user profile by ID
+			$editedUser = ModelAdmin::editUserById($userId);
+	
+			// Check if the edit was successful
+			if ($editedUser) {
+				// Optionally, you can set a success message here
+				$_SESSION['userEditMessage'] = 'User profile edited successfully.';
+
+			}else{
+				$_SESSION['userEditMessage'] = 'Failed to update user profile';
+			}
+			header("Location: /dashboard?users");
+			exit();
+		}
+		$users = !empty($searchQuery) ? ModelAdmin::searchUsers($searchQuery) : ModelAdmin::getAllUsers($page, $itemsPerPage);
+
+		$totalItems = ModelAdmin::getTotalUsers();
+		$totalPages = ceil($totalItems / $itemsPerPage);
+	
+		include_once('view/dashboardUsers.php');
 		return;
 	}
 }

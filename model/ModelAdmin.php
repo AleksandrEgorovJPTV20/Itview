@@ -45,7 +45,7 @@ class ModelAdmin {
 	}
 
 	// Model method to edit a comment
-	public static function editComment($commentId, $topicId, $userId, $commentText)
+	public static function editComment($commentId, $commentText)
 	{
 		$db = new Database();
 	
@@ -102,7 +102,7 @@ class ModelAdmin {
 	}
 
 	// Model method to edit a reply
-	public static function editReply($replyId, $userId, $replyText)
+	public static function editReply($replyId, $replyText)
 	{
 		$db = new Database();
 
@@ -252,5 +252,96 @@ class ModelAdmin {
         // Return the total number of replies
         return $result['totalReplies'];
     }
+
+	// Model method to get all users with pagination
+	public static function getAllUsers($page = 1, $itemsPerPage = 5) {
+		$db = new Database();
+
+		$offset = ($page - 1) * $itemsPerPage;
+
+		$sql = "SELECT * FROM users ORDER BY id LIMIT :limit OFFSET :offset";
+		
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
+		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+		$stmt->execute();
+
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	// Model method to get the total number of users
+	public static function getTotalUsers() {
+		$db = new Database();
+
+		$sql = "SELECT COUNT(*) FROM users";
+		
+		$stmt = $db->conn->prepare($sql);
+		$stmt->execute();
+
+		return $stmt->fetchColumn();
+	}
+
+	public static function searchUsers($searchQuery) {
+		$db = new Database();
+	
+		// Define the SQL query for searching users
+		$sql = "SELECT * FROM users WHERE username LIKE :searchQuery OR email LIKE :searchQuery OR description LIKE :searchQuery";
+		
+		$searchQuery = '%' . $searchQuery . '%';
+	
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindParam(':searchQuery', $searchQuery, PDO::PARAM_STR);
+		
+		// Execute the query
+		$stmt->execute();
+	
+		// Fetch the results
+		$searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+		return $searchResults;
+	}
+
+	// Model method to edit user by ID
+	public static function editUserById($userId) {
+		$db = new Database();
+
+		// Fetch user data
+		$user = Model::getUserById($userId);
+
+		// Validate and update user data
+		$username = !empty($_POST['username']) ? $_POST['username'] : $user['username'];
+		$email = !empty($_POST['email']) ? $_POST['email'] : $user['email'];
+		$password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
+		$description = !empty($_POST['description']) ? $_POST['description'] : $user['description'];
+		$role = !empty($_POST['role']) ? $_POST['role'] : $user['role'];
+
+		// Handle image upload
+		if ($_FILES['userImage']['error'] === UPLOAD_ERR_OK) {
+			$uploadDir = 'uploads/';
+			$uploadPath = $uploadDir . basename($_FILES['userImage']['name']);
+			move_uploaded_file($_FILES['userImage']['tmp_name'], $uploadPath);
+
+			// Update the user's image path in the database
+			$user['imgpath'] = $uploadPath;
+		}
+
+		// Update the user in the database
+		$sql = "UPDATE users SET username = :username, email = :email, password = :password, imgpath = :imgpath, description = :description, role = :role WHERE id = :userId";
+		$stmt = $db->conn->prepare($sql);
+
+		$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+		$stmt->bindParam(':password', $password, PDO::PARAM_STR);
+		$stmt->bindParam(':imgpath', $user['imgpath'], PDO::PARAM_STR); // No change if image not uploaded
+		$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+		$stmt->bindParam(':role', $role, PDO::PARAM_STR);
+		$stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+		// Execute the query
+		$stmt->execute();
+
+		// Return updated user data
+		return $user;
+	}
 }
 ?>
