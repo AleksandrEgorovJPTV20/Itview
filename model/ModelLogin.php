@@ -11,29 +11,50 @@ class ModelLogin {
 				$database = new database();
 				$item = $database->getOne($sql);
 				//Если пользователь есть в базе данных в таблице пользователей.
-				if($item!=null){
+				if($item != null){
 					$login = strtolower($email); //переводим адресс почты в нижний регистр
 					//Проверки введёных данных почта и пароль. Проверка данных.
-					if ($login == $item['email'] && $password == password_verify($password, $item['password'])) {
+					if ($login == $item['email'] && password_verify($password, $item['password'])) {
+						// Check if the user is banned
+						date_default_timezone_set('Europe/Tallinn');
+						$banexpiry = $item['banexpiry'];
+						$currentDate = date('Y-m-d H:i:s');
+	
+						if ($banexpiry != null) {
+							// Check if banexpiry is lower or equals to currentDate
+							if ($banexpiry <= $currentDate) {
+								// Update banexpiry and set it to null
+								$sql2 = "UPDATE users SET banexpiry = null WHERE id =".$item['id'];
+								$item2 = $database->executeRun($sql2);
+								$banexpiry = null;
+							}
+	
+							// Set loginMessage accordingly
+							if ($banexpiry != null) {
+								$_SESSION['loginMessage'] = 'User has been banned until: ' . $banexpiry;
+								return;
+							}
+						}
+	
 						//Создаём сессии
-						$_SESSION['sessionId']=session_id();
-						$_SESSION['name']=$item['username'];
-						$_SESSION['email']=$item['email'];
-						$_SESSION['password']=$item['password'];
-						$_SESSION['role']=$item['role'];
-						$_SESSION['userId']=$item['id'];
-						$result=true;
-						$_SESSION['loginMessage']='Successfully logged in';
-					}						
-					else{
-						$_SESSION['loginMessage']='Wrong email or password';
+						$_SESSION['sessionId'] = session_id();
+						$_SESSION['name'] = $item['username'];
+						$_SESSION['email'] = $item['email'];
+						$_SESSION['password'] = $item['password'];
+						$_SESSION['role'] = $item['role'];
+						$_SESSION['userId'] = $item['id'];
+						$_SESSION['loginMessage'] = 'Successfully logged in';
+						return;
+					} else {
+						$_SESSION['loginMessage'] = 'Wrong email or password';
 					}
-				}else{
-					$_SESSION['loginMessage']="User doesn't exist";
+				} else {
+					$_SESSION['loginMessage'] = "User doesn't exist";
 				}
 			}
 		}
 	}
+	
 
 
 	//Logout method
@@ -50,7 +71,6 @@ class ModelLogin {
 
 	//Register method
 	public static function register() {
-		//читаем данные форм в переменные
 		if(isset($_POST['send'])){
 			$username =$_POST['username'];
 			$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);

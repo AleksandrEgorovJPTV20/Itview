@@ -99,7 +99,7 @@ $route = explode('/', $path)[$num];
   <div class="modal fade" id="loginModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="login" method="POST" class="content" style="margin: auto; padding: 10px 60px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
@@ -172,11 +172,11 @@ $route = explode('/', $path)[$num];
   <div class="modal fade" id="registerModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="register" method="POST" class="content" style="margin: auto; padding: 10px 60px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289; margin: 20px 0px;">Register new user</h1>
+              <h1 style="text-align: center; color: #013289; margin: 20px 0px;">Register</h1>
               <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['registerMessage'])) {echo $_SESSION['registerMessage']; unset($_SESSION['registerMessage']);} ?>
               </p>
@@ -248,7 +248,7 @@ $route = explode('/', $path)[$num];
   <div class="modal fade" id="logoutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
@@ -334,11 +334,11 @@ $route = explode('/', $path)[$num];
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="assets/js/loadinganim.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>

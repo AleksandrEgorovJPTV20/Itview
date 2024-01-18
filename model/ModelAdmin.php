@@ -343,5 +343,30 @@ class ModelAdmin {
 		// Return updated user data
 		return $user;
 	}
+
+    public static function banUser($userId, $banexpiry) {
+        $db = new Database();
+
+        // Update the banexpiry in the database
+        $sql = "UPDATE users SET banexpiry = :banexpiry WHERE id = :userId";
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bindParam(':banexpiry', $banexpiry, PDO::PARAM_STR);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+        // Execute the query
+        return $stmt->execute();
+    }
+
+    public static function unbanUser($userId) {
+        $db = new Database();
+
+        // Update the banexpiry to NULL in the database
+        $sql = "UPDATE users SET banexpiry = NULL WHERE id = :userId";
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+        // Execute the query
+        return $stmt->execute();
+    }
 }
 ?>

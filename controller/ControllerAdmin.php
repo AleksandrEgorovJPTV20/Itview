@@ -66,7 +66,7 @@ class ControllerAdmin {
 				if (isset($_POST['commentId'])) {
 					// Edit existing comment
 					$commentId = $_POST['commentId'];
-					$commentEdited = ModelAdmin::editComment($commentId, $topicId, $commentText);
+					$commentEdited = ModelAdmin::editComment($commentId, $commentText);
 					$_SESSION['editCommentMessage'] = $commentEdited ? 'Comment edited successfully' : 'Error editing comment';
 				} 
 	
@@ -148,21 +148,46 @@ class ControllerAdmin {
 		// Check if the form is submitted
 		if (isset($_POST['send'])) {
 			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
-	
+
 			// Call the method to edit the user profile by ID
 			$editedUser = ModelAdmin::editUserById($userId);
-	
+
 			// Check if the edit was successful
 			if ($editedUser) {
 				// Optionally, you can set a success message here
 				$_SESSION['userEditMessage'] = 'User profile edited successfully.';
-
-			}else{
+			} else {
 				$_SESSION['userEditMessage'] = 'Failed to update user profile';
 			}
 			header("Location: /dashboard?users");
 			exit();
+		} elseif (isset($_POST['ban'])) {
+			// Check if ban button is pressed
+			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
+			$banexpiry = isset($_POST['banexpiry']) ? $_POST['banexpiry'] : null;
+
+			// Call the method to ban the user by ID
+			$banned = ModelAdmin::banUser($userId, $banexpiry);
+
+			// Optionally, set a success or error message here
+			$_SESSION['banUserMessage'] = $banned ? 'User has been banned.' : 'Failed to ban user.';
+
+			header("Location: /dashboard?users");
+			exit();
+		} elseif (isset($_POST['unban'])) {
+			// Check if unban button is pressed
+			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
+
+			// Call the method to unban the user by ID
+			$unbanned = ModelAdmin::unbanUser($userId);
+
+			// Optionally, set a success or error message here
+			$_SESSION['banUserMessage'] = $unbanned ? 'User has been unbanned.' : 'Failed to unban user.';
+
+			header("Location: /dashboard?users");
+			exit();
 		}
+		
 		$users = !empty($searchQuery) ? ModelAdmin::searchUsers($searchQuery) : ModelAdmin::getAllUsers($page, $itemsPerPage);
 
 		$totalItems = ModelAdmin::getTotalUsers();

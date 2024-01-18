@@ -7,7 +7,7 @@
     <div class="container" data-aos="fade-up">
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
             <form class="d-flex justify-content-center align-items-center my-4" data-aos="fade-up" data-aos-delay="200">
-                <input type="search" name="search" class="form-control me-2" style="border-radius: 50px; border: none; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: #D9D9D9; width: 60%;" placeholder="Search topics">
+                <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white; width: 60%;" placeholder="Search topics">
             </form>
             <div class="col-lg-6 d-flex" style="padding: 10px 20px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;">Author</h2>
@@ -34,7 +34,7 @@
                         foreach ($topics as $topic) {
                             $topicId = $topic['id'];
                             $commentCount = isset($commentCounts[$topicId]) ? $commentCounts[$topicId] : 0;
-                            echo '<div style="border-radius: 10px; text-decoration: none; padding: 0px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
+                            echo '<div style=" border: 2px solid #63BDFF; border-radius: 10px;   text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
                             echo '<div style="flex-basis: 25%;"><p>'.$topic['username'].'</p></div>';
                             echo '<div style="flex-basis: 25%;"><p>'.$topic['name'].'</p></div>';
                             echo '<div style="flex-basis: 25%;"><p>'.$commentCount.'</p></div>';
@@ -63,8 +63,8 @@
                                     </button>';
                             }
                             echo '</div>';
-                            echo '<hr style="width: 100%; margin: 20px 0;">';
-                            echo '<div style="flex-basis: 100%;"><p>'.($topic['description'] ? $topic['description'] : 'No description').'</p></div>';
+                            echo '<hr style="width: 100%; margin: 10px 0;">';
+                            echo '<div style="flex-basis: 100%; text-align: justify; margin: 0px;"><p>'.($topic['description'] ? $topic['description'] : 'No description').'</p></div>';
                             echo '</div>';
                         }
                     }

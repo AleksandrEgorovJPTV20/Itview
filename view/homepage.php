@@ -2,45 +2,30 @@
 <?php
 	ob_start();
 ?>
-<!-- Slider -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-aos="fade-up">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="assets/img/about.jpg" class="d-block w-100" style="height: 100vh;" alt="First Slide">
-                <div class="carousel-caption text-center section-header" >
-                    <p style="font-size: 48px;">Welcome to IT Forum</p>
-                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Connect with tech enthusiasts worldwide.</p>
-                    <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="/register">Register</a></div>
-                </div>
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">Welcome to IT Forum</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Connect with tech enthusiasts worldwide</h2>
+          <div data-aos="fade-up" data-aos-delay="600">
+            <div class="text-center text-lg-start">
+              <a href="/forum" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                <span>Forum</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
             </div>
-            <div class="carousel-item">
-                <img src="assets/img/hero-img.png" class="d-block w-100" style="height: 100vh;"alt="Second Slide">
-                <div class="carousel-caption text-center section-header">
-                    <p style="font-size: 48px;">Explore the Tech Forum</p>
-                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Join discussions on the latest in technology.</p>
-                        <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;" href="/">Forum</a></div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="assets/img/values-1.png" class="d-block w-100" style="height: 100vh;" alt="Third Slide">
-                <div class="carousel-caption text-center section-header">
-                    <p style="font-size: 48px;">Stay Updated with Tech News</p>
-                    <p style="font-size: 36px; font-weight: 600; line-height: normal; margin: 25px 0px;">Get the latest tech insights and trends.</p>
-                    <div class="navbar"><a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="/#tech">Tech</a></div>
-                </div>
-            </div>
+          </div>
         </div>
-        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+          <img src="assets/img/hero-img.png" class="img-fluid" alt="">
+        </div>
+      </div>
     </div>
-  </div>
-<!-- End Slider -->
+
+  </section><!-- End Hero -->
 
     <!-- About -->
     <section id="about" class="about">
@@ -139,40 +124,40 @@
     <div class="row">
         <div class="col-lg-6">
         <!-- F.A.Q List 1-->
-        <div class="accordion accordion-flush" id="faqlist1">
-            <div class="accordion-item">
+        <div class="accordion accordion-flush" id="faqlist1" style="margin-top: 5px;">
+            <div class="accordion-item" style="border-radius: 15px;">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
                 How to register on the IT Vaade forum?
                 </button>
             </h2>
-            <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
+            <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
                 <div class="accordion-body">
                 To register, click on the "Register" button in the header, fill in the required information, and click register.
                 </div>
             </div>
             </div>
 
-            <div class="accordion-item">
+            <div class="accordion-item" style="margin: 5px 0px; border-radius: 15px;">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
                 How to create a new topic on the forum?
                 </button>
             </h2>
-            <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
+            <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
                 <div class="accordion-body">
                 After logging in, go to the forum page, where you'll find the "Create a Topic" button. Fill in the title and content of the topic, then publish it.
                 </div>
             </div>
             </div>
 
-            <div class="accordion-item">
+            <div class="accordion-item" style="border-radius: 15px;">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
                 How to edit your profile on IT View?
                 </button>
             </h2>
-            <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
+            <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
                 <div class="accordion-body">
                 Go to your profile, where you can edit your information, add an avatar, and customize other settings.
                 </div>
@@ -185,41 +170,41 @@
         <div class="col-lg-6">
 
         <!-- F.A.Q List 2-->
-        <div class="accordion accordion-flush" id="faqlist2">
+        <div class="accordion accordion-flush" id="faqlist2" style="margin-top: 5px;">
 
-            <div class="accordion-item">
+            <div class="accordion-item" style="border-radius: 15px;">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-1" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
                 How to contact the forum administration?
                 </button>
             </h2>
-            <div id="faq2-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
+            <div id="faq2-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
                 <div class="accordion-body">
                 You can contact the administration by sending a message through the contact form on the Homepage page.
                 </div>
             </div>
             </div>
 
-            <div class="accordion-item">
+            <div class="accordion-item" style="margin: 5px 0px; border-radius: 15px;">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-2" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
                 How to use the search function on IT View?
                 </button>
             </h2>
-            <div id="faq2-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
+            <div id="faq2-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
                 <div class="accordion-body">
                 On the forum page, you will find the search field. Enter keywords related to your problem and review the results to find similar topics and solutions.
                 </div>
             </div>
             </div>
 
-            <div class="accordion-item">
+            <div class="accordion-item" style="border-radius: 15px;">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-3" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2-content-3" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
                 How to participate in solving technical questions?
                 </button>
             </h2>
-            <div id="faq2-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 10px;">
+            <div id="faq2-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist2" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
                 <div class="accordion-body">
                 Actively engage in discussions, provide quality answers to other participants' questions, and share your experience. The administration may appoint you as an expert based on your contribution and experience in the community.
                 </div>
@@ -237,7 +222,7 @@
 <!-- End F.A.Q -->
 
 <!-- Contacts -->
-<section id="contact" class="contact">
+<section id="contact" class="contact" style="margin-bottom: 10%;">
 
     <div class="container" data-aos="fade-up">
 
@@ -251,7 +236,7 @@
 
         <div class="row gy-4">
             <div class="col-md-6">
-            <div class="info-box" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+            <div class="info-box" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);">
                 <i class="bi bi-envelope"></i>
                 <h3>Email Us</h3>
                 <p>info@example.com<br>contact@example.com</p>
@@ -262,7 +247,7 @@
         </div>
 
         <div class="col-lg-6">
-        <form action="contact" method="POST" class="php-email-form">
+        <form action="contact" method="POST" class="php-email-form" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);">
             <div class="row gy-4">
 
             <div class="col-md-6">

@@ -10,7 +10,7 @@
                 <?php
                     echo '<input type="hidden" name="replies" value="' . $commentId . '">';
                 ?>
-                <input type="search" name="search" class="form-control me-2" style="border-radius: 50px; border: none; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: #D9D9D9; width: 60%;" placeholder="Search replies">
+                <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white; width: 60%;" placeholder="Search replies">
             </form>
             <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;">Author</h2>
@@ -33,7 +33,7 @@
                         echo '<h2 style="margin-top: 50px; font-size: 30px;">No replies found</h2>';
                     } else {
                         // Display the original comment
-                        echo '<div style="border-radius: 10px; text-decoration: none; padding: 10px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
+                        echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
                         echo '<h2 style="width: 100%; text-align: center;">Original Comment</h2>';
                         echo '<a href="profile?user='.$originalComment['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$originalComment['imgpath'].'"></img></a>';
                         echo '<div class="comment"><p style="margin: 0; margin-top: 10px;">'.$originalComment['username'].'</p><p style="font-size: 16px; margin: 0;">'.$originalComment['created_at'].'</p><p>'.$originalComment['text'].'</p></div>';
@@ -45,11 +45,11 @@
                         echo '<hr style="width: 100%; margin: 20px 0;">';
 
                         foreach ($replies as $reply) {
-                            echo '<div style="border-radius: 10px; text-decoration: none; padding: 10px 20px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
+                            echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
                             echo '<a href="profile?user='.$reply['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$reply['imgpath'].'"></img></a>';
                             echo '<div class="comment"><p style="margin: 0; margin-top: 10px;">'.$reply['username'].'</p><p style="font-size: 16px; margin: 0;">'.$reply['created_at'].'</p><p>'.$reply['text'].'</p></div>';
                             if (isset($_SESSION['userId'])) {
-                                echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start">';
+                                echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
                                 echo '<a type="button" style="border: none; margin: 5px 5px; margin-bottom: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#replyModal">Reply</a>';
                                 if ($reply['userid'] == $_SESSION['userId']) {
                                     echo '<a type="button" 

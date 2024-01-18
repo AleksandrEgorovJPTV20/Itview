@@ -13,7 +13,7 @@
 
             <!-- User Profile Section -->
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
-                <div style="border-radius: 10px; text-decoration: none; padding: 20px; background: #D9D9D9; box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">
+                <div style="  border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 20px; background: white; box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">
 
                     <?php
                     if (empty($user)) {
@@ -60,7 +60,10 @@
                 <textarea type="text" name="description" class="form-control" style="margin-bottom: 20px;" placeholder="Edit Description" ><?php echo $user['description'] ?></textarea>
             </div>
             <div class="mb-3">
-                <input type="file" class="form-control" id="userImage" name="userImage" accept="image/*">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="userImageInput" name="userImage" accept="image/*">
+                    <label class="custom-file-label" for="userImageInput">Choose profile picture file</label>
+                </div>
             </div>
             <div class="mb-3">
                 <input type="text" name="password" class="form-control" style="margin: 20px 0px;" placeholder="Edit password">
@@ -77,6 +80,13 @@
     </div>
   </div>
 
+<script>
+      // Update the custom file input label with the selected file's name
+      $('#userImageInput').on('change', function() {
+        var fileName = $(this).val().split('\\').pop(); // Get the file name from the input
+        $(this).next('.custom-file-label').html(fileName); // Update the label text
+    });
+</script>
 <?php
 	$content = ob_get_clean();
 	include "view/templates/layout.php";
