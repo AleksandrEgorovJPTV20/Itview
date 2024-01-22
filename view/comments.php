@@ -96,12 +96,12 @@
                     ?>
                 </p>
                 <div class="mb-3">
-                <div class="style-buttons" style="margin: 5px;">
-                        <button type="button" onclick="applyStyle('italic')">Italic</button>
-                        <button type="button" onclick="applyStyle('bold')">Bold</button>
-                        <button type="button" onclick="applyStyle('underline')">Underline</button>
-                        <button type="button" onclick="applyLink()">Link</button>
-                        <input type="color" id="colorPicker" onchange="applyColor()">
+                    <div class="style-buttons" style="margin: 5px;">
+                        <button type="button" onclick="applyStyle('italic', 'commentInput')">Italic</button>
+                        <button type="button" onclick="applyStyle('bold', 'commentInput')">Bold</button>
+                        <button type="button" onclick="applyStyle('underline', 'commentInput')">Underline</button>
+                        <button type="button" onclick="applyLink('commentInput')">Link</button>
+                        <input type="color" id="colorPicker" onchange="applyColor('commentInput')">
                     </div>
                     <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
                 </div>
@@ -160,7 +160,7 @@
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289;">Delete your comment</h1>
+              <h1 style="text-align: center; color: #013289;">Delete comment</h1>
               <p style="text-align: center; color: #013289;">
                 <?php
                     if (isset($_SESSION['deleteCommentMessage'])) {
@@ -221,36 +221,41 @@
 </script>
 
 <script>
-    function applyStyle(style) {
-        const commentInput = document.getElementById('commentInput');
+    function applyStyle(style, elementId) {
+        const commentInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
-        updateRawInput(commentInput);
+        updateRawInput(elementId);
     }
 
-    function applyLink() {
-        const commentInput = document.getElementById('commentInput');
+    function applyLink(elementId) {
+        const commentInput = document.getElementById(elementId);
         const linkURL = prompt('Enter the link URL:');
         if (linkURL) {
-            document.execCommand('createLink', false, linkURL);
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
         }
-        updateRawInput(commentInput);
+        updateRawInput(elementId);
     }
 
-    function applyColor() {
-        const commentInput = document.getElementById('commentInput');
+    function applyColor(elementId) {
+        const commentInput = document.getElementById(elementId);
         const colorValue = document.getElementById('colorPicker').value;
         document.execCommand('foreColor', false, colorValue);
-        updateRawInput(commentInput);
+        updateRawInput(elementId);
     }
 
-    function updateRawInput(commentInput) {
+    function updateRawInput(elementId) {
+        const commentInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawCommentInput');
         rawInput.value = commentInput.innerHTML;
     }
 
     // Add an event listener to trigger updateRawInput on text input
     document.getElementById('commentInput').addEventListener('input', function () {
-        updateRawInput(this);
+        updateRawInput('commentInput');
     });
 </script>
 
@@ -265,7 +270,11 @@
         const commentInput = document.getElementById(elementId);
         const linkURL = prompt('Enter the link URL:');
         if (linkURL) {
-            document.execCommand('createLink', false, linkURL);
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
         }
         updateRawInputEdit(elementId);
     }

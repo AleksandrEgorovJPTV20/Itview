@@ -39,7 +39,7 @@
 <div class="modal fade" id="userModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="profile?user=<?php echo $userId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
@@ -57,7 +57,15 @@
                 <input type="email" name="email" class="form-control" style="margin: 20px 0px;" placeholder="Edit email" value="<?php echo $user['email'] ?>">
             </div>
             <div class="mb-3">
-                <textarea type="text" name="description" class="form-control" style="margin-bottom: 20px;" placeholder="Edit Description" ><?php echo $user['description'] ?></textarea>
+                <div class="style-buttons" style="margin: 5px;">
+                    <button type="button" onclick="applyStyleEditProfile('italic', 'descriptionInputEdit')">Italic</button>
+                    <button type="button" onclick="applyStyleEditProfile('bold', 'descriptionInputEdit')">Bold</button>
+                    <button type="button" onclick="applyStyleEditProfile('underline', 'descriptionInputEdit')">Underline</button>
+                    <button type="button" onclick="applyEditLinkProfile('descriptionInputEdit')">Link</button>
+                    <input  type="color" id="colorPickerEdit" onchange="applyEditProfileColor('descriptionInputEdit')">
+                </div>
+                <div contenteditable="true" id="descriptionInputEdit" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"><?php echo $user['description'] ?></div>
+                <input type="hidden" name="description" id="rawDescriptionInputEdit" value="<?php $user['description'] ?>" required>
             </div>
             <div class="mb-3">
                 <div class="custom-file">
@@ -85,6 +93,45 @@
       $('#userImageInput').on('change', function() {
         var fileName = $(this).val().split('\\').pop(); // Get the file name from the input
         $(this).next('.custom-file-label').html(fileName); // Update the label text
+    });
+</script>
+
+<script>
+    function applyStyleEditProfile(style, elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        document.execCommand(style, false, null);
+        updateRawInput(elementId);
+    }
+
+    function applyEditLinkProfile(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const linkURL = prompt('Enter the link URL:');
+        if (linkURL) {
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
+        }
+        updateRawInput(elementId);
+    }
+
+    function applyEditProfileColor(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const colorValue = document.getElementById('colorPickerEdit').value;
+        document.execCommand('foreColor', false, colorValue);
+        updateRawInput(elementId);
+    }
+
+    function updateRawInput(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const rawInput = document.getElementById('rawDescriptionInputEdit');
+        rawInput.value = descriptionInput.innerHTML;
+    }
+
+    // Add an event listener to trigger updateRawInput on text input
+    document.getElementById('descriptionInputEdit').addEventListener('input', function () {
+        updateRawInput('descriptionInputEdit');
     });
 </script>
 <?php

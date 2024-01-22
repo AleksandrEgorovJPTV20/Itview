@@ -34,7 +34,6 @@
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
                         echo '<div style="flex-basis: 25%;"><p>Id: '.$reply['id'].'</p></div>';
                         echo '<div style="flex-basis: 25%;"><p>Author: '.$reply['username'].'</p></div>';
-                        echo '<div style="flex-basis: 25%;"><p>'.$reply['text'].'</p></div>';
                         echo '<div class="navbar forum-button" style="display: flex; justify-content: center;">';
                         echo '<a type="button" 
                                 style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-right: 5px;" 
@@ -54,6 +53,8 @@
                                 <i class="fa fa-trash"></i>
                             </a>';
                         echo '</div>';
+                        echo '<hr style="width: 100%; margin: 10px 0;">';
+                        echo '<div style="flex-basis: 100%; text-align: justify;"><p>'.$reply['text'].'</p></div>';
                         echo '</div>';
                     }
                 }
@@ -72,34 +73,43 @@
 </div>
 
 
-<div class="modal fade" id="editReplyModal"  aria-hidden="true">
+<div class="modal fade" id="editReplyModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="dashboard?replies" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289;">Edit reply</h1>
-              <p style="text-align: center; color: #013289;">
-                <?php
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+                <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
+            </div>
+            <form action="dashboard?replies" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                <h1 style="text-align: center; color: #013289;">Edit your reply</h1>
+                <p style="text-align: center; color: #013289;">
+                    <?php
                     if (isset($_SESSION['editReplyMessage'])) {
                         echo $_SESSION['editReplyMessage'];
                         unset($_SESSION['editReplyMessage']);
                     }
-                ?>
-            </p>
-              <div class="mb-3">
-                  <input type="hidden" name="replyId" value="">
-                  <textarea type="text" name="reply" class="form-control" placeholder="Enter comment" style="margin-bottom: 20px;" required></textarea>
-              </div>
-              <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
-            </div>
-          </form>
-      </div>
+                    ?>
+                </p>
+                <div class="mb-3">
+                    <input type="hidden" name="replyId" value="">
+                    <div class="style-buttons" style="margin: 5px;">
+                        <button type="button" onclick="applyEditStyle('italic', 'commentInputEditReply')">Italic</button>
+                        <button type="button" onclick="applyEditStyle('bold', 'commentInputEditReply')">Bold</button>
+                        <button type="button" onclick="applyEditStyle('underline', 'commentInputEditReply')">Underline</button>
+                        <button type="button" onclick="applyEditLink('commentInputEditReply')">Link</button>
+                        <input type="color" id="colorPickerEditReply" onchange="applyEditColor('commentInputEditReply')">
+                    </div>
+                    <div contenteditable="true" id="commentInputEditReply" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"></div>
+                    <!-- Corrected the name attribute to "reply" -->
+                    <input type="hidden" name="reply" id="rawCommentInputEditReply" required>
+                </div>
+                <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
+                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
 
   <div class="modal fade" id="deleteReplyModal"  aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -137,8 +147,11 @@
         var replyText = $(this).data('reply-text');
 
         // Populate the form fields with the reply ID and text
-        $('#editReplyModal textarea[name="reply"]').val(replyText);
-        
+        $('#editReplyModal input[name="reply"]').val(replyText);
+
+        // Set the reply text to the contenteditable div
+        $('#commentInputEditReply').html(replyText);
+
         // Add the reply ID as a hidden input field
         $('#editReplyModal input[name="replyId"]').val(replyId);
     });
@@ -154,9 +167,48 @@
 
     // Clear form fields when the modal is closed
     $('#editReplyModal, #deleteReplyModal').on('hidden.bs.modal', function() {
-        $('#editReplyModal textarea[name="reply"]').val('');
+        $('#editReplyModal input[name="reply"]').val('');
         $('#editReplyModal input[name="replyId"]').val('');
+        $('#commentInputEditReply').html(''); // Clear the contenteditable div
         $('#deleteReplyModal input[name="deleteId"]').val('');
+    });
+</script>
+
+<script>
+    function applyEditStyle(style, elementId) {
+        const commentInput = document.getElementById(elementId);
+        document.execCommand(style, false, null);
+        updateRawInputEdit(elementId);
+    }
+
+    function applyEditLink(elementId) {
+        const commentInput = document.getElementById(elementId);
+        const linkURL = prompt('Enter the link URL:');
+        if (linkURL) {
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
+        }
+        updateRawInputEdit(elementId);
+    }
+
+    function applyEditColor(elementId) {
+        const commentInput = document.getElementById(elementId);
+        const color = document.getElementById('colorPickerEditReply').value;
+        document.execCommand('foreColor', false, color);
+        updateRawInputEdit(elementId);
+    }
+
+    function updateRawInputEdit(elementId) {
+        const commentInput = document.getElementById(elementId);
+        const rawInput = document.getElementById('rawCommentInputEditReply');
+        rawInput.value = commentInput.innerHTML;
+    }
+    // Add an event listener to trigger updateRawInputEditReply on text input
+    document.getElementById('commentInputEditReply').addEventListener('input', function () {
+        updateRawInputEdit('commentInputEditReply');
     });
 </script>
 

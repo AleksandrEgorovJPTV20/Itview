@@ -2445,6 +2445,32 @@ section {
   100% { transform: rotate(360deg); }
 }
 
+.typewriter-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0 auto;
+  position: relative;
+}
+
+.typewriter-text::after {
+  content: '|'; /* Display the cursor initially */
+  position: absolute;
+  top: 0;
+  height: 100%;
+  animation: blink-caret 0.8s infinite; /* Add blinking animation to the cursor */
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .forum {
   margin-top: 5%;
   margin-bottom: 6%;
@@ -2479,6 +2505,40 @@ section {
   border: 2px solid #63BDFF; border-radius: 10px; 
   padding: 20px;
   margin-left: 40px;
+}
+
+.style-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center; /* Align items vertically in the center */
+  margin: 5px;
+}
+
+.style-buttons button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.style-buttons button:hover {
+  background-color: #ddd;
+  color: #333;
+}
+
+.style-buttons input[type="color"] {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  height: 45px;
+}
+
+.style-buttons input[type="color"]:hover {
+  background-color: #ddd;
+  color: #333;
 }
 
 @media screen and (max-width: 768px) {

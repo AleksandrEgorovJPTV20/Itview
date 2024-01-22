@@ -42,7 +42,7 @@
                             echo '<a href="comments?topic=' . $topic['id'] . '" class="getstarted scrollto" style="margin: 0px; margin-top: 10px;">Comments</a>';
                             if (isset($_SESSION['userId']) && $topic['userid'] == $_SESSION['userId']) {
                                 echo '<button type="button" 
-                                       class="getstarted scrollto edit-comment-link"
+                                       class="getstarted scrollto edit-topic-link"
                                        style="border: none; margin: 0px 5px; margin-top: 10px; font-size: 16px;" 
                                        data-toggle="modal" 
                                        data-target="#editTopicModal" 
@@ -54,7 +54,7 @@
                             
                                 // Add Delete button with icon
                                 echo '<button type="button" 
-                                       class="getstarted scrollto delete-comment-link"
+                                       class="getstarted scrollto delete-topic-link"
                                        style="border: none; margin: 0px; margin-top: 10px; font-size: 16px;" 
                                        data-toggle="modal" 
                                        data-target="#deleteTopicModal" 
@@ -98,15 +98,31 @@
                 <input type="text" name="name" class="form-control" placeholder="Enter topic name" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
-                  <textarea type="text" name="description" class="form-control" placeholder="Enter topics description" style="margin-bottom: 20px;" required></textarea>
+                  <div class="style-buttons" style="margin: 5px;">
+                        <button type="button" onclick="applyStyleDescription('italic', 'topicInputDescription')">Italic</button>
+                        <button type="button" onclick="applyStyleDescription('bold', 'topicInputDescription')">Bold</button>
+                        <button type="button" onclick="applyStyleDescription('underline', 'topicInputDescription')">Underline</button>
+                        <button type="button" onclick="applyLinkDescription('topicInputDescription')">Link</button>
+                        <input type="color" id="colorPickerDescription" onchange="applyColorDescription('topicInputDescription')">
+                    </div>
+                    <div id="topicInputDescription" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
               </div>
               <div class="mb-3">
-                  <textarea type="text" name="comment" class="form-control" placeholder="Enter comment" style="margin-bottom: 20px;"></textarea>
+                      <div class="style-buttons" style="margin: 5px;">
+                        <button type="button" onclick="applyStyleComment('italic', 'commentInput')">Italic</button>
+                        <button type="button" onclick="applyStyleComment('bold', 'commentInput')">Bold</button>
+                        <button type="button" onclick="applyStyleComment('underline', 'commentInput')">Underline</button>
+                        <button type="button" onclick="applyLinkComment('commentInput')">Link</button>
+                        <input type="color" id="colorPickerComment" onchange="applyColorComment('commentInput')">
+                      </div>
+                    <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Create</button>
                 <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
             </div>
+            <input type="hidden" id="rawTopicInputDescription" name="description">
+            <input type="hidden" id="rawCommentInput" name="comment">
           </form>
       </div>
     </div>
@@ -128,12 +144,20 @@
                 <input type="text" name="name" class="form-control" placeholder="Enter topic name" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
-                  <textarea type="text" name="description" class="form-control" placeholder="Enter topics description" style="margin-bottom: 20px;" required></textarea>
+                      <div class="style-buttons" style="margin: 5px;">
+                        <button type="button" onclick="applyStyleDescriptionEdit('italic', 'topicInputDescriptionEdit')">Italic</button>
+                        <button type="button" onclick="applyStyleDescriptionEdit('bold', 'topicInputDescriptionEdit')">Bold</button>
+                        <button type="button" onclick="applyStyleDescriptionEdit('underline', 'topicInputDescriptionEdit')">Underline</button>
+                        <button type="button" onclick="applyLinkDescriptionEdit('topicInputDescriptionEdit')">Link</button>
+                        <input type="color" id="colorPickerDescriptionEdit" onchange="applyColorDescriptionEdit('topicInputDescriptionEdit')">
+                      </div>
+                    <div id="topicInputDescriptionEdit" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
                 <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
             </div>
+            <input type="hidden" id="rawTopicInputDescriptionEdit" name="description">
           </form>
       </div>
     </div>
@@ -163,23 +187,25 @@
   </div>
 
   <script>
-  $('.edit-comment-link').on('click', function() {
+  $('.edit-topic-link').on('click', function() {
     var topicId = $(this).data('topic-id');
     var topicName = $(this).data('topic-name');
     var topicDescription = $(this).data('topic-description');
 
     $('#editTopicModal input[name="topicId"]').val(topicId);
     $('#editTopicModal input[name="name"]').val(topicName);
-    $('#editTopicModal textarea[name="description"]').val(topicDescription);
+    $('#editTopicModal input[name="description"]').val(topicDescription);
+    $('#topicInputDescriptionEdit').html(topicDescription);
   });
 
   $('#editTopicModal').on('hidden.bs.modal', function() {
     $('#editTopicModal input[name="topicId"]').val('');
     $('#editTopicModal input[name="name"]').val('');
-    $('#editTopicModal textarea[name="description"]').val('');
+    $('#editTopicModal input[name="description"]').val('');
+    $('#topicInputDescriptionEdit').html('');
   });
 
-  $('.delete-comment-link').on('click', function() {
+  $('.delete-topic-link').on('click', function() {
     var topicId = $(this).data('delete-id');
     $('#deleteTopicModal input[name="deleteId"]').val(topicId);
   });
@@ -187,6 +213,123 @@
   $('#deleteTopicModal').on('hidden.bs.modal', function() {
     $('#deleteTopicModal input[name="deleteId"]').val('');
   });
+</script>
+
+<script>
+    function applyStyleDescription(style, elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        document.execCommand(style, false, null);
+        updateRawInputDescription(elementId);
+    }
+
+    function applyLinkDescription(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const linkURL = prompt('Enter the link URL:');
+        if (linkURL) {
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
+        }
+        updateRawInputDescription(elementId);
+    }
+
+    function applyColorDescription(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const colorValue = document.getElementById('colorPickerDescription').value;
+        document.execCommand('foreColor', false, colorValue);
+        updateRawInputDescription(elementId);
+    }
+
+    function updateRawInputDescription(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const rawInput = document.getElementById('rawTopicInputDescription');
+        rawInput.value = descriptionInput.innerHTML;
+    }
+
+    // Add an event listener to trigger updateRawInputDescription on text input
+    document.getElementById('topicInputDescription').addEventListener('input', function () {
+      updateRawInputDescription('topicInputDescription');
+    });
+</script>
+
+<script>
+    function applyStyleComment(style, elementId) {
+        const commentInput = document.getElementById(elementId);
+        document.execCommand(style, false, null);
+        updateRawInputComment(elementId);
+    }
+
+    function applyLinkComment(elementId) {
+        const commentInput = document.getElementById(elementId);
+        const linkURL = prompt('Enter the link URL:');
+        if (linkURL) {
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
+        }
+        updateRawInputComment(elementId);
+    }
+
+    function applyColorComment(elementId) {
+        const commentInput = document.getElementById(elementId);
+        const colorValue = document.getElementById('colorPickerComment').value;
+        document.execCommand('foreColor', false, colorValue);
+        updateRawInputComment(elementId);
+    }
+
+    function updateRawInputComment(elementId) {
+        const commentInput = document.getElementById(elementId);
+        const rawInput = document.getElementById('rawCommentInput');
+        rawInput.value = commentInput.innerHTML;
+    }
+
+    // Add an event listener to trigger updateRawInputComment on text input
+    document.getElementById('commentInput').addEventListener('input', function () {
+      updateRawInputComment('commentInput');
+    });
+</script>
+
+<script>
+    function applyStyleDescriptionEdit(style, elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        document.execCommand(style, false, null);
+        updateRawInputDescriptionEdit(elementId);
+    }
+
+    function applyLinkDescriptionEdit(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const linkURL = prompt('Enter the link URL:');
+        if (linkURL) {
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
+        }
+        updateRawInputDescriptionEdit(elementId);
+    }
+
+    function applyColorDescriptionEdit(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const colorValue = document.getElementById('colorPickerDescriptionEdit').value;
+        document.execCommand('foreColor', false, colorValue);
+        updateRawInputDescriptionEdit(elementId);
+    }
+
+    function updateRawInputDescriptionEdit(elementId) {
+        const descriptionInput = document.getElementById(elementId);
+        const rawInput = document.getElementById('rawTopicInputDescriptionEdit');
+        rawInput.value = descriptionInput.innerHTML;
+    }
+
+    // Add an event listener to trigger updateRawInputDescriptionEdit on text input
+    document.getElementById('topicInputDescriptionEdit').addEventListener('input', function () {
+        updateRawInputDescriptionEdit('topicInputDescriptionEdit');
+    });
 </script>
 
 <?php

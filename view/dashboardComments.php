@@ -34,7 +34,6 @@
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
                         echo '<div style="flex-basis: 25%;"><p>Id: '.$comment['id'].'</p></div>';
                         echo '<div style="flex-basis: 25%;"><p>Author: '.$comment['username'].'</p></div>';
-                        echo '<div style="flex-basis: 25%;"><p>'.$comment['text'].'</p></div>';
                         echo '<div class="navbar forum-button" style="display: flex; justify-content: center;">';
                         echo '<a href="comments?replies='.$comment['id'].'" style="border: none; margin: 0px; margin-top: 10px; color: white;" class="getstarted scrollto">Replies</a>'; 
                         echo '<a type="button" 
@@ -55,6 +54,8 @@
                               <i class="fa fa-trash"></i>
                           </a>';
                         echo '</div>';
+                        echo '<hr style="width: 100%; margin: 10px 0;">';
+                        echo '<div style="flex-basis: 100%; text-align: justify;"><p>'.$comment['text'].'</p></div>';
                         echo '</div>';
                     }
                 }
@@ -181,33 +182,37 @@
     function applyEditStyle(style, elementId) {
         const commentInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
-        updateRawInput(elementId);
+        updateRawInputEdit(elementId);
     }
 
     function applyEditLink(elementId) {
         const commentInput = document.getElementById(elementId);
         const linkURL = prompt('Enter the link URL:');
         if (linkURL) {
-            document.execCommand('createLink', false, linkURL);
+          // Check if the link is absolute (starts with http://, https://, or //)
+          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+          // If not absolute, prepend with 'http://'
+          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+          document.execCommand('createLink', false, absoluteLink);
         }
-        updateRawInput(elementId);
+        updateRawInputEdit(elementId);
     }
 
     function applyEditColor(elementId) {
         const commentInput = document.getElementById(elementId);
         const color = document.getElementById('colorPickerEdit').value;
         document.execCommand('foreColor', false, color);
-        updateRawInput(elementId);
+        updateRawInputEdit(elementId);
     }
 
-    function updateRawInput(elementId) {
+    function updateRawInputEdit(elementId) {
         const commentInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawCommentInputEdit');
         rawInput.value = commentInput.innerHTML;
     }
-    // Add an event listener to trigger updateRawInput on text input
+    // Add an event listener to trigger updateRawInputEdit on text input
     document.getElementById('commentInputEdit').addEventListener('input', function () {
-        updateRawInput('commentInputEdit');
+        updateRawInputEdit('commentInputEdit');
     });
 </script>
 
