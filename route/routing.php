@@ -9,13 +9,13 @@ if (strstr($_SERVER['REQUEST_URI'], '?')) {
 }
 
 if ($route == '' || $route == 'index.php') {
-    Controller::StartSite();
-} elseif ($route == 'tech') {
     if (isset($_GET['year'])) {
-        $id = $_GET['year'];
-        Controller::tech($id);
-    } else {
+        $year = $_GET['year'];
+        Controller::tech($year);
+    } elseif (isset($_GET) && !empty($_GET)) {
         Controller::error();
+    } else {
+        Controller::StartSite();
     }
 } elseif ($route == 'contact') {
     Controller::contact();

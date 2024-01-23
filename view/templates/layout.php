@@ -41,6 +41,10 @@ $route = explode('/', $path)[$num];
 
   <link href="assets/css/style.css" rel="stylesheet">
   <link href="assets/css/carousel.css" rel="stylesheet">
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    emailjs.init("PzVTGjjTExWHlP1xe");
+  </script>
 </head>
 
 <body>
@@ -132,9 +136,8 @@ $route = explode('/', $path)[$num];
                         echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
                       }
                     }
-                  } elseif(!empty($year) && $route == 'tech'){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?year=' . $year . '">';
-                    
+                  } elseif(!empty($year)){
+                    echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
                   } elseif(!empty($page) && $route == 'forum'){
                     if(!empty($searchQuery)){
                       echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
@@ -205,9 +208,8 @@ $route = explode('/', $path)[$num];
                         echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
                       }
                     }
-                  } elseif(!empty($year) && $route == 'tech'){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?year=' . $year . '">';
-                    
+                  } elseif(!empty($year)){
+                      echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
                   } elseif(!empty($page) && $route == 'forum'){
                     if(!empty($searchQuery)){
                       echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
@@ -277,9 +279,8 @@ $route = explode('/', $path)[$num];
                         echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
                       }
                     }
-                  } elseif(!empty($year) && $route == 'tech'){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?year=' . $year . '">';
-                    
+                  } elseif(!empty($year)){
+                      echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
                   } elseif(!empty($page) && $route == 'forum'){
                     if(!empty($searchQuery)){
                       echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';

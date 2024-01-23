@@ -2,13 +2,53 @@
 <?php
 	ob_start();
 ?>
+<?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';  // Include the Composer autoloader
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["send"])) {
+    // Create a new PHPMailer instance
+    $mail = new PHPMailer;
+
+    // SMTP configuration
+    $mail->isSMTP();
+    $mail->Host = 'smtp-mail.outlook.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'Aleksandr.Egorov@ivkhk.ee';
+    $mail->Password = 'Buniri122';
+    $mail->SMTPSecure = 'STARTTLS';
+    $mail->Port = 587;
+
+    // Sender and recipient settings
+    $mail->setFrom('Aleksandr.Egorov@ivkhk.ee');
+    $mail->addAddress('info@example.com', 'Recipient Name');
+
+    // Email content
+    $mail->isHTML(true);
+    $mail->Subject = $_POST['subject'];
+    $mail->Body = 'Name: ' . $_POST['name'] . '<br>Email: ' . $_POST['email'] . '<br>Message: ' . $_POST['message'];
+
+    // Send email
+    try {
+        $mail->send();
+        echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+    }
+}
+?>
+
+
+
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="hero d-flex align-items-center">
 
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1 data-aos="fade-up">Embark on a Journey with IT Forum</h1>
+          <h1 data-aos="fade-up">Embark on a Journey with<br>IT Forum</h1>
           <h2 data-aos="fade-up" class="typewriter-text" id="typing-text" data-aos-delay="400"></h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
@@ -25,7 +65,8 @@
       </div>
     </div>
 
-  </section><!-- End Hero -->
+  </section>
+  <!-- End Hero -->
 
     <!-- About -->
     <section id="about" class="about">
@@ -69,11 +110,11 @@
       <header class="section-header">
           <p>Tech</p>
           <p style="font-size: 18px;">Learn about popular and useful technologies<br>Use our filter by clicking buttons to learn about popular tech of the year</p>
-          <div class="navbar">
+          <div class="navbar" style="justify-content: space-around;">
           <?php 
               $years = [2021, 2022, 2023];
                   foreach ($years as $loopYear) {
-                    echo '<a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="tech?year='.$loopYear.'">'.$loopYear.'</a>';
+                    echo '<a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="?year='.$loopYear.'">'.$loopYear.'</a>';
                   }
           ?>
           </div>
@@ -225,49 +266,29 @@
         <p>Contact Us</p>
     </header>
 
-    <div class="row gy-4">
+    <div class="row gy-4" style="display: flex; justify-content: center;">
 
         <div class="col-lg-6">
-
-        <div class="row gy-4">
-            <div class="col-md-6">
-            <div class="info-box" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);">
-                <i class="bi bi-envelope"></i>
-                <h3>Email Us</h3>
-                <p>info@example.com<br>contact@example.com</p>
-            </div>
-            </div>
-        </div>
-
-        </div>
-
-        <div class="col-lg-6">
-        <form action="contact" method="POST" class="php-email-form" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);">
-            <div class="row gy-4">
-
-            <div class="col-md-6">
-                <input type="text" name="name" class="form-control" placeholder="Your Name" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-            </div>
-
-            <div class="col-md-6 ">
-                <input type="email" class="form-control" name="email" placeholder="Your Email" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-            </div>
-
-            <div class="col-md-12">
-                <input type="text" class="form-control" name="subject" placeholder="Subject" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-            </div>
-
-            <div class="col-md-12">
-                <textarea class="form-control" name="message" rows="6" placeholder="Message" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></textarea>
-            </div>
-
-            <div class="col-md-12 text-center">
-                <button type="submit" name="send">Send Message</button>
-            </div>
-
-            </div>
-        </form>
-
+            <form action="" method="POST" id="contact-form" class="php-email-form" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);">
+            <p id="status-message" style="text-align: center; margin-top: 10px; font-size: 20px; line-height: 42px; font-weight: 700; color: #012970;"></p>
+                <div class="row gy-4">
+                    <div class="col-md-6">
+                        <input type="text" name="from_name" class="form-control" placeholder="Your Name" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="email" class="form-control" name="from_email" placeholder="Your Email" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="subject" placeholder="Subject" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    </div>
+                    <div class="col-md-12">
+                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></textarea>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="submit" name="send">Send Message</button>
+                    </div>
+                </div>
+            </form>
         </div>
 
     </div>
@@ -275,7 +296,27 @@
     </div>
 
 </section>
-<!-- End Contact -->
+
+<script type="text/javascript">
+   document.getElementById('contact-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      var statusMessage = document.getElementById('status-message');
+      statusMessage.innerHTML = ''; // Clear previous status message
+
+      emailjs.sendForm('service_aut6a7r', 'template_6r8hb2i', this)
+         .then(function (response) {
+            console.log('Sent successfully', response);
+            statusMessage.innerHTML = 'Message sent successfully!';
+            // Add any additional actions you want to perform after a successful submission
+         }, function (error) {
+            console.log('Failed to send', error);
+            statusMessage.innerHTML = 'Error: Failed to send message.';
+            // Add any error handling here
+         });
+   });
+</script>
+
 <?php 
 	$content = ob_get_clean();
 	include "view/templates/layout.php";
