@@ -368,5 +368,70 @@ class ModelAdmin {
         // Execute the query
         return $stmt->execute();
     }
+
+    public static function getAllReports($page = 1, $itemsPerPage = 5) {
+		$db = new Database();
+        $offset = ($page - 1) * $itemsPerPage;
+
+        $sql = "SELECT reports.id AS reportId, reports.text, users1.email AS reporterEmail, users2.email AS reportedUserEmail, users2.id AS reportedUserId, users2.imgpath AS reportedUserImage, users2.banexpiry
+                FROM reports
+                JOIN users users1 ON reports.userId = users1.id
+                JOIN users users2 ON reports.reportedUserId = users2.id
+                ORDER BY reports.id DESC
+                LIMIT :itemsPerPage OFFSET :offset";
+
+		$stmt = $db->conn->prepare($sql);
+        $stmt->bindValue(':itemsPerPage', $itemsPerPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getTotalReports() {
+        $db = new Database();
+
+        $sql = "SELECT COUNT(*) FROM reports";
+
+        $stmt = $db->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchColumn();
+    }
+
+    public static function searchReports($searchQuery) {
+        $db = new Database();
+
+        // Prepare the SQL query with a search condition and inner join
+        $sql = "SELECT reports.id AS reportId, reports.text, users1.email AS reporterEmail, users2.email AS reportedUserEmail, users2.id AS reportedUserId, users2.imgpath AS reportedUserImage, users2.banexpiry
+                FROM reports
+                INNER JOIN users users1 ON reports.userId = users1.id
+                INNER JOIN users users2 ON reports.reportedUserId = users2.id
+                WHERE users1.email LIKE :searchQuery
+                    OR users2.email LIKE :searchQuery
+                ORDER BY reports.id DESC";
+
+        // Bind parameters and execute the query
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Fetch the results
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function deleteReport($deleteId) {
+        $db = new Database();
+
+        // Prepare the SQL query to delete a report by ID
+        $sql = "DELETE FROM reports WHERE id = :deleteId";
+
+        // Bind parameters and execute the query
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bindParam(':deleteId', $deleteId, PDO::PARAM_INT);
+        $result = $stmt->execute();
+
+        return $result;
+    }
 }
 ?>

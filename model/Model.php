@@ -155,7 +155,7 @@ class Model {
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT comments.*, users.username, users.imgpath
+		$sql = "SELECT comments.*, users.username, users.imgpath AS userimg
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.topicid = :topicid 
@@ -175,7 +175,7 @@ class Model {
 	public static function searchComments($topicId, $searchQuery) {
 		$db = new Database();
 
-		$sql = "SELECT comments.*, users.username, users.imgpath
+		$sql = "SELECT comments.*, users.username, users.imgpath AS userimg
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.topicid = :topicid 
@@ -194,17 +194,34 @@ class Model {
 	public static function createComment($topicId, $userId, $commentText)
 	{
 		$db = new Database();
-	
+		// Handle image upload
+		$uploadDir = 'uploads/comments/';
+		if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
+			move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
+		}
+
+		if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
+			move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
+		}
+
+		if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
+			move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
+		}
 		// Prepare the SQL query
-		$sql = "INSERT INTO comments (text, userid, topicid, created_at, updated_at) 
-				VALUES (:commentText, :userid, :topicid, NOW(), NOW())";
+		$sql = "INSERT INTO comments (text, userid, topicid, imgpath, imgpath2, imgpath3, created_at, updated_at) 
+				VALUES (:commentText, :userid, :topicid, :imgpath, :imgpath2, :imgpath3, NOW(), NOW())";
 	
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
 		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
 		$stmt->bindParam(':topicid', $topicId, PDO::PARAM_INT);
-	
+		$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR); // No change if image not uploaded
+		$stmt->bindParam(':imgpath2', $uploadPath2, PDO::PARAM_STR); // No change if image not uploaded
+		$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR); // No change if image not uploaded	
 		// Check if the query executed successfully
 		if ($stmt->execute()) {
 			return true; // Comment creation successful
@@ -232,7 +249,7 @@ class Model {
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT replies.*, users.username, users.imgpath
+		$sql = "SELECT replies.*, users.username, users.imgpath AS userimg
 				FROM replies 
 				INNER JOIN users ON replies.userid = users.id
 				WHERE replies.commentid = :commentid 
@@ -252,7 +269,7 @@ class Model {
 	public static function searchReplies($commentId, $searchQuery) {
 		$db = new Database();
 
-		$sql = "SELECT replies.*, users.username, users.imgpath
+		$sql = "SELECT replies.*, users.username, users.imgpath AS userimg
 				FROM replies
 				INNER JOIN users ON replies.userid = users.id
 				WHERE replies.commentid = :commentid
@@ -272,7 +289,7 @@ class Model {
 	public static function getCommentById($commentId) {
 		$db = new Database();
 
-		$sql = "SELECT comments.*, users.username, users.imgpath
+		$sql = "SELECT comments.*, users.username, users.imgpath AS userimg
 				FROM comments
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.id = :commentid";
@@ -287,16 +304,34 @@ class Model {
 	public static function createReply($commentId, $userId, $commentText)
 	{
 		$db = new Database();
-	
+
+		$uploadDir = 'uploads/replies/';
+		if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
+			move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
+		}
+
+		if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
+			move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
+		}
+
+		if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
+			move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
+		}
 		// Prepare the SQL query
-		$sql = "INSERT INTO replies (text, userid, commentid, created_at, updated_at) 
-				VALUES (:commentText, :userid, :commentid, NOW(), NOW())";
+		$sql = "INSERT INTO replies (text, userid, commentid, imgpath, imgpath2, imgpath3, created_at, updated_at) 
+				VALUES (:commentText, :userid, :commentid, :imgpath, :imgpath2, :imgpath3, NOW(), NOW())";
 	
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
 		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
 		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
+		$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR); // No change if image not uploaded
+		$stmt->bindParam(':imgpath2', $uploadPath2, PDO::PARAM_STR); // No change if image not uploaded
+		$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR); // No change if image not uploaded	
 	
 		// Check if the query executed successfully
 		if ($stmt->execute()) {
@@ -395,31 +430,42 @@ class Model {
 	}
 
 
-	//Work in progress
-    public static function sendmessage() {
-		if (isset($_POST['send'])) {
-			$name = $_POST['name'];
-			$email = $_POST['email'];
-			$subject = $_POST['subject'];
-			$message = $_POST['message'];
+    public static function sendReport($reportedUserId, $reportText) {
+        $userId = $_SESSION['userId'];
+		$db = new Database();
 
-			$to = 'aleksandr.egorov@ivkhk.com';
-			$headers = 'From: ' . $email . "\r\n" .
-					'Reply-To: ' . $email . "\r\n" .
-					'X-Mailer: PHP/' . phpversion();
+        // Check if the user has already reported the same user
+        $existingReport = self::getReportByUserAndReportedUser($userId, $reportedUserId);
 
-			// Compose the email message
-			$emailMessage = "Name: $name\n";
-			$emailMessage .= "Email: $email\n";
-			$emailMessage .= "Subject: $subject\n\n";
-			$emailMessage .= "Message:\n$message";
+        if ($existingReport) {
+            // If there is an existing report, you can handle it accordingly
+            // For example, display a message to the user
+            $_SESSION['userReportMessage'] = 'You have already reported this user.';
+            return false;
+        }
 
-			if (mail($to, $subject, $emailMessage, $headers)) {
-				echo 'Message sent successfully.';
-			} else {
-				echo 'Error sending message.';
-			}
-		}
-	}
+        // Insert the report into the database
+        $sql = "INSERT INTO reports (userId, reportedUserId, text) VALUES (?, ?, ?)";
+		$stmt = $db->conn->prepare($sql);
+        $stmt->execute([$userId, $reportedUserId, $reportText]);
+
+        // You can check if the insertion was successful and handle accordingly
+        if ($stmt->rowCount() > 0) {
+            $_SESSION['userReportMessage'] = 'Report sent successfully.';
+            return true;
+        } else {
+            $_SESSION['userReportMessage'] = 'Failed to send report.';
+            return false;
+        }
+    }
+
+    // Additional method to get a report by user and reported user
+    public static function getReportByUserAndReportedUser($userId, $reportedUserId) {
+		$db = new Database();
+        $sql = "SELECT * FROM reports WHERE userId = ? AND reportedUserId = ?";
+		$stmt = $db->conn->prepare($sql);
+        $stmt->execute([$userId, $reportedUserId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>

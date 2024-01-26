@@ -24,6 +24,9 @@
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
                     <a href="/dashboard?users"style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto">Users</a>
                 </div>
+                <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
+                    <a href="/dashboard?reports"style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto">Reports</a>
+                </div>
             </div>
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
             <?php
@@ -110,7 +113,7 @@
             }
             ?>
             <div class="mb-3">
-                <div class="style-buttons" style="margin: 5px;">
+                <div class="style-buttons" style="margin: 5px; justify-content: center;">
                     <button type="button" onclick="applyStyleEditProfile('italic', 'descriptionInputEdit')">Italic</button>
                     <button type="button" onclick="applyStyleEditProfile('bold', 'descriptionInputEdit')">Bold</button>
                     <button type="button" onclick="applyStyleEditProfile('underline', 'descriptionInputEdit')">Underline</button>
@@ -135,8 +138,8 @@
             if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
                 echo '<div class="mb-3">
                 <select name="role" class="form-control">
+                <option value="user">User</option>
                     <option value="manager">Manager</option>
-                    <option value="user">User</option>
                 </select>
             </div>';
             }
@@ -153,7 +156,7 @@
   <div class="modal fade" id="banUserModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
             <form action="dashboard?users" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">

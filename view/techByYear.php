@@ -2,43 +2,6 @@
 <?php
 	ob_start();
 ?>
-<?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'vendor/autoload.php';  // Include the Composer autoloader
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["send"])) {
-    // Create a new PHPMailer instance
-    $mail = new PHPMailer(true);
-
-    // SMTP configuration
-    $mail->isSMTP(true);
-    $mail->Host = 'email-smtp.eu-north-1.amazonaws.com';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'AKIAQQUMERZW7UR4VO35';
-    $mail->Password = 'BKujCIaTTKFNIubLQOsSlACTtkSA3jMJQ89uI5r/OAGt';
-    $mail->SMTPSecure = 'ssl';
-    $mail->Port = 25;
-
-    // Sender and recipient settings
-    $mail->setFrom('arokai1233@mail.ru', 'jvmtestses');
-    $mail->addAddress('arokai1233@mail.ru', 'jvmtestses');
-
-    // Email content
-    $mail->isHTML(true);
-    $mail->Subject = $_POST['subject'];
-    $mail->Body = 'Name: ' . $_POST['name'] . '<br>Email: ' . $_POST['email'] . '<br>Message: ' . $_POST['message'];
-
-    // Send email
-    try {
-        $mail->send();
-        echo 'Message has been sent';
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
-    }
-}
-?>
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="hero d-flex align-items-center">
 

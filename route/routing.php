@@ -52,6 +52,8 @@ if ($route == '' || $route == 'index.php') {
         ControllerAdmin::dashboardReplies();
     } elseif(isset($_GET['users'])){
         ControllerAdmin::dashboardUsers();
+    } elseif(isset($_GET['reports'])){
+        ControllerAdmin::dashboardReports();
     } else{
         ControllerAdmin::dashboard();
     }

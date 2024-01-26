@@ -29,41 +29,60 @@
                 ?>
             </div>
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
-                <?php
-                    if (empty($comments)) {
-                        echo '<h2 style="margin-top: 50px; font-size: 30px;">No comments found</h2>';
-                    } else {
-                        foreach ($comments as $comment) {
-                            echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
-                            echo '<a href="profile?user='.$comment['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$comment['imgpath'].'"></img></a>';
-                            echo '<div class="comment"><p style="margin: 0; margin-top: 10px;">'.$comment['username'].'</p><p style="font-size: 16px; margin: 0;">'.$comment['created_at'].'</p><p>'.$comment['text'].'</p></div>';
-                            echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
-                            echo '<a href="comments?replies='.$comment['id'].'" style="border: none; margin: 0px; margin-top: 10px; color: white;" class="getstarted scrollto">Replies</a>';
-                            if(isset($_SESSION['userId'])){
-                                if ($comment['userid'] == $_SESSION['userId']) {
-                                    echo '<a type="button" 
-                                             style="border: none; margin: 0px 5px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
-                                             data-toggle="modal" 
-                                             data-target="#editCommentModal" 
-                                             data-comment-id="' . $comment['id'] . '" 
-                                             data-comment-text="' . htmlspecialchars($comment['text']) . '" 
-                                             class="getstarted scrollto edit-comment-link">
-                                             <i class="fas fa-edit"></i>
-                                          </a>';
-                                          echo '<a type="button" 
-                                          style="border: none; margin: 0px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
-                                          data-toggle="modal" 
-                                          data-target="#deleteCommentModal" 
-                                          data-delete-id="' . $comment['id'] . '" 
-                                          class="getstarted scrollto delete-comment-link">
-                                          <i class="fa fa-trash"></i>
-                                       </a>';
-                                }
-                            }
-                            echo '</div>';
-                            echo '</div>';
+            <?php
+                if (empty($comments)) {
+                    echo '<h2 style="margin-top: 50px; font-size: 30px;">No comments found</h2>';
+                } else {
+                    foreach ($comments as $comment) {
+                        echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
+                        echo '<a href="profile?user=' . $comment['userid'] . '" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="' . $comment['userimg'] . '"></img></a>';
+                        echo '<div class="comment">
+                                <p style="margin: 0; margin-top: 10px;">' . $comment['username'] . '</p>
+                                <p style="font-size: 16px; margin: 0;">' . $comment['created_at'] . '</p>
+                                <p>' . $comment['text'] . '</p>';
+                        
+                        // Check and include the image containers
+                        if (!empty($comment['imgpath'])) {
+                            echo '<img style="width: 100px; height: 100px;" src="' . $comment['imgpath'] . '">';
                         }
+                        if (!empty($comment['imgpath2'])) {
+                            echo '<img style="width: 100px; height: 100px;" src="' . $comment['imgpath2'] . '">';
+                        }
+                        if (!empty($comment['imgpath3'])) {
+                            echo '<img style="width: 100px; height: 100px;" src="' . $comment['imgpath3'] . '">';
+                        }
+                        
+                        echo '</div>';
+                        echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
+                        echo '<a href="comments?replies=' . $comment['id'] . '" style="border: none; margin: 0px; margin-top: 10px; color: white;" class="getstarted scrollto">Replies</a>';
+                        if (isset($_SESSION['userId'])) {
+                            if ($comment['userid'] == $_SESSION['userId']) {
+                                echo '<a type="button" 
+                                        style="border: none; margin: 0px 5px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
+                                        data-toggle="modal" 
+                                        data-target="#editCommentModal" 
+                                        data-comment-id="' . $comment['id'] . '" 
+                                        data-comment-text="' . htmlspecialchars($comment['text']) . '" 
+                                        data-imgpath="' . (!empty($comment['imgpath']) ? $comment['imgpath'] : '') . '"
+                                        data-imgpath2="' . (!empty($comment['imgpath2']) ? $comment['imgpath2'] : '') . '"
+                                        data-imgpath3="' . (!empty($comment['imgpath3']) ? $comment['imgpath3'] : '') . '"
+                                        class="getstarted scrollto edit-comment-link">
+                                        <i class="fas fa-edit"></i>
+                                    </a>';
+                                echo '<a type="button" 
+                                      style="border: none; margin: 0px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
+                                      data-toggle="modal" 
+                                      data-target="#deleteCommentModal" 
+                                      data-delete-id="' . $comment['id'] . '" 
+                                      class="getstarted scrollto delete-comment-link">
+                                      <i class="fa fa-trash"></i>
+                                   </a>';
+                            }
+                        }
+                        echo '</div>';
+                        echo '</div>';
                     }
+                }
                 ?>
             </div>
         </div>
@@ -85,7 +104,7 @@
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
-            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;">Create comment</h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -96,7 +115,7 @@
                     ?>
                 </p>
                 <div class="mb-3">
-                    <div class="style-buttons" style="margin: 5px;">
+                    <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyStyle('italic', 'commentInput')">Italic</button>
                         <button type="button" onclick="applyStyle('bold', 'commentInput')">Bold</button>
                         <button type="button" onclick="applyStyle('underline', 'commentInput')">Underline</button>
@@ -104,6 +123,16 @@
                         <input type="color" id="colorPicker" onchange="applyColor('commentInput')">
                     </div>
                     <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
+                </div>
+                <div class="mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="ImageInput1" name="Image1" accept="image/*">
+                        <input type="file" class="custom-file-input" id="ImageInput2" name="Image2" accept="image/*" style="display: none;">
+                        <input type="file" class="custom-file-input" id="ImageInput3" name="Image3" accept="image/*" style="display: none;">
+                        <label class="custom-file-label" for="ImageInput1">Choose up to 3 image files</label>
+                    </div>
+                    <div id="selectedImagesContainer" class="mt-2"></div>
+                    <button type="button" class="btn btn-danger mt-2" id="removeImagesBtn" style="display: none;">Remove Images</button>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                     <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Create</button>
@@ -134,7 +163,7 @@
                 </p>
                 <div class="mb-3">
                     <input type="hidden" name="commentId" value="">
-                    <div class="style-buttons" style="margin: 5px;">
+                    <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyEditStyle('italic', 'commentInputEdit')">Italic</button>
                         <button type="button" onclick="applyEditStyle('bold', 'commentInputEdit')">Bold</button>
                         <button type="button" onclick="applyEditStyle('underline', 'commentInputEdit')">Underline</button>
@@ -219,6 +248,93 @@
         $('#deleteCommentModal input[name="deleteId"]').val('');
     });
 </script>
+
+<script>
+    // Keep track of selected images
+    var selectedImages = [];
+
+    var container = $('#selectedImagesContainer');
+    var fileInputs = ['#ImageInput1', '#ImageInput2', '#ImageInput3'];
+    var removeImagesBtn = $('#removeImagesBtn');
+    var maxImages = 3;
+
+    $(fileInputs.join(', ')).on('change', function () {
+        var files = getSelectedFiles(); // Get the selected files
+        removeImagesBtn.hide();
+
+        var fileCount = selectedImages.length + 1;
+
+        // Adjust the file count to a maximum of 3
+        fileCount = Math.min(fileCount, maxImages);
+        var fileCountText = fileCount + ' file(s) selected';
+
+        if(fileCount => 0){
+            $('.custom-file-label').html(fileCountText);
+            removeImagesBtn.show();
+        }
+
+        // Iterate through the selected files
+        container.empty(); // Clear the container content
+        for (var i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + e.target.result + '" alt="Selected Image">');
+                container.append(imagePreview);
+            };
+            reader.readAsDataURL(files[i]);
+            // Add the selected images to the array
+            selectedImages.push(files[i]);
+        }
+
+        // Update the visibility of file inputs and the "Remove Images" button
+        updateFileInputsVisibility();
+    });
+
+    removeImagesBtn.on('click', function () {
+        // Clear the selected images and hide the "Remove Images" button
+        container.empty(); // Clear the container content
+        $(fileInputs.join(', ')).val('');
+        $('.custom-file-label').html('Choose up to 3 image files'); // Clear the contenteditable div
+        
+        removeImagesBtn.hide();
+
+        // Show the first file input
+        $(fileInputs[0]).show();
+
+        // Enable the file inputs after removing the images
+        enableFileInputs();
+
+        // Clear the selected images array
+        selectedImages = [];
+    });
+
+    function getSelectedFiles() {
+        var selectedFiles = [];
+        for (var i = 0; i < fileInputs.length; i++) {
+            var files = $(fileInputs[i])[0].files;
+            selectedFiles = selectedFiles.concat(Array.from(files));
+        }
+        return selectedFiles;
+    }
+
+    function updateFileInputsVisibility() {
+        maxImages = 3;
+        var currentFileCount = getSelectedFiles().length;
+
+        // Hide all file inputs
+        $(fileInputs.join(', ')).hide();
+
+        // Show the next file input if not reached the maximum
+        if (currentFileCount < maxImages) {
+            $(fileInputs[currentFileCount]).show();
+        }
+    }
+
+    function enableFileInputs() {
+        $(fileInputs.join(', ')).prop('disabled', false);
+    }
+</script>
+
 
 <script>
     function applyStyle(style, elementId) {

@@ -196,5 +196,55 @@ class ControllerAdmin {
 		include_once('view/dashboardUsers.php');
 		return;
 	}
+
+	public static function dashboardReports() {
+		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+		$itemsPerPage = 5;
+	
+		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+	
+		if (isset($_POST['ban'])) {
+			// Check if ban button is pressed
+			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
+			$banexpiry = isset($_POST['banexpiry']) ? $_POST['banexpiry'] : null;
+
+			// Call the method to ban the user by ID
+			$banned = ModelAdmin::banUser($userId, $banexpiry);
+
+			// Optionally, set a success or error message here
+			$_SESSION['banUserMessage'] = $banned ? 'User has been banned.' : 'Failed to ban user.';
+
+			header("Location: /dashboard?reports");
+			exit();
+		} elseif (isset($_POST['unban'])) {
+			// Check if unban button is pressed
+			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
+
+			// Call the method to unban the user by ID
+			$unbanned = ModelAdmin::unbanUser($userId);
+
+			// Optionally, set a success or error message here
+			$_SESSION['banUserMessage'] = $unbanned ? 'User has been unbanned.' : 'Failed to unban user.';
+
+			header("Location: /dashboard?reports");
+			exit();
+		}
+		elseif (isset($_POST['deleteId'])) {
+			// Deleting a reply
+			$deleteId = $_POST['deleteId'];
+
+			$result = ModelAdmin::deleteReport($deleteId);
+
+			$_SESSION['deleteReportMessage'] = $result ? 'Report deleted successfully' : 'Error deleting report';
+		}
+
+		$reports = !empty($searchQuery) ? ModelAdmin::searchReports($searchQuery) : ModelAdmin::getAllReports($page, $itemsPerPage);
+
+		$totalItems = ModelAdmin::getTotalReports();
+		$totalPages = ceil($totalItems / $itemsPerPage);
+	
+		include_once('view/dashboardReports.php');
+		return;
+	}
 }
 ?>

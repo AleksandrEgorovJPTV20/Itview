@@ -213,6 +213,16 @@ class Controller {
 			header("Location: /profile?user=" . $userId);
 			exit();
 		}
+		if (isset($_POST['report'])) {
+			$reportText = $_POST['description'];
+			$reportedUserId = $userId;
+	
+			Model::sendReport($reportedUserId, $reportText);
+	
+			// Redirect back to the profile page
+			header("Location: /profile?user=" . $userId);
+			exit();
+		}
 		include_once('view/profile.php');
 		return;
 	}

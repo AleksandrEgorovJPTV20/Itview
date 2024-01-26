@@ -2,46 +2,6 @@
 <?php
 	ob_start();
 ?>
-<?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'vendor/autoload.php';  // Include the Composer autoloader
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["send"])) {
-    // Create a new PHPMailer instance
-    $mail = new PHPMailer;
-
-    // SMTP configuration
-    $mail->isSMTP();
-    $mail->Host = 'smtp-mail.outlook.com';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'Aleksandr.Egorov@ivkhk.ee';
-    $mail->Password = 'Buniri122';
-    $mail->SMTPSecure = 'STARTTLS';
-    $mail->Port = 587;
-
-    // Sender and recipient settings
-    $mail->setFrom('Aleksandr.Egorov@ivkhk.ee');
-    $mail->addAddress('info@example.com', 'Recipient Name');
-
-    // Email content
-    $mail->isHTML(true);
-    $mail->Subject = $_POST['subject'];
-    $mail->Body = 'Name: ' . $_POST['name'] . '<br>Email: ' . $_POST['email'] . '<br>Message: ' . $_POST['message'];
-
-    // Send email
-    try {
-        $mail->send();
-        echo 'Message has been sent';
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
-    }
-}
-?>
-
-
-
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="hero d-flex align-items-center">
 

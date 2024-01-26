@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 20 2024 г., 10:05
+-- Время создания: Янв 25 2024 г., 08:52
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -77,6 +77,26 @@ INSERT INTO `replies` (`id`, `text`, `userid`, `commentid`, `created_at`, `updat
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `userId` int(11) NOT NULL,
+  `reportedUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Дамп данных таблицы `reports`
+--
+
+INSERT INTO `reports` (`id`, `text`, `userId`, `reportedUserId`) VALUES
+(1, '<b><i><u>sadasd</u></i></b>', 1, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `tech`
 --
 
@@ -141,9 +161,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`, `imgpath`, `description`, `banexpiry`) VALUES
-(1, 'admin@test.ee', '$2y$10$r8xcQsYIm35EIS99fZcnY.gncYL0QgYmxMAwAD7ggr0OqVTNC/1d6', 'Admin', 'admin', 'uploads/questionmark.jpg', 'test', NULL),
-(2, 'user@test.ee', '$2y$12$mjv/GPng4oQFohhkPl8RPucmgRDFVs/UCVP02US.r92ra09kK4d7u', 'User', 'user', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', 'This user description is empty', NULL),
-(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager', 'uploads/questionmark.jpg', 'This user description is empty', NULL);
+(1, 'admin@test.ee', '$2y$10$r8xcQsYIm35EIS99fZcnY.gncYL0QgYmxMAwAD7ggr0OqVTNC/1d6', 'Admin', 'admin', 'uploads/questionmark.jpg', '<u style=\"\"><font color=\"#9e6767\">a dsadas <b style=\"\">dsadasda<i style=\"\">d s<a href=\"http://www.roblox.com/my/avatar\" style=\"\">adadasda</a></i></b></font></u>', NULL),
+(2, 'user@test.ee', '$2y$12$mjv/GPng4oQFohhkPl8RPucmgRDFVs/UCVP02US.r92ra09kK4d7u', 'User', 'manager', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', 'T<i><b>his u<font color=\"#aa6464\">ser d</font></b></i><div><b><font color=\"#aa6464\"><i>escription is empty</i></font></b></div>', NULL),
+(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'user', 'uploads/questionmark.jpg', 'This <b><i><font color=\"#09fb39\">user descripti<u>on is emptydasdadadas dadsdad&nbsp;</u></font></i></b>', NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -164,6 +184,14 @@ ALTER TABLE `replies`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`),
   ADD KEY `commentid` (`commentid`);
+
+--
+-- Индексы таблицы `reports`
+--
+ALTER TABLE `reports`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `reportedUserId` (`reportedUserId`);
 
 --
 -- Индексы таблицы `tech`
@@ -202,6 +230,12 @@ ALTER TABLE `replies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
+-- AUTO_INCREMENT для таблицы `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT для таблицы `tech`
 --
 ALTER TABLE `tech`
@@ -211,7 +245,7 @@ ALTER TABLE `tech`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
@@ -236,6 +270,13 @@ ALTER TABLE `comments`
 ALTER TABLE `replies`
   ADD CONSTRAINT `replies_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `replies_ibfk_2` FOREIGN KEY (`commentid`) REFERENCES `comments` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `reports`
+--
+ALTER TABLE `reports`
+  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`reportedUserId`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `topics`

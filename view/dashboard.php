@@ -23,6 +23,9 @@
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
                     <a href="/dashboard?users"style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto">Users</a>
                 </div>
+                <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
+                    <a href="/dashboard?reports"style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto">Reports</a>
+                </div>
             </div>
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
                 <?php
@@ -92,7 +95,7 @@
                 <input type="text" name="name" class="form-control" placeholder="Enter topic name" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
-                      <div class="style-buttons" style="margin: 5px;">
+                      <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyStyleDescriptionEdit('italic', 'topicInputDescriptionEdit')">Italic</button>
                         <button type="button" onclick="applyStyleDescriptionEdit('bold', 'topicInputDescriptionEdit')">Bold</button>
                         <button type="button" onclick="applyStyleDescriptionEdit('underline', 'topicInputDescriptionEdit')">Underline</button>

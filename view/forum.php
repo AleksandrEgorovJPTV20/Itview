@@ -98,7 +98,7 @@
                 <input type="text" name="name" class="form-control" placeholder="Enter topic name" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
-                  <div class="style-buttons" style="margin: 5px;">
+                  <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyStyleDescription('italic', 'topicInputDescription')">Italic</button>
                         <button type="button" onclick="applyStyleDescription('bold', 'topicInputDescription')">Bold</button>
                         <button type="button" onclick="applyStyleDescription('underline', 'topicInputDescription')">Underline</button>
@@ -108,7 +108,7 @@
                     <div id="topicInputDescription" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
               </div>
               <div class="mb-3">
-                      <div class="style-buttons" style="margin: 5px;">
+                      <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyStyleComment('italic', 'commentInput')">Italic</button>
                         <button type="button" onclick="applyStyleComment('bold', 'commentInput')">Bold</button>
                         <button type="button" onclick="applyStyleComment('underline', 'commentInput')">Underline</button>
@@ -144,7 +144,7 @@
                 <input type="text" name="name" class="form-control" placeholder="Enter topic name" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
-                      <div class="style-buttons" style="margin: 5px;">
+                      <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyStyleDescriptionEdit('italic', 'topicInputDescriptionEdit')">Italic</button>
                         <button type="button" onclick="applyStyleDescriptionEdit('bold', 'topicInputDescriptionEdit')">Bold</button>
                         <button type="button" onclick="applyStyleDescriptionEdit('underline', 'topicInputDescriptionEdit')">Underline</button>
