@@ -38,7 +38,6 @@
                             echo '<div style="flex-basis: 25%;"><p>Author: '.$topic['username'].'</p></div>';
                             echo '<div style="flex-basis: 25%;"><p>'.$topic['name'].'</p></div>';
                             echo '<div class="navbar forum-button" style="display: flex; justify-content: center;">';
-                            echo '<a href="comments?topic=' . $topic['id'] . '" class="getstarted scrollto" style="margin: 0px; margin-top: 10px;">Comments</a>';
                                 echo '<button type="button" 
                                        class="getstarted scrollto edit-topic-link"
                                        style="border: none; margin: 0px 5px; margin-top: 10px; font-size: 16px;" 
@@ -60,8 +59,10 @@
                                        <i class="fas fa-trash"></i>
                                     </button>';
                             echo '</div>';
-                            echo '<hr style="width: 100%; margin: 10px 0;">';
-                            echo '<div style="flex-basis: 100%; text-align: justify;"><p>'.$topic['description'].'</p></div>';
+                            if(!empty($topic['description'])){
+                              echo '<hr style="width: 100%; margin: 10px 0;">';
+                              echo '<div style="flex-basis: 100%; text-align: justify;"><p>'.$topic['description'].'</p></div>';
+                            }
                             echo '</div>';
                         }
                     }

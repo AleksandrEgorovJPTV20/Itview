@@ -49,15 +49,50 @@ class ModelAdmin {
 	{
 		$db = new Database();
 	
+		// Handle image upload
+		$uploadDir = 'uploads/comments/';
+		$uploadPath1 = '';
+		$uploadPath2 = '';
+		$uploadPath3 = '';
+	
+		if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
+			move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
+		}
+	
+		if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
+			move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
+		}
+	
+		if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
+			move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
+		}
+	
 		// Prepare the SQL query
 		$sql = "UPDATE comments 
-				SET text = :commentText, updated_at = NOW()
-				WHERE id = :commentId";
+				SET text = :commentText";
+	
+		// Add image paths to the query only if new files are selected
+		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+			$sql .= ", imgpath = :imgpath, imgpath2 = :imgpath2, imgpath3 = :imgpath3";
+		}
+	
+		$sql .= ", updated_at = NOW()
+				 WHERE id = :commentId";
 	
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
 		$stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
+	
+		// Bind image paths only if new files are selected
+		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+			$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR);
+			$stmt->bindParam(':imgpath2', $uploadPath2, PDO::PARAM_STR);
+			$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR);
+		}
 	
 		// Check if the query executed successfully
 		if ($stmt->execute()) {
@@ -106,15 +141,50 @@ class ModelAdmin {
 	{
 		$db = new Database();
 
+		// Handle image upload
+		$uploadDir = 'uploads/replies/';
+		$uploadPath1 = '';
+		$uploadPath2 = '';
+		$uploadPath3 = '';
+
+		if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
+			move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
+		}
+
+		if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
+			move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
+		}
+
+		if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
+			$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
+			move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
+		}
+
 		// Prepare the SQL query
 		$sql = "UPDATE replies 
-				SET text = :replyText, updated_at = NOW()
+				SET text = :replyText";
+
+		// Add image paths to the query only if new files are selected
+		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+			$sql .= ", imgpath = :imgpath, imgpath2 = :imgpath2, imgpath3 = :imgpath3";
+		}
+
+		$sql .= ", updated_at = NOW()
 				WHERE id = :replyId";
 
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':replyText', $replyText, PDO::PARAM_STR);
 		$stmt->bindParam(':replyId', $replyId, PDO::PARAM_INT);
+
+		// Bind image paths only if new files are selected
+		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+			$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR);
+			$stmt->bindParam(':imgpath2', $uploadPath2, PDO::PARAM_STR);
+			$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR);
+		}
 
 		// Check if the query executed successfully
 		return $stmt->execute();
@@ -143,7 +213,7 @@ class ModelAdmin {
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT comments.*, users.username, topics.name AS topic_name
+		$sql = "SELECT comments.*, users.username, topics.name AS topic_name, users.imgpath AS userimg
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
 				INNER JOIN topics ON comments.topicid = topics.id
@@ -158,23 +228,23 @@ class ModelAdmin {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	// Model method to search comments
 	public static function searchComments($searchQuery) {
 		$db = new Database();
-
+	
 		// Prepare the SQL query with a search condition
-		$sql = "SELECT comments.*, users.username, topics.name AS topic_name
+		$sql = "SELECT comments.*, users.username, topics.name AS topic_name, users.imgpath AS userimg
 				FROM comments
 				INNER JOIN users ON comments.userid = users.id
 				INNER JOIN topics ON comments.topicid = topics.id
-				WHERE comments.text LIKE :searchQuery
+				WHERE users.username LIKE :searchQuery
+				OR users.email LIKE :searchQuery
 				ORDER BY comments.id DESC";
-
+	
 		// Bind parameters and execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
 		$stmt->execute();
-
+	
 		// Fetch the results
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -202,10 +272,9 @@ class ModelAdmin {
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT replies.*, users.username, comments.text AS comment_text
+		$sql = "SELECT replies.*, users.username, users.imgpath AS userimg
 				FROM replies
 				INNER JOIN users ON replies.userid = users.id
-				INNER JOIN comments ON replies.commentid = comments.id
 				ORDER BY replies.id DESC
 				LIMIT :limit OFFSET :offset";
 
@@ -217,24 +286,25 @@ class ModelAdmin {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-    public static function searchReplies($searchQuery) {
-        $db = new Database();
-
-        // Prepare the SQL query with a search condition and inner join
-        $sql = "SELECT replies.*, users.username
-                FROM replies
-                INNER JOIN users ON replies.userid = users.id
-                WHERE replies.text LIKE :searchQuery
-                ORDER BY replies.id DESC";
-
-        // Bind parameters and execute the query
-        $stmt = $db->conn->prepare($sql);
-        $stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
-        $stmt->execute();
-
-        // Fetch the results
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+	public static function searchReplies($searchQuery) {
+		$db = new Database();
+	
+		// Prepare the SQL query with a search condition and inner join
+		$sql = "SELECT replies.*, users.username, users.imgpath AS userimg
+				FROM replies
+				INNER JOIN users ON replies.userid = users.id
+				WHERE users.username LIKE :searchQuery
+				OR users.email LIKE :searchQuery
+				ORDER BY replies.id DESC";
+	
+		// Bind parameters and execute the query
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bindValue(':searchQuery', "%$searchQuery%", PDO::PARAM_STR);
+		$stmt->execute();
+	
+		// Fetch the results
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
 
     // Model method to get the total number of replies
     public static function getTotalReplies() {
@@ -285,7 +355,7 @@ class ModelAdmin {
 		$db = new Database();
 	
 		// Define the SQL query for searching users
-		$sql = "SELECT * FROM users WHERE username LIKE :searchQuery OR email LIKE :searchQuery OR description LIKE :searchQuery";
+		$sql = "SELECT * FROM users WHERE username LIKE :searchQuery OR email LIKE :searchQuery";
 		
 		$searchQuery = '%' . $searchQuery . '%';
 	
@@ -317,7 +387,7 @@ class ModelAdmin {
 
 		// Handle image upload
 		if ($_FILES['userImage']['error'] === UPLOAD_ERR_OK) {
-			$uploadDir = 'uploads/';
+			$uploadDir = 'uploads/users/';
 			$uploadPath = $uploadDir . basename($_FILES['userImage']['name']);
 			move_uploaded_file($_FILES['userImage']['tmp_name'], $uploadPath);
 
@@ -373,7 +443,7 @@ class ModelAdmin {
 		$db = new Database();
         $offset = ($page - 1) * $itemsPerPage;
 
-        $sql = "SELECT reports.id AS reportId, reports.text, users1.email AS reporterEmail, users2.email AS reportedUserEmail, users2.id AS reportedUserId, users2.imgpath AS reportedUserImage, users2.banexpiry
+        $sql = "SELECT reports.id AS reportId, reports.text, users1.email AS reporterEmail, users2.email AS reportedUserEmail, users2.id AS reportedUserId, users2.imgpath AS reportedUserImage, users2.banexpiry, users2.username AS reportedUserName
                 FROM reports
                 JOIN users users1 ON reports.userId = users1.id
                 JOIN users users2 ON reports.reportedUserId = users2.id
@@ -403,11 +473,11 @@ class ModelAdmin {
         $db = new Database();
 
         // Prepare the SQL query with a search condition and inner join
-        $sql = "SELECT reports.id AS reportId, reports.text, users1.email AS reporterEmail, users2.email AS reportedUserEmail, users2.id AS reportedUserId, users2.imgpath AS reportedUserImage, users2.banexpiry
+        $sql = "SELECT reports.id AS reportId, reports.text, users1.email AS reporterEmail, users2.email AS reportedUserEmail, users2.id AS reportedUserId, users2.imgpath AS reportedUserImage, users2.banexpiry, users2.username AS reportedUserName
                 FROM reports
                 INNER JOIN users users1 ON reports.userId = users1.id
                 INNER JOIN users users2 ON reports.reportedUserId = users2.id
-                WHERE users1.email LIKE :searchQuery
+                WHERE users2.username LIKE :searchQuery
                     OR users2.email LIKE :searchQuery
                 ORDER BY reports.id DESC";
 

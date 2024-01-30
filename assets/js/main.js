@@ -1,10 +1,3 @@
-/**
-* Template Name: FlexStart
-* Updated: Mar 10 2023 with Bootstrap v5.2.3
-* Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 (function() {
   "use strict";
 
@@ -293,3 +286,15 @@
   new PureCounter();
 
 })();
+function openLightbox(imgPath) {
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImage = document.getElementById('lightbox-image');
+
+  lightboxImage.src = imgPath;
+  lightbox.style.display = 'flex';
+}
+
+function closeLightbox() {
+  var lightbox = document.getElementById('lightbox');
+  lightbox.style.display = 'none';
+}

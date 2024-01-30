@@ -91,13 +91,18 @@ $route = explode('/', $path)[$num];
 
     </div>
   </header><!-- End Header -->
-
+  
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-image">
+    <div style="position: absolute; top: 10px; right: 10px; cursor: pointer; color: #fff; font-size: 24px;">&times;</div>
+</div>
 
 	<main id="main">
 		<?php 
 			if(isset($content))
 			echo $content;
 		?>
+
 
   <!-- Login -->
   <div class="modal fade" id="loginModal" aria-hidden="true">

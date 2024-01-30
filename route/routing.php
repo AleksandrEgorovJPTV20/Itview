@@ -1,4 +1,10 @@
 <?php
+if(isset($_SESSION['userId'])){
+    if(ControllerLogin::checkUserBan()){
+        exit();
+    }
+}
+
 $host = explode('?', $_SERVER['REQUEST_URI']);
 $path = $host[0];
 $num = substr_count($path, '/');
@@ -7,6 +13,7 @@ $route = explode('/', $path)[$num];
 if (strstr($_SERVER['REQUEST_URI'], '?')) {
     $id = urldecode($host[1]);
 }
+
 
 if ($route == '' || $route == 'index.php') {
     if (isset($_GET['year'])) {
@@ -17,8 +24,6 @@ if ($route == '' || $route == 'index.php') {
     } else {
         Controller::StartSite();
     }
-} elseif ($route == 'contact') {
-    Controller::contact();
 } elseif ($route == 'forum') {
     if (isset($id) && strpos($id, 'page=') === 0) {
         $page = intval(substr($id, 5));

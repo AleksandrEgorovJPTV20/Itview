@@ -43,13 +43,13 @@
                         
                         // Check and include the image containers
                         if (!empty($comment['imgpath'])) {
-                            echo '<img style="width: 100px; height: 100px;" src="' . $comment['imgpath'] . '">';
+                            echo '<img style="width: 120px; height: 120px; cursor: pointer;" src="' . $comment['imgpath'] . '" onclick="openLightbox(\'' . $comment['imgpath'] . '\')">';
                         }
                         if (!empty($comment['imgpath2'])) {
-                            echo '<img style="width: 100px; height: 100px;" src="' . $comment['imgpath2'] . '">';
+                            echo '<img style="width: 120px; height: 120px; cursor: pointer; margin: 0px 10px;" src="' . $comment['imgpath2'] . '" onclick="openLightbox(\'' . $comment['imgpath2'] . '\')">';
                         }
                         if (!empty($comment['imgpath3'])) {
-                            echo '<img style="width: 100px; height: 100px;" src="' . $comment['imgpath3'] . '">';
+                            echo '<img style="width: 120px; height: 120px; cursor: pointer;" src="' . $comment['imgpath3'] . '" onclick="openLightbox(\'' . $comment['imgpath3'] . '\')">';
                         }
                         
                         echo '</div>';
@@ -151,7 +151,7 @@
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
-            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;">Edit comment</h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -172,6 +172,16 @@
                     </div>
                     <div contenteditable="true" id="commentInputEdit" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"></div>
                     <input type="hidden" name="comment" id="rawCommentInputEdit" required>
+                </div>
+                <div class="mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="editImageInput1" name="Image1" accept="image/*">
+                        <input type="file" class="custom-file-input" id="editImageInput2" name="Image2" accept="image/*" style="display: none;">
+                        <input type="file" class="custom-file-input" id="editImageInput3" name="Image3" accept="image/*" style="display: none;">
+                        <label class="custom-file-label" for="editImageInput1">Choose up to 3 image files</label>
+                    </div>
+                    <div id="selectedImagesContainerEdit" class="mt-2"></div>
+                    <button type="button" class="btn btn-danger mt-2" id="removeImagesBtnEdit" style="display: none;">Remove Images</button>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                     <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
@@ -211,27 +221,51 @@
   </div>
   
   <script>
+    // Display image previews inside selectedImagesContainerEdit
+    function displayImagePreview(imgpath, inputId) {
+        if (imgpath && inputId) {
+            var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + imgpath + '" alt="Selected Image">');
+            $('#selectedImagesContainerEdit').append(imagePreview);
+            $('#removeImagesBtnEdit').show();
+        }
+    }
+
+    // Clear image previews inside selectedImagesContainerEdit
+    function clearImagePreviews() {
+        $('#selectedImagesContainerEdit').empty();
+        $('#removeImagesBtnEdit').hide();
+    }
+
     // Capture the click event on the "Edit comment" link
     $('.edit-comment-link').on('click', function() {
-        // Get the comment ID and text from data attributes
+        // Get the comment ID, text, imgpath, imgpath2, and imgpath3 from data attributes
         var commentId = $(this).data('comment-id');
         var commentText = $(this).data('comment-text');
+        var imgpath = $(this).data('imgpath');
+        var imgpath2 = $(this).data('imgpath2');
+        var imgpath3 = $(this).data('imgpath3');
 
-        // Populate the form fields with the comment ID and text
+        // Clear existing image previews
+        clearImagePreviews();
+
+        // Populate the form fields with the comment ID, text, and image paths
         $('#editCommentModal input[name="commentId"]').val(commentId);
-
-        // Set the comment text to the contenteditable div
         $('#commentInputEdit').html(commentText);
+        $('#rawCommentInputEdit').val(commentText);
 
-        // Add the comment ID as a hidden input field
-        $('#editCommentModal input[name="comment"]').val(commentText);
+        // Display image previews inside selectedImagesContainerEdit
+        displayImagePreview(imgpath, 'editImageInput1');
+        displayImagePreview(imgpath2, 'editImageInput2');
+        displayImagePreview(imgpath3, 'editImageInput3');
     });
 
-    // Clear form fields when the modal is closed
+    // Clear form fields and image previews when the modal is closed
     $('#editCommentModal').on('hidden.bs.modal', function() {
         $('#editCommentModal input[name="comment"]').val('');
         $('#editCommentModal input[name="commentId"]').val('');
         $('#commentInputEdit').html(''); // Clear the contenteditable div
+        // Clear image previews inside selectedImagesContainerEdit
+        clearImagePreviews();
     });
 
     // Capture the click event on the "Delete comment" link
@@ -250,89 +284,94 @@
 </script>
 
 <script>
-    // Keep track of selected images
-    var selectedImages = [];
+    // Function to initialize file input handling for both forms
+    function initializeFileInputs(containerSelector, fileInputs, removeImagesBtn, maxImages) {
+        // Keep track of selected images
+        var selectedImages = [];
 
-    var container = $('#selectedImagesContainer');
-    var fileInputs = ['#ImageInput1', '#ImageInput2', '#ImageInput3'];
-    var removeImagesBtn = $('#removeImagesBtn');
-    var maxImages = 3;
-
-    $(fileInputs.join(', ')).on('change', function () {
-        var files = getSelectedFiles(); // Get the selected files
-        removeImagesBtn.hide();
-
-        var fileCount = selectedImages.length + 1;
-
-        // Adjust the file count to a maximum of 3
-        fileCount = Math.min(fileCount, maxImages);
-        var fileCountText = fileCount + ' file(s) selected';
-
-        if(fileCount => 0){
-            $('.custom-file-label').html(fileCountText);
-            removeImagesBtn.show();
-        }
-
-        // Iterate through the selected files
-        container.empty(); // Clear the container content
-        for (var i = 0; i < files.length; i++) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + e.target.result + '" alt="Selected Image">');
-                container.append(imagePreview);
-            };
-            reader.readAsDataURL(files[i]);
-            // Add the selected images to the array
-            selectedImages.push(files[i]);
-        }
-
-        // Update the visibility of file inputs and the "Remove Images" button
-        updateFileInputsVisibility();
-    });
-
-    removeImagesBtn.on('click', function () {
-        // Clear the selected images and hide the "Remove Images" button
-        container.empty(); // Clear the container content
-        $(fileInputs.join(', ')).val('');
-        $('.custom-file-label').html('Choose up to 3 image files'); // Clear the contenteditable div
+        var container = $(containerSelector);
         
-        removeImagesBtn.hide();
+        $(fileInputs.join(', ')).on('change', function () {
+            var files = getSelectedFiles(); // Get the selected files
+            removeImagesBtn.hide();
 
-        // Show the first file input
-        $(fileInputs[0]).show();
+            var fileCount = selectedImages.length + 1;
 
-        // Enable the file inputs after removing the images
-        enableFileInputs();
+            // Adjust the file count to a maximum of 3
+            fileCount = Math.min(fileCount, maxImages);
+            var fileCountText = fileCount + ' file(s) selected';
 
-        // Clear the selected images array
-        selectedImages = [];
-    });
+            if (fileCount > 0) {
+                $('.custom-file-label').html(fileCountText);
+                removeImagesBtn.show();
+            }
 
-    function getSelectedFiles() {
-        var selectedFiles = [];
-        for (var i = 0; i < fileInputs.length; i++) {
-            var files = $(fileInputs[i])[0].files;
-            selectedFiles = selectedFiles.concat(Array.from(files));
+            // Iterate through the selected files
+            container.empty(); // Clear the container content
+            for (var i = 0; i < files.length; i++) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + e.target.result + '" alt="Selected Image">');
+                    container.append(imagePreview);
+                };
+                reader.readAsDataURL(files[i]);
+                // Add the selected images to the array
+                selectedImages.push(files[i]);
+            }
+
+            // Update the visibility of file inputs and the "Remove Images" button
+            updateFileInputsVisibility();
+        });
+
+        removeImagesBtn.on('click', function () {
+            // Clear the selected images and hide the "Remove Images" button
+            container.empty(); // Clear the container content
+            $(fileInputs.join(', ')).val('');
+            $('.custom-file-label').html('Choose up to 3 image files'); // Clear the contenteditable div
+
+            removeImagesBtn.hide();
+
+            // Show the first file input
+            $(fileInputs[0]).show();
+
+            // Enable the file inputs after removing the images
+            enableFileInputs();
+
+            // Clear the selected images array
+            selectedImages = [];
+        });
+
+        function getSelectedFiles() {
+            var selectedFiles = [];
+            for (var i = 0; i < fileInputs.length; i++) {
+                var files = $(fileInputs[i])[0].files;
+                selectedFiles = selectedFiles.concat(Array.from(files));
+            }
+            return selectedFiles;
         }
-        return selectedFiles;
-    }
 
-    function updateFileInputsVisibility() {
-        maxImages = 3;
-        var currentFileCount = getSelectedFiles().length;
+        function updateFileInputsVisibility() {
+            var currentFileCount = getSelectedFiles().length;
 
-        // Hide all file inputs
-        $(fileInputs.join(', ')).hide();
+            // Hide all file inputs
+            $(fileInputs.join(', ')).hide();
 
-        // Show the next file input if not reached the maximum
-        if (currentFileCount < maxImages) {
-            $(fileInputs[currentFileCount]).show();
+            // Show the next file input if not reached the maximum
+            if (currentFileCount < maxImages) {
+                $(fileInputs[currentFileCount]).show();
+            }
+        }
+
+        function enableFileInputs() {
+            $(fileInputs.join(', ')).prop('disabled', false);
         }
     }
 
-    function enableFileInputs() {
-        $(fileInputs.join(', ')).prop('disabled', false);
-    }
+    // Initialize file input handling for the first form
+    initializeFileInputs('#selectedImagesContainer', ['#ImageInput1', '#ImageInput2', '#ImageInput3'], $('#removeImagesBtn'), 3);
+
+    // Initialize file input handling for the edit form
+    initializeFileInputs('#selectedImagesContainerEdit', ['#editImageInput1', '#editImageInput2', '#editImageInput3'], $('#removeImagesBtnEdit'), 3);
 </script>
 
 

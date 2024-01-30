@@ -98,5 +98,27 @@ class ModelLogin {
 		}
 	}
 
+    public static function banCheck() {
+        if (isset($_SESSION['userId'])) {
+            $userId = $_SESSION['userId'];
+
+            // Retrieve user ban information from the database
+            $db = new Database();
+            $sql = "SELECT banexpiry FROM users WHERE id = :userId";
+            $stmt = $db->conn->prepare($sql);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result && !empty($result['banexpiry'])) {
+                // User is banned
+                return true;
+            }
+        }
+
+        // User is not banned
+        return false;
+    }
+
 }
 ?>

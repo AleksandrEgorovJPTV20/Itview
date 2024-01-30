@@ -55,6 +55,17 @@ class ControllerLogin {
 		exit();
 	}
 
+	public static function checkUserBan(){
+		if (ModelLogin::banCheck()) {
+			// User is banned, perform logout
+			ModelLogin::userLogout();
+			include_once('view/banMessage.php');
+			return true;
+			exit();
+		}
+		return false;
+		
+	}
 
 }
 ?>

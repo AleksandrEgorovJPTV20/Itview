@@ -42,12 +42,12 @@ class Model {
 	public static function searchTopics($searchTerm, $page = 1, $itemsPerPage = 2) {
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT topics.*, users.username, users.imgpath
+		$sql = "SELECT topics.*, users.username, users.imgpath, users.email
 				FROM topics
 				JOIN users ON topics.userid = users.id
 				WHERE topics.name LIKE :searchTerm 
 					OR users.username LIKE :searchTerm
-					OR topics.description LIKE :searchTerm
+					OR users.email LIKE :searchTerm
 				ORDER BY topics.id DESC
 				LIMIT :offset, :limit";
 
@@ -179,7 +179,7 @@ class Model {
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.topicid = :topicid 
-				AND (comments.text LIKE :searchQuery OR users.username LIKE :searchQuery)
+				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery)
 				ORDER BY comments.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
@@ -273,7 +273,7 @@ class Model {
 				FROM replies
 				INNER JOIN users ON replies.userid = users.id
 				WHERE replies.commentid = :commentid
-				AND (replies.text LIKE :searchQuery OR users.username LIKE :searchQuery)
+				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery)
 				ORDER BY replies.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
@@ -323,7 +323,7 @@ class Model {
 		// Prepare the SQL query
 		$sql = "INSERT INTO replies (text, userid, commentid, imgpath, imgpath2, imgpath3, created_at, updated_at) 
 				VALUES (:commentText, :userid, :commentid, :imgpath, :imgpath2, :imgpath3, NOW(), NOW())";
-	
+
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
@@ -394,7 +394,7 @@ class Model {
 
 		// Handle image upload
 		if ($_FILES['userImage']['error'] === UPLOAD_ERR_OK) {
-			$uploadDir = 'uploads/';
+			$uploadDir = 'uploads/users/';
 			$uploadPath = $uploadDir . basename($_FILES['userImage']['name']);
 			move_uploaded_file($_FILES['userImage']['tmp_name'], $uploadPath);
 

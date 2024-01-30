@@ -41,13 +41,13 @@
                             <p style="font-size: 16px; margin: 0;">'.$originalComment['created_at'].'</p>
                             <p>'.$originalComment['text'].'</p>';
                             if (!empty($originalComment['imgpath'])) {
-                                echo '<img style="width: 100px; height: 100px;" src="' . $originalComment['imgpath'] . '">';
+                                echo '<img style="width: 120px; height: 120px; cursor: pointer;" src="' . $originalComment['imgpath'] . '" onclick="openLightbox(\'' . $originalComment['imgpath'] . '\')">';
                             }
                             if (!empty($originalComment['imgpath2'])) {
-                                echo '<img style="width: 100px; height: 100px;" src="' . $originalComment['imgpath2'] . '">';
+                                echo '<img style="width: 120px; height: 120px; cursor: pointer; margin: 0px 10px;" src="' . $originalComment['imgpath2'] . '" onclick="openLightbox(\'' . $originalComment['imgpath2'] . '\')">';
                             }
                             if (!empty($originalComment['imgpath3'])) {
-                                echo '<img style="width: 100px; height: 100px;" src="' . $originalComment['imgpath3'] . '">';
+                                echo '<img style="width: 120px; height: 120px; cursor: pointer;" src="' . $originalComment['imgpath3'] . '" onclick="openLightbox(\'' . $originalComment['imgpath3'] . '\')">';
                             }
                         echo '</div>';
                         echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start">';
@@ -65,13 +65,13 @@
                                 <p style="font-size: 16px; margin: 0;">'.$reply['created_at'].'</p>
                                 <p>'.$reply['text'].'</p>';
                                 if (!empty($reply['imgpath'])) {
-                                    echo '<img style="width: 100px; height: 100px;" src="' . $reply['imgpath'] . '">';
+                                    echo '<img style="width: 120px; height: 120px; cursor: pointer;" src="' . $reply['imgpath'] . '" onclick="openLightbox(\'' . $reply['imgpath'] . '\')">';
                                 }
                                 if (!empty($reply['imgpath2'])) {
-                                    echo '<img style="width: 100px; height: 100px;" src="' . $reply['imgpath2'] . '">';
+                                    echo '<img style="width: 120px; height: 120px; cursor: pointer; margin: 0px 10px;" src="' . $reply['imgpath2'] . '" onclick="openLightbox(\'' . $reply['imgpath2'] . '\')">';
                                 }
                                 if (!empty($reply['imgpath3'])) {
-                                    echo '<img style="width: 100px; height: 100px;" src="' . $reply['imgpath3'] . '">';
+                                    echo '<img style="width: 120px; height: 120px; cursor: pointer;" src="' . $reply['imgpath3'] . '" onclick="openLightbox(\'' . $reply['imgpath3'] . '\')">';
                                 }
                             echo '</div>';
                             if (isset($_SESSION['userId'])) {
@@ -84,6 +84,9 @@
                                              data-target="#editReplyModal" 
                                              data-reply-id="' . $reply['id'] . '" 
                                              data-reply-text="' . htmlspecialchars($reply['text']) . '" 
+                                             data-imgpath="' . (!empty($reply['imgpath']) ? $reply['imgpath'] : '') . '"
+                                             data-imgpath2="' . (!empty($reply['imgpath2']) ? $reply['imgpath2'] : '') . '"
+                                             data-imgpath3="' . (!empty($reply['imgpath3']) ? $reply['imgpath3'] : '') . '"
                                              class="getstarted scrollto edit-reply-link">
                                              <i class="fas fa-edit"></i>
                                           </a>';
@@ -173,7 +176,7 @@
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 40%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
-            <form action="comments?replies=<?php echo $commentId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+            <form action="comments?replies=<?php echo $commentId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;">Edit your reply</h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -195,6 +198,16 @@
                     <div contenteditable="true" id="commentInputEditReply" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"></div>
                     <!-- Corrected the name attribute to "reply" -->
                     <input type="hidden" name="reply" id="rawCommentInputEditReply" required>
+                </div>
+                <div class="mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="editImageInput1" name="Image1" accept="image/*">
+                        <input type="file" class="custom-file-input" id="editImageInput2" name="Image2" accept="image/*" style="display: none;">
+                        <input type="file" class="custom-file-input" id="editImageInput3" name="Image3" accept="image/*" style="display: none;">
+                        <label class="custom-file-label" for="editImageInput1">Choose up to 3 image files</label>
+                    </div>
+                    <div id="selectedImagesContainerEdit" class="mt-2"></div>
+                    <button type="button" class="btn btn-danger mt-2" id="removeImagesBtnEdit" style="display: none;">Remove Images</button>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                     <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
@@ -234,125 +247,159 @@
   </div>
 
   <script>
+    // Display image previews inside selectedImagesContainerEdit
+    function displayImagePreview(imgpath, inputId) {
+        if (imgpath && inputId) {
+            var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + imgpath + '" alt="Selected Image">');
+            $('#selectedImagesContainerEdit').append(imagePreview);
+            $('#removeImagesBtnEdit').show();
+        }
+    }
+
+    // Clear image previews inside selectedImagesContainerEdit
+    function clearImagePreviews() {
+        $('#selectedImagesContainerEdit').empty();
+        $('#removeImagesBtnEdit').hide();
+    }
+
     // Capture the click event on the "Edit reply" link
     $('.edit-reply-link').on('click', function() {
-        // Get the reply ID and text from data attributes
+        // Get the reply ID, text, and imgpath from data attributes
         var replyId = $(this).data('reply-id');
         var replyText = $(this).data('reply-text');
+        var imgpath = $(this).data('imgpath');
+        var imgpath2 = $(this).data('imgpath2');
+        var imgpath3 = $(this).data('imgpath3');
 
-        // Populate the form fields with the reply ID and text
+        // Clear existing image previews
+        clearImagePreviews();
+
+        // Populate the form fields with the reply ID, text, and image path
         $('#editReplyModal input[name="reply"]').val(replyText);
-
-        // Set the reply text to the contenteditable div
         $('#commentInputEditReply').html(replyText);
+        $('#rawCommentInputEditReply').val(replyText);
+
+        // Display image previews inside selectedImagesContainerEdit
+        displayImagePreview(imgpath, 'editImageInput1');
+        displayImagePreview(imgpath2, 'editImageInput2');
+        displayImagePreview(imgpath3, 'editImageInput3');
 
         // Add the reply ID as a hidden input field
         $('#editReplyModal input[name="replyId"]').val(replyId);
     });
 
-    // Capture the click event on the "Delete reply" link
-    $('.delete-reply-link').on('click', function() {
-        // Get the reply ID from data attribute
-        var deleteId = $(this).data('delete-id');
-
-        // Add the reply ID to the modal's hidden input field
-        $('#deleteReplyModal input[name="deleteId"]').val(deleteId);
-    });
-
-    // Clear form fields when the modal is closed
-    $('#editReplyModal, #deleteReplyModal').on('hidden.bs.modal', function() {
+    // Clear form fields and image preview when the modal is closed
+    $('#editReplyModal').on('hidden.bs.modal', function() {
         $('#editReplyModal input[name="reply"]').val('');
         $('#editReplyModal input[name="replyId"]').val('');
         $('#commentInputEditReply').html(''); // Clear the contenteditable div
+
+        // Clear image previews inside selectedImagesContainerEditReply
+        clearImagePreviews();
+    });
+
+    $('.delete-reply-link').on('click', function() {
+        var replyId = $(this).data('delete-id');
+
+        $('#deleteReplyModal input[name="deleteId"]').val(replyId);
+    });
+
+    $('#deleteReplyModal').on('hidden.bs.modal', function() {
         $('#deleteReplyModal input[name="deleteId"]').val('');
     });
 </script>
 
 <script>
-    // Keep track of selected images
-    var selectedImages = [];
+    // Function to initialize file input handling for both forms
+    function initializeFileInputs(containerSelector, fileInputs, removeImagesBtn, maxImages) {
+        // Keep track of selected images
+        var selectedImages = [];
 
-    var container = $('#selectedImagesContainer');
-    var fileInputs = ['#ImageInput1', '#ImageInput2', '#ImageInput3'];
-    var removeImagesBtn = $('#removeImagesBtn');
-    var maxImages = 3;
-
-    $(fileInputs.join(', ')).on('change', function () {
-        var files = getSelectedFiles(); // Get the selected files
-        removeImagesBtn.hide();
-
-        var fileCount = selectedImages.length + 1;
-
-        // Adjust the file count to a maximum of 3
-        fileCount = Math.min(fileCount, maxImages);
-        var fileCountText = fileCount + ' file(s) selected';
-
-        if(fileCount => 0){
-            $('.custom-file-label').html(fileCountText);
-            removeImagesBtn.show();
-        }
-
-        // Iterate through the selected files
-        container.empty(); // Clear the container content
-        for (var i = 0; i < files.length; i++) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + e.target.result + '" alt="Selected Image">');
-                container.append(imagePreview);
-            };
-            reader.readAsDataURL(files[i]);
-            // Add the selected images to the array
-            selectedImages.push(files[i]);
-        }
-
-        // Update the visibility of file inputs and the "Remove Images" button
-        updateFileInputsVisibility();
-    });
-
-    removeImagesBtn.on('click', function () {
-        // Clear the selected images and hide the "Remove Images" button
-        container.empty(); // Clear the container content
-        $(fileInputs.join(', ')).val('');
-        $('.custom-file-label').html('Choose up to 3 image files'); // Clear the contenteditable div
+        var container = $(containerSelector);
         
-        removeImagesBtn.hide();
+        $(fileInputs.join(', ')).on('change', function () {
+            var files = getSelectedFiles(); // Get the selected files
+            removeImagesBtn.hide();
 
-        // Show the first file input
-        $(fileInputs[0]).show();
+            var fileCount = selectedImages.length + 1;
 
-        // Enable the file inputs after removing the images
-        enableFileInputs();
+            // Adjust the file count to a maximum of 3
+            fileCount = Math.min(fileCount, maxImages);
+            var fileCountText = fileCount + ' file(s) selected';
 
-        // Clear the selected images array
-        selectedImages = [];
-    });
+            if (fileCount > 0) {
+                $('.custom-file-label').html(fileCountText);
+                removeImagesBtn.show();
+            }
 
-    function getSelectedFiles() {
-        var selectedFiles = [];
-        for (var i = 0; i < fileInputs.length; i++) {
-            var files = $(fileInputs[i])[0].files;
-            selectedFiles = selectedFiles.concat(Array.from(files));
+            // Iterate through the selected files
+            container.empty(); // Clear the container content
+            for (var i = 0; i < files.length; i++) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + e.target.result + '" alt="Selected Image">');
+                    container.append(imagePreview);
+                };
+                reader.readAsDataURL(files[i]);
+                // Add the selected images to the array
+                selectedImages.push(files[i]);
+            }
+
+            // Update the visibility of file inputs and the "Remove Images" button
+            updateFileInputsVisibility();
+        });
+
+        removeImagesBtn.on('click', function () {
+            // Clear the selected images and hide the "Remove Images" button
+            container.empty(); // Clear the container content
+            $(fileInputs.join(', ')).val('');
+            $('.custom-file-label').html('Choose up to 3 image files'); // Clear the contenteditable div
+
+            removeImagesBtn.hide();
+
+            // Show the first file input
+            $(fileInputs[0]).show();
+
+            // Enable the file inputs after removing the images
+            enableFileInputs();
+
+            // Clear the selected images array
+            selectedImages = [];
+        });
+
+        function getSelectedFiles() {
+            var selectedFiles = [];
+            for (var i = 0; i < fileInputs.length; i++) {
+                var files = $(fileInputs[i])[0].files;
+                selectedFiles = selectedFiles.concat(Array.from(files));
+            }
+            return selectedFiles;
         }
-        return selectedFiles;
-    }
 
-    function updateFileInputsVisibility() {
-        maxImages = 3;
-        var currentFileCount = getSelectedFiles().length;
+        function updateFileInputsVisibility() {
+            var currentFileCount = getSelectedFiles().length;
 
-        // Hide all file inputs
-        $(fileInputs.join(', ')).hide();
+            // Hide all file inputs
+            $(fileInputs.join(', ')).hide();
 
-        // Show the next file input if not reached the maximum
-        if (currentFileCount < maxImages) {
-            $(fileInputs[currentFileCount]).show();
+            // Show the next file input if not reached the maximum
+            if (currentFileCount < maxImages) {
+                $(fileInputs[currentFileCount]).show();
+            }
+        }
+
+        function enableFileInputs() {
+            $(fileInputs.join(', ')).prop('disabled', false);
         }
     }
 
-    function enableFileInputs() {
-        $(fileInputs.join(', ')).prop('disabled', false);
-    }
+    // Initialize file input handling for the first form
+    initializeFileInputs('#selectedImagesContainer', ['#ImageInput1', '#ImageInput2', '#ImageInput3'], $('#removeImagesBtn'), 3);
+
+    // Initialize file input handling for the edit form
+    initializeFileInputs('#selectedImagesContainerEdit', ['#editImageInput1', '#editImageInput2', '#editImageInput3'], $('#removeImagesBtnEdit'), 3);
 </script>
+
 
 <script>
     // Function to apply a style to the contenteditable div in the reply modal

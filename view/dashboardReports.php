@@ -35,11 +35,20 @@
             } else {
                 foreach ($reports as $report) {
                     // Skip users with the admin role
-                    echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
-                    echo '<div style="flex-basis: 25%;"><p>Id: ' . $report['reportId'] . '</p></div>';
-                    echo '<div style="flex-basis: 25%;"><p>Reporter: ' . $report['reporterEmail'] . '</p></div>';
-                    echo '<div style="flex-basis: 25%;"><p>Reported: ' . $report['reportedUserEmail'] . '</p></div>';
-                    echo '<div class="navbar forum-button" style="display: flex; justify-content: center;">';
+                    echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
+                    echo '<a href="profile?user=' . $report['reportedUserId'] . '" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="' . $report['reportedUserImage'] . '"></img></a>';
+                    echo '<div class="comment">';
+                    echo '<p style="margin: 0; margin-top: 10px;">Report id: ' . $report['reportId'];
+                    if (!empty($report['banexpiry'])) {
+                        echo ', '.$report['reportedUserName'].' is banned until: ' . $report['banexpiry'];
+                    } else {
+                        echo ', '.$report['reportedUserName'].' is not banned';
+                    }
+                    echo '</p>';
+                    echo '<p style="margin: 0; margin-top: 10px;">Reported user: ' . $report['reportedUserEmail'] . ', Reported by: '. $report['reporterEmail'] .'</p>';
+                    echo '<p>Report reason: ' . $report['text'] . '</p>';
+                    echo '</div>';
+                    echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
                     echo '<a type="button" 
                             style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px; margin-right: 5px;" 
                             data-toggle="modal" 
@@ -59,8 +68,6 @@
                             <i class="fa fa-trash"></i>
                         </a>';
                     echo '</div>';
-                    echo '<hr style="width: 100%; margin: 10px 0;">';
-                    echo '<div style="flex-basis: 100%; text-align: justify;"><p>Report reason: '.$report['text'].'</p></div>';
                     echo '</div>';
                 }
             }
@@ -77,7 +84,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="deleteReportModal"  aria-hidden="true">
     <div class="modal-dialog" role="document">

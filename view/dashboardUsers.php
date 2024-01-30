@@ -30,49 +30,58 @@
             </div>
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
             <?php
-            if (empty($users)) {
-                echo '<h2 style="margin-top: 50px; font-size: 30px;">No users found</h2>';
-            } else {
-                foreach ($users as $user) {
-                    // Skip users with the admin role
-                    if ($user['role'] === 'admin') {
-                        continue;
+                if (empty($users)) {
+                    echo '<h2 style="margin-top: 50px; font-size: 30px;">No users found</h2>';
+                } else {
+                    foreach ($users as $user) {
+                        // Skip users with the admin role
+                        if ($user['role'] === 'admin') {
+                            continue;
+                        }
+                        if ($_SESSION['role'] === 'manager' && $user['role'] === 'manager') {
+                            continue;
+                        }
+                        echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
+                        echo '<a href="profile?user=' . $user['id'] . '" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="' . $user['imgpath'] . '"></img></a>';
+                        echo '<div class="comment">';
+                        echo '<p style="margin: 0; margin-top: 10px;">User id: ' . $user['id'];
+                        if (!empty($user['banexpiry'])) {
+                            echo ', '.$user['username'].' is banned until: ' . $user['banexpiry'];
+                        } else {
+                            echo ', '.$user['username'].' is not banned';
+                        }
+                        echo '</p>';
+                        echo '<p style="margin: 0; margin-top: 10px;">' . $user['email'] . ', Role: '.$user['role'].'</p>';
+                        echo '<p>' . $user['description'] . '</p>';
+                        echo '</div>';
+                        echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
+                        echo '<a type="button" 
+                                style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-right: 5px;" 
+                                data-toggle="modal" 
+                                data-target="#editUserModal" 
+                                data-user-id="' . $user['id'] . '" 
+                                data-username="' . $user['username'] . '"
+                                data-email="' . $user['email'] . '"
+                                data-description="' . htmlspecialchars($user['description']) . '"
+                                data-imgpath="' . $user['imgpath'] . '"
+                                class="getstarted scrollto edit-user-link">
+                                <i class="fas fa-edit"></i>
+                                </a>';
+                        echo '<a type="button" 
+                                style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px;" 
+                                data-toggle="modal" 
+                                data-target="#banUserModal" 
+                                data-user-id="' . $user['id'] . '" 
+                                data-imgpath="' . $user['imgpath'] . '"
+                                data-banexpiry="' . $user['banexpiry'] . '"
+                                class="getstarted scrollto ban-user-link">
+                                <i class="fa fa-ban"></i>
+                                </a>';
+                        echo '</div>';
+                        echo '</div>';
                     }
-                    if($_SESSION['role'] === 'manager' && $user['role'] === 'manager'){
-                        continue;
-                    }
-                    echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
-                    echo '<div style="flex-basis: 25%;"><p>Id: ' . $user['id'] . '</p></div>';
-                    echo '<div style="flex-basis: 25%;"><p>' . $user['email'] . '</p></div>';
-                    echo '<div style="flex-basis: 25%;"><p>' . $user['role'] . '</p></div>';
-                    echo '<div class="navbar forum-button" style="display: flex; justify-content: center;">';
-                    echo '<a type="button" 
-                            style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-right: 5px;" 
-                            data-toggle="modal" 
-                            data-target="#editUserModal" 
-                            data-user-id="' . $user['id'] . '" 
-                            data-username="' . $user['username'] . '"
-                            data-email="' . $user['email'] . '"
-                            data-description="' . htmlspecialchars($user['description']) . '"
-                            data-imgpath="' . $user['imgpath'] . '"
-                            class="getstarted scrollto edit-user-link">
-                            <i class="fas fa-edit"></i>
-                            </a>';
-                    echo '<a type="button" 
-                            style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px;" 
-                            data-toggle="modal" 
-                            data-target="#banUserModal" 
-                            data-user-id="' . $user['id'] . '" 
-                            data-imgpath="' . $user['imgpath'] . '"
-                            data-banexpiry="' . $user['banexpiry'] . '"
-                            class="getstarted scrollto ban-user-link">
-                            <i class="fa fa-ban"></i>
-                            </a>';
-                    echo '</div>';
-                    echo '</div>';
                 }
-            }
-            ?>
+                ?>
             </div>
         </div>
         <div class="pagination">
@@ -85,7 +94,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="editUserModal" aria-hidden="true">
     <div class="modal-dialog" role="document">

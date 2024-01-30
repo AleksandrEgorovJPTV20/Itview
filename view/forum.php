@@ -63,8 +63,10 @@
                                     </button>';
                             }
                             echo '</div>';
-                            echo '<hr style="width: 100%; margin: 10px 0;">';
-                            echo '<div style="flex-basis: 100%; text-align: justify; margin: 0px;"><p>'.($topic['description'] ? $topic['description'] : 'No description').'</p></div>';
+                            if(!empty($topic['description'])){
+                              echo '<hr style="width: 100%; margin: 10px 0;">';
+                              echo '<div style="flex-basis: 100%; text-align: justify; margin: 0px;"><p>'.$topic['description'].'</p></div>';
+                            }
                             echo '</div>';
                         }
                     }
