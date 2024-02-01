@@ -1,11 +1,5 @@
 <?php 
 class ControllerLogin {
-	// Profile controller
-	public static function FormProfile(){
-		$users = ModelLogin::getUsers();
-		include_once('view/profileTable.php');
-	}
-	
 	// Login controller
 	public static function LoginAction(){
 		$result = ModelLogin::userLogin();

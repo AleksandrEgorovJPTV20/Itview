@@ -5,15 +5,11 @@ class Controller {
 		include_once('view/homepage.php');
 		return;
 	}
+
 	//tech by year controller
 	public static function tech($year) {
 		$alltech = Model::getAlltechByYear($year);
 		include_once('view/techByYear.php');
-		return;
-	}
-	//contacts controller
-	public static function contact() {
-		include_once('view/homepage.php');
 		return;
 	}
 

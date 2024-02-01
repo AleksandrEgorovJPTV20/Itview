@@ -31,7 +31,19 @@
                         }
                         echo '</div>';
                         echo '<div class="user-profile-description">';
-                        echo '<h2 style="color: red;">User Description</h2><p>'. $user['description'] .'</p>';
+                        echo '<h2>User Description</h2><p>'. $user['description'] .'</p>';
+                        if(!empty($user['twitter'])){
+                            echo '<a href="https://twitter.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
+                        }
+                        if(!empty($user['facebook'])){
+                            echo '<a href="https://facebook.com" target="_blank"><img src="assets/img/facebook.png" alt="Facebook"></a>';
+                        }
+                        if(!empty($user['instagram'])){
+                            echo '<a href="https://instagram.com" target="_blank"><img src="assets/img/instagram.png" alt="Instagram"></a>';
+                        }
+                        if(!empty($user['discord'])){
+                            echo '<a href="https://discord.com" target="_blank"><img src="assets/img/discord.png" alt="Discord"></a>';
+                        }
                         echo '</div>';
                     }
                     ?>
@@ -53,7 +65,7 @@
                 <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
             </p>
             <div class="mb-3" style="text-align: center;">
-                <img src="<?php echo $user['imgpath']; ?>" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
+                <img id="userImagePreview" src="<?php echo $user['imgpath']; ?>" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
             </div>
             <div class="mb-3">
                 <input type="text" name="username" class="form-control" style="margin: 20px 0px;" value="<?php echo $user['username'] ?>">
@@ -74,7 +86,7 @@
             </div>
             <div class="mb-3">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="userImageInput" name="userImage" accept="image/*">
+                    <input type="file" class="custom-file-input" id="userImageInput" name="userImage" accept="image/*" onchange="previewImage()">
                     <label class="custom-file-label" for="userImageInput">Choose profile picture file</label>
                 </div>
             </div>
@@ -87,6 +99,46 @@
             <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
                 <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#userSocialsModal">Add Socials</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="userSocialsModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
+          </div>
+          <form action="profile?user=<?php echo $userId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <h1 style="text-align: center; color: #013289;">Add Social Media</h1>
+            <p style="text-align: center; color: #013289;">
+                <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
+            </p>
+            <div class="mb-3" style="text-align: center;">
+                <img id="userImagePreview" src="<?php echo $user['imgpath']; ?>" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="twitter" class="form-control" style="margin: 20px 0px;" placeholder="Add twitter link" value="<?php echo $user['twitter'] ?>">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="instagram" class="form-control" style="margin: 20px 0px;" placeholder="Add instagram link" value="<?php echo $user['instagram'] ?>">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="facebook" class="form-control" style="margin: 20px 0px;" placeholder="Add facebook link" value="<?php echo $user['facebook'] ?>">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="discord" class="form-control" style="margin: 20px 0px;" placeholder="Add discord link" value="<?php echo $user['discord'] ?>">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="confirm_password" class="form-control" style="margin: 20px 0px;" placeholder="Confirm current password" required>
+            </div>
+            <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#userProfileModal">Back</button>
             </div>
           </form>
       </div>
@@ -128,6 +180,21 @@
   </div>
 
 <script>
+    function previewImage() {
+        var input = document.getElementById('userImageInput');
+        var preview = document.getElementById('userImagePreview');
+        
+        // Check if a file is selected
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
       // Update the custom file input label with the selected file's name
       $('#userImageInput').on('change', function() {
         var fileName = $(this).val().split('\\').pop(); // Get the file name from the input

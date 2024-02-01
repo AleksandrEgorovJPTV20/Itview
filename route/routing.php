@@ -24,6 +24,8 @@ if ($route == '' || $route == 'index.php') {
     } else {
         Controller::StartSite();
     }
+} elseif($route == 'test'){
+    Controller::test();
 } elseif ($route == 'forum') {
     if (isset($id) && strpos($id, 'page=') === 0) {
         $page = intval(substr($id, 5));

@@ -2587,3 +2587,11 @@ section {
   max-width: 80%;
   max-height: 80%;
 }
+
+.modal-dialog {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}

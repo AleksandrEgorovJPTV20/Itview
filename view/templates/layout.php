@@ -97,12 +97,12 @@ $route = explode('/', $path)[$num];
     <div style="position: absolute; top: 10px; right: 10px; cursor: pointer; color: #fff; font-size: 24px;">&times;</div>
 </div>
 
-	<main id="main">
+	<div id="main">
 		<?php 
 			if(isset($content))
 			echo $content;
 		?>
-
+	</div>
 
   <!-- Login -->
   <div class="modal fade" id="loginModal" aria-hidden="true">
@@ -117,50 +117,6 @@ $route = explode('/', $path)[$num];
                 <?php if (isset($_SESSION['loginMessage'])) {echo $_SESSION['loginMessage']; unset($_SESSION['loginMessage']);} ?>
               </p>
               <div class="mb-3">
-              <?php 
-                  if ($route == 'comments') {
-                    if(isset($topicId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
-                      }
-                    }
-                    if(isset($commentId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
-                      }
-                    }
-                  } elseif(!empty($year)){
-                    echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
-                  } elseif(!empty($page) && $route == 'forum'){
-                    if(!empty($searchQuery)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
-                    }
-                  } elseif($route == 'dashboard'){
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                  } elseif($route == 'profile'){
-                    if(!empty($userId)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                    }
-                  } else {
-                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
-                  }
-                ?>
                 <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
@@ -314,7 +270,6 @@ $route = explode('/', $path)[$num];
   </div>
     <!-- End Logout -->
 		<!-- end content -->
-	</main>
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer" style="position: fixed; bottom: 0%; width: 100%;">
