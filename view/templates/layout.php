@@ -107,7 +107,7 @@ $route = explode('/', $path)[$num];
   <!-- Login -->
   <div class="modal fade" id="loginModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
@@ -117,6 +117,50 @@ $route = explode('/', $path)[$num];
                 <?php if (isset($_SESSION['loginMessage'])) {echo $_SESSION['loginMessage']; unset($_SESSION['loginMessage']);} ?>
               </p>
               <div class="mb-3">
+              <?php 
+                  if ($route == 'comments') {
+                    if(isset($topicId)){
+                      if(!empty($page)){
+                        if(!empty($searchQuery)){
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
+                        }else{
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
+                        }
+                      }else{
+                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
+                      }
+                    }
+                    if(isset($commentId)){
+                      if(!empty($page)){
+                        if(!empty($searchQuery)){
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&search='. $searchQuery .'">';
+                        }else{
+                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&page='. $page .'">';
+                        }
+                      }else{
+                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
+                      }
+                    }
+                  } elseif(!empty($year)){
+                      echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
+                  } elseif(!empty($page) && $route == 'forum'){
+                    if(!empty($searchQuery)){
+                      echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
+                    }else{
+                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
+                    }
+                  } elseif($route == 'dashboard'){
+                      echo '<input type="hidden" name="redirect_route" value="">';
+                  } elseif($route == 'profile'){
+                    if(!empty($userId)){
+                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
+                    }else{
+                      echo '<input type="hidden" name="redirect_route" value="">';
+                    }
+                  } else {
+                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                  }
+                ?>
                 <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
@@ -125,7 +169,10 @@ $route = explode('/', $path)[$num];
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Login</button>
                 <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
-            </div>
+              </div>
+              <div>
+                <p style="text-align: center; color: #013289;">Dont have an account? <a type="button" data-dismiss="modal" data-toggle="modal" data-target="#registerModal" style="font-weight: bold;">Register here</a></p>
+              </div>
           </form>
       </div>
     </div>
@@ -135,7 +182,7 @@ $route = explode('/', $path)[$num];
 <!-- Register -->
   <div class="modal fade" id="registerModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
@@ -200,7 +247,10 @@ $route = explode('/', $path)[$num];
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Register</button>
                 <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
-            </div>
+              </div>
+              <div>
+                <p style="text-align: center; color: #013289;">Already have an account? <a type="button" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" style="font-weight: bold;">Login here</a></p>
+              </div>
           </form>
       </div>
     </div>
@@ -210,7 +260,7 @@ $route = explode('/', $path)[$num];
     <!-- Logout -->
   <div class="modal fade" id="logoutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>

@@ -2481,7 +2481,7 @@ section {
   flex-wrap: wrap; 
   align-items: center;  
   word-break: break-all;
-  flex-basis: 20%;
+  flex-basis: 40%;
 }
 
 .comment {

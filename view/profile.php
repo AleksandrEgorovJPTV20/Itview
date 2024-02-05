@@ -21,29 +21,33 @@
                     } else {
                         echo '<div style="border-radius: 10px; text-decoration: none; padding: 10px 20px; color: black; width: 100%; display: flex; justify-content: center; flex-wrap: wrap; font-size: 20px;">';
                         echo '<div style="text-align: center;"><p style="margin:0;">' . $user['username'] . '</p><p style="margin:10px 0px;">' . $user['email'] . '</p><img style="width: 252px; height: 258px; margin: 0; border-radius: 50%;" src="' . $user['imgpath'] . '"></img>';
+                        if($user['role'] == 'admin'){
+                            echo '<h2>Site Administrator</h2>';
+                        }
+                        elseif($user['role'] == 'manager'){
+                            echo '<h2>Site Manager</h2>';
+                        }
+
                         if (isset($_SESSION['userId']) && $_SESSION['userId'] == $userId) {
                             echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userProfileModal">Edit profile</a></div>';
                         }elseif(isset($_SESSION['userId']) && $user['role'] != 'admin'){
                             echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userReportModal">Report '.$user['username'].'</a></div>';
                         }
-                        elseif($user['role'] == 'admin'){
-                            echo '<h2>Site Administrator</h2>';
-                        }
-                        echo '</div>';
-                        echo '<div class="user-profile-description">';
-                        echo '<h2>User Description</h2><p>'. $user['description'] .'</p>';
                         if(!empty($user['twitter'])){
                             echo '<a href="https://twitter.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
                         }
                         if(!empty($user['facebook'])){
-                            echo '<a href="https://facebook.com" target="_blank"><img src="assets/img/facebook.png" alt="Facebook"></a>';
+                            echo '<a href="https://facebook.com" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 10px;" src="assets/img/facebook.png" alt="Facebook"></a>';
                         }
                         if(!empty($user['instagram'])){
-                            echo '<a href="https://instagram.com" target="_blank"><img src="assets/img/instagram.png" alt="Instagram"></a>';
+                            echo '<a href="https://instagram.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/instagram.png" alt="Instagram"></a>';
                         }
                         if(!empty($user['discord'])){
-                            echo '<a href="https://discord.com" target="_blank"><img src="assets/img/discord.png" alt="Discord"></a>';
+                            echo '<a href="https://discord.com" target="_blank"><img style="width: 50px; height: 50px; margin-left: 10px;" src="assets/img/discord.png" alt="Discord"></a>';
                         }
+                        echo '</div>';
+                        echo '<div class="user-profile-description">';
+                        echo '<h2>User Description</h2><p>'. $user['description'] .'</p>';
                         echo '</div>';
                     }
                     ?>
@@ -55,7 +59,7 @@
 
 <div class="modal fade" id="userProfileModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>

@@ -48,9 +48,10 @@ class ControllerAdmin {
 			$totalItems = Model::getTotalTopics();
 		}
 		$totalPages = ceil($totalItems / $itemsPerPage);
-		include_once('view/dashboard.php');
+		include_once('view/dashboard/dashboard.php');
 		return;
 	}
+
     public static function dashboardComments() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 		$itemsPerPage = 5; // Set your desired items per page
@@ -93,7 +94,7 @@ class ControllerAdmin {
 		$totalItems = ModelAdmin::getTotalComments();
 		$totalPages = ceil($totalItems / $itemsPerPage);
 
-		include_once('view/dashboardComments.php');
+		include_once('view/dashboard/dashboardComments.php');
 		return;
 	}
 
@@ -135,7 +136,7 @@ class ControllerAdmin {
 		$totalItems = ModelAdmin::getTotalReplies();
 		$totalPages = ceil($totalItems / $itemsPerPage);
 
-		include_once('view/dashboardReplies.php');
+		include_once('view/dashboard/dashboardReplies.php');
 		return;
 	}
 
@@ -193,7 +194,7 @@ class ControllerAdmin {
 		$totalItems = ModelAdmin::getTotalUsers();
 		$totalPages = ceil($totalItems / $itemsPerPage);
 	
-		include_once('view/dashboardUsers.php');
+		include_once('view/dashboard/dashboardUsers.php');
 		return;
 	}
 
@@ -243,7 +244,7 @@ class ControllerAdmin {
 		$totalItems = ModelAdmin::getTotalReports();
 		$totalPages = ceil($totalItems / $itemsPerPage);
 	
-		include_once('view/dashboardReports.php');
+		include_once('view/dashboard/dashboardReports.php');
 		return;
 	}
 }

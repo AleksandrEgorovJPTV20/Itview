@@ -9,7 +9,7 @@ class Controller {
 	//tech by year controller
 	public static function tech($year) {
 		$alltech = Model::getAlltechByYear($year);
-		include_once('view/techByYear.php');
+		include_once('view/homepageYears.php');
 		return;
 	}
 
@@ -82,7 +82,7 @@ class Controller {
 		$commentCounts = Model::getCommentCountForTopics($topics);
 
 		$totalPages = ceil($totalItems / $itemsPerPage);
-		include_once('view/forum.php');
+		include_once('view/forum/forum.php');
 		return;
 	}
 
@@ -138,7 +138,7 @@ class Controller {
 		$totalItems = Model::getTotalCommentsById($topicId);
 		$totalPages = ceil($totalItems / $itemsPerPage);
 
-		include_once('view/comments.php');
+		include_once('view/forum/comments.php');
 		return;
 	}
 
@@ -188,7 +188,7 @@ class Controller {
 		$totalItems = Model::getTotalRepliesByCommentId($commentId);
 		$totalPages = ceil($totalItems / $itemsPerPage);
 
-		include_once('view/replies.php');
+		include_once('view/forum/replies.php');
 		return;
 	}
 
