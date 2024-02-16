@@ -7,20 +7,20 @@
     <div class="container" data-aos="fade-up">
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
             <form class="d-flex justify-content-center align-items-center my-4" data-aos="fade-up" data-aos-delay="200">
-                <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white; width: 60%;" placeholder="Search topics">
+                <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white; width: 60%;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Otsi teemasid' : 'Search topics') ;?>">
             </form>
             <div class="col-lg-6 d-flex" style="padding: 10px 20px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;">Author</h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;">Topic</h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;">Posts</h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author') ;?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema' : 'Topic') ;?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Postitused' : 'Posts') ;?></h2>
                 <?php 
                 if(!isset($_SESSION['userId'])){
                     echo '<div class="navbar forum-button text-center text-lg-start description" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                            <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">Login to create topic</a>
+                            <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisselogimine teema loomiseks' : 'Login to create Topic') . '</a>
                         </div>';
                   }else{
                     echo '<div class="navbar forum-button text-center text-lg-start description" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                            <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#topicModal">Create topic</a>
+                            <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#topicModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Looge teema' : 'Create Topic') . '</a>
                         </div>';
                   }
                 ?>
@@ -28,7 +28,7 @@
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
                 <?php
                     if (empty($topics)) {
-                        echo '<h2 style="margin-top: 50px; font-size: 30px;">No topics found</h2>';
+                        echo '<h2 style="margin-top: 50px; font-size: 30px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ei leitud teemasid' : 'No topics found') . '</h2>';
                     } else {
                         foreach ($topics as $topic) {
                             $topicId = $topic['id'];
@@ -38,7 +38,7 @@
                             echo '<div style="flex-basis: 25%;"><p>'.$topic['name'].'</p></div>';
                             echo '<div style="flex-basis: 25%;"><p>'.$commentCount.'</p></div>';
                             echo '<div class="navbar forum-button" style="display: flex; justify-content: center;">';
-                            echo '<a href="comments?topic=' . $topic['id'] . '" class="getstarted scrollto" style="margin: 0px; margin-top: 10px;">Comments</a>';
+                            echo '<a href="comments?topic=' . $topic['id'] . '" class="getstarted scrollto" style="margin: 0px; margin-top: 10px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaarid' : 'Comments') . '</a>';
                             if (isset($_SESSION['userId']) && $topic['userid'] == $_SESSION['userId']) {
                                 echo '<button type="button" 
                                        class="getstarted scrollto edit-topic-link"

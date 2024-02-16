@@ -61,30 +61,93 @@ $route = explode('/', $path)[$num];
       </a>
 
       <nav id="navbar" class="navbar">
-        
         <ul>
-        <?php
-          if(!isset($_SESSION['userId'])){
-            echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#registerModal">Register</a></li>';
-            echo '<li><a type="button" style="margin-right: 400px; color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#loginModal">Login</a></li>';
-          }else{
-            if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager'){
-              echo '<li><a href="/dashboard" style="color: #013289;" class="nav-link scrollto">Admin Panel</a></li>';
-              echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#logoutModal">Logout</a></li>';
-              echo '<li><a style="margin-right: 250px;" class="nav-link" href="profile?user='.$_SESSION['userId'].'">Profile</a></li>';
-            }else{
-              echo '<li><a type="button" style="color: #013289;" class="nav-link scrollto" data-toggle="modal" data-target="#logoutModal">Logout</a></li>';
-              echo '<li><a style="margin-right: 400px;" class="nav-link" href="profile?user='.$_SESSION['userId'].'">Profile</a></li>';
+          <li><a class="nav-link scrollto" href="/"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kodu' : 'Home');?></a></li>
+          <li><a class="nav-link scrollto" href="/#about"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teave' : 'About');?></a></li>
+          <li><a class="nav-link scrollto" href="/#tech"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tehnoloogia' : 'Tech');?></a></li>
+          <li><a class="nav-link scrollto" href="/#faq"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'KKK' : 'FAQ') . '';?></a></li>
+          <li><a class="nav-link scrollto" href="/#contact"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kontaktid' : 'Contacts');?></a></li>
+          <?php
+            if (!isset($_SESSION['userId'])) {
+              echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#registerModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registreeri' : 'Register') . '</a></li>';
+              echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login') . '</a></li>';
+            } else {
+              if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager') {
+                  echo '<li><a href="/dashboard" style="color: #013289;" class="nav-link">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Juhtpaneel' : 'Dashboard') . '</a></li>';
+                  echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#logoutModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Välju' : 'Logout') . '</a></li>';
+                  echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiil' : 'Profile') . '</a></li>';
+              } else {
+                  echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#logoutModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Välju' : 'Logout') . '</a></li>';
+                  echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiil' : 'Profile') . '</a></li>';
+              }
             }
+          ?> 
+          <form id="languageForm" method="POST">
+            <?php
+                $redirectValue = '';
 
-          }
-        ?>
-          <li><a class="nav-link scrollto" href="/">Home</a></li>
-          <li><a class="nav-link scrollto" href="/#about">About</a></li>
-          <li><a class="nav-link scrollto" href="/#tech">Tech</a></li>
-          <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
-          <li><a class="nav-link scrollto" href="/#contact">Contacts</a></li>
-          <li><a class="getstarted scrollto" href="/forum">Forum</a></li>
+                if ($route == 'comments') {
+                    if (isset($topicId)) {
+                        $query = '?topic=' . $topicId;
+
+                        if (!empty($page)) {
+                            $query .= '&page=' . $page;
+                        }
+
+                        if (!empty($searchQuery)) {
+                            $query .= '&search=' . $searchQuery;
+                        }
+
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                    } elseif (isset($commentId)) {
+                        $query = '?replies=' . $commentId;
+
+                        if (!empty($page)) {
+                            $query .= '&page=' . $page;
+                        }
+
+                        if (!empty($searchQuery)) {
+                            $query .= '&search=' . $searchQuery;
+                        }
+
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                    }
+                } elseif (!empty($year)) {
+                    $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
+                } elseif (!empty($page) && $route == 'forum') {
+                    if (!empty($searchQuery)) {
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
+                    } else {
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
+                    }
+                } elseif ($route == 'dashboard') {
+                    $redirectValue = '<input type="hidden" name="redirect_route" value="dashboard">';
+
+                    if (isset($_GET['comments'])) {
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="dashboard?comments">';
+                    } elseif (isset($_GET['replies'])) {
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="dashboard?replies">';
+                    } elseif (isset($_GET['users'])) {
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="dashboard?users">';
+                    } elseif (isset($_GET['reports'])) {
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="dashboard?reports">';
+                    }
+                } elseif ($route == 'profile' && !empty($userId)) {
+                    $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
+                } else {
+                    $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                }
+
+                echo $redirectValue;
+              ?>          
+            <li class="dropdown"><a href="#"><span><?php echo '' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'EST' : 'ENG') . '';?></span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li class="language-li"><button type="button" class="language-btn" onclick="setLanguage('eng')">ENG</button></li>
+                <li class="language-li"><button type="button" class="language-btn" onclick="setLanguage('est')">EST</button></li>
+              </ul>
+            </li>
+          </form>
+          <li><a class="getstarted scrollto" href="/forum"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Foorum' : 'Forum');?></a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -118,48 +181,51 @@ $route = explode('/', $path)[$num];
               </p>
               <div class="mb-3">
               <?php 
+                  $redirectValue = '';
+
                   if ($route == 'comments') {
-                    if(isset($topicId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
+                      if (isset($topicId)) {
+                          $query = '?topic=' . $topicId;
+
+                          if (!empty($page)) {
+                              $query .= '&page=' . $page;
+                          }
+
+                          if (!empty($searchQuery)) {
+                              $query .= '&search=' . $searchQuery;
+                          }
+
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                      } elseif (isset($commentId)) {
+                          $query = '?replies=' . $commentId;
+
+                          if (!empty($page)) {
+                              $query .= '&page=' . $page;
+                          }
+
+                          if (!empty($searchQuery)) {
+                              $query .= '&search=' . $searchQuery;
+                          }
+
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                       }
-                    }
-                    if(isset($commentId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
+                  } elseif (!empty($year)) {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
+                  } elseif (!empty($page) && $route == 'forum') {
+                      if (!empty($searchQuery)) {
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?search=' . $searchQuery . '">';
+                      } else {
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
                       }
-                    }
-                  } elseif(!empty($year)){
-                      echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
-                  } elseif(!empty($page) && $route == 'forum'){
-                    if(!empty($searchQuery)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
-                    }
-                  } elseif($route == 'dashboard'){
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                  } elseif($route == 'profile'){
-                    if(!empty($userId)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                    }
+                  } elseif ($route == 'dashboard') {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="">';
+                  } elseif ($route == 'profile' && !empty($userId)) {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
                   } else {
-                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '">';
                   }
+
+                  echo $redirectValue;
                 ?>
                 <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
               </div>
@@ -193,48 +259,51 @@ $route = explode('/', $path)[$num];
               </p>
               <div class="mb-3">
               <?php 
+                  $redirectValue = '';
+
                   if ($route == 'comments') {
-                    if(isset($topicId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
+                      if (isset($topicId)) {
+                          $query = '?topic=' . $topicId;
+
+                          if (!empty($page)) {
+                              $query .= '&page=' . $page;
+                          }
+
+                          if (!empty($searchQuery)) {
+                              $query .= '&search=' . $searchQuery;
+                          }
+
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                      } elseif (isset($commentId)) {
+                          $query = '?replies=' . $commentId;
+
+                          if (!empty($page)) {
+                              $query .= '&page=' . $page;
+                          }
+
+                          if (!empty($searchQuery)) {
+                              $query .= '&search=' . $searchQuery;
+                          }
+
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                       }
-                    }
-                    if(isset($commentId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
+                  } elseif (!empty($year)) {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
+                  } elseif (!empty($page) && $route == 'forum') {
+                      if (!empty($searchQuery)) {
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?search=' . $searchQuery . '">';
+                      } else {
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
                       }
-                    }
-                  } elseif(!empty($year)){
-                      echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
-                  } elseif(!empty($page) && $route == 'forum'){
-                    if(!empty($searchQuery)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
-                    }
-                  } elseif($route == 'dashboard'){
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                  } elseif($route == 'profile'){
-                    if(!empty($userId)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                    }
+                  } elseif ($route == 'dashboard') {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="">';
+                  } elseif ($route == 'profile' && !empty($userId)) {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
                   } else {
-                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '">';
                   }
+
+                  echo $redirectValue;
                 ?>
                   <input type="text" name="username" class="form-control" placeholder="Enter your username" style="margin-bottom: 20px;" required>
               </div>
@@ -267,48 +336,51 @@ $route = explode('/', $path)[$num];
           <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;">Are you sure?</h1>
               <?php 
+                  $redirectValue = '';
+
                   if ($route == 'comments') {
-                    if(isset($topicId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?topic=' . $topicId . '">';
+                      if (isset($topicId)) {
+                          $query = '?topic=' . $topicId;
+
+                          if (!empty($page)) {
+                              $query .= '&page=' . $page;
+                          }
+
+                          if (!empty($searchQuery)) {
+                              $query .= '&search=' . $searchQuery;
+                          }
+
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                      } elseif (isset($commentId)) {
+                          $query = '?replies=' . $commentId;
+
+                          if (!empty($page)) {
+                              $query .= '&page=' . $page;
+                          }
+
+                          if (!empty($searchQuery)) {
+                              $query .= '&search=' . $searchQuery;
+                          }
+
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                       }
-                    }
-                    if(isset($commentId)){
-                      if(!empty($page)){
-                        if(!empty($searchQuery)){
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&search='. $searchQuery .'">';
-                        }else{
-                          echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '&page='. $page .'">';
-                        }
-                      }else{
-                        echo '<input type="hidden" name="redirect_route" value="' . $route . '?replies=' . $commentId . '">';
+                  } elseif (!empty($year)) {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
+                  } elseif (!empty($page) && $route == 'forum') {
+                      if (!empty($searchQuery)) {
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?search=' . $searchQuery . '">';
+                      } else {
+                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
                       }
-                    }
-                  } elseif(!empty($year)){
-                      echo '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
-                  } elseif(!empty($page) && $route == 'forum'){
-                    if(!empty($searchQuery)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route .'?search='. $searchQuery .'">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?page=' . $page . '">';
-                    }
-                  } elseif($route == 'dashboard'){
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                  } elseif($route == 'profile'){
-                    if(!empty($userId)){
-                      echo '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
-                    }else{
-                      echo '<input type="hidden" name="redirect_route" value="">';
-                    }
+                  } elseif ($route == 'dashboard') {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="">';
+                  } elseif ($route == 'profile' && !empty($userId)) {
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '?user=' . $userId . '">';
                   } else {
-                    echo '<input type="hidden" name="redirect_route" value="' . $route . '">';
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . '">';
                   }
+
+                  echo $redirectValue;
                 ?>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Confirm</button>
@@ -333,7 +405,16 @@ $route = explode('/', $path)[$num];
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 
+<script>
+    function setLanguage(language) {
+        // Get the form and set its action attribute
+        var form = document.getElementById('languageForm');
+        form.action = 'language?' + language;
 
+        // Submit the form
+        form.submit();
+    }
+</script>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>

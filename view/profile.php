@@ -8,7 +8,7 @@
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
 
             <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
-                <h2 style="width: 100%; font-size: 32px;">Profile</h2>
+                <h2 style="width: 100%; font-size: 32px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiil' : 'Profile') ;?></h2>
             </div>
 
             <!-- User Profile Section -->
@@ -22,16 +22,16 @@
                         echo '<div style="border-radius: 10px; text-decoration: none; padding: 10px 20px; color: black; width: 100%; display: flex; justify-content: center; flex-wrap: wrap; font-size: 20px;">';
                         echo '<div style="text-align: center;"><p style="margin:0;">' . $user['username'] . '</p><p style="margin:10px 0px;">' . $user['email'] . '</p><img style="width: 252px; height: 258px; margin: 0; border-radius: 50%;" src="' . $user['imgpath'] . '"></img>';
                         if($user['role'] == 'admin'){
-                            echo '<h2>Site Administrator</h2>';
+                            echo '<h2>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Veebisaidi administraator' : 'Site Administrator') . '</h2>';
                         }
                         elseif($user['role'] == 'manager'){
-                            echo '<h2>Site Manager</h2>';
+                            echo '<h2>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Veebisaidi haldur' : 'Site manager') . '</h2>';
                         }
 
                         if (isset($_SESSION['userId']) && $_SESSION['userId'] == $userId) {
-                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userProfileModal">Edit profile</a></div>';
+                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userProfileModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiili muutmine' : 'Edit profile') . '</a></div>';
                         }elseif(isset($_SESSION['userId']) && $user['role'] != 'admin'){
-                            echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userReportModal">Report '.$user['username'].'</a></div>';
+                            echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userReportModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Aruandlus' : 'Report') . ' '.$user['username'].'</a></div>';
                         }
                         if(!empty($user['twitter'])){
                             echo '<a href="https://twitter.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
@@ -47,7 +47,7 @@
                         }
                         echo '</div>';
                         echo '<div class="user-profile-description">';
-                        echo '<h2>User Description</h2><p>'. $user['description'] .'</p>';
+                        echo '<h2>'. $user['username'] .'s' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? ' kirjeldus' : ' description') . '</h2><p>'. $user['description'] .'</p>';
                         echo '</div>';
                     }
                     ?>

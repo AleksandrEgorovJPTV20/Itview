@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 01 2024 г., 13:59
+-- Время создания: Фев 16 2024 г., 18:29
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -44,15 +44,7 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `text`, `userid`, `topicid`, `imgpath`, `imgpath2`, `imgpath3`, `created_at`, `updated_at`) VALUES
-(34, '&nbsp;sadsad adad<u>ada</u>', 1, 1, NULL, NULL, NULL, '2023-12-31 08:19:59', '2024-01-18 11:51:54'),
-(35, 'u sdaad ad', 1, 1, NULL, NULL, NULL, '2023-12-31 08:20:18', '2024-01-18 12:22:40'),
-(53, '&nbsp;saddsa sdad<u> adad&nbsp;</u>', 2, 1, NULL, NULL, NULL, '2024-01-18 12:19:58', '2024-01-18 12:22:27'),
-(54, '<u><b><i><font color=\"#542727\">&nbsp;sdad ad&nbsp;</font></i></b></u>', 1, 1, NULL, NULL, NULL, '2024-01-18 12:22:54', '2024-01-18 12:23:03'),
-(83, '<b>asdasd</b>', 1, 29, 'uploads/comments/kitty kitty.png', 'uploads/comments/GEW9Rhla4AAuYNG.jpg', 'uploads/comments/1705612140.png', '2024-01-26 19:55:05', '2024-01-26 19:59:45'),
-(84, 'asd', 1, 29, 'uploads/comments/lion_tech_3_2020_4x.png', 'uploads/comments/kitty kitty.png', 'uploads/comments/1705612140.png', '2024-01-26 20:19:09', '2024-01-26 20:19:09'),
-(88, 'asdasd', 1, 1, 'uploads/comments/kitty kitty.png', 'uploads/comments/vr dog.png', '', '2024-01-26 20:45:34', '2024-01-27 12:24:49'),
-(90, 'asdsad', 1, 30, 'uploads/comments/vr dog.png', '', '', '2024-01-26 21:13:28', '2024-01-29 17:44:21'),
-(92, 'test', 1, 43, 'uploads/comments/IMG_20230520_143020.png', '', '', '2024-01-27 12:30:30', '2024-01-29 17:44:42');
+(98, 'test', 1, 1, 'uploads/comments/hiii.png', '', '', '2024-02-05 17:31:48', '2024-02-15 19:25:10');
 
 -- --------------------------------------------------------
 
@@ -77,11 +69,8 @@ CREATE TABLE `replies` (
 --
 
 INSERT INTO `replies` (`id`, `text`, `userid`, `commentid`, `imgpath`, `imgpath2`, `imgpath3`, `created_at`, `updated_at`) VALUES
-(46, 'new test', 2, 36, NULL, NULL, NULL, '2023-12-31 08:49:19', '2024-01-09 08:19:16'),
-(61, '<a href=\"http://sada\">test</a>&nbsp;sa<i><b><font color=\"#49b110\">dsa</font></b></i>', 3, 90, 'uploads/replies/1705612140.png', 'uploads/replies/kitty kitty.png', NULL, '2024-01-27 09:40:38', '2024-01-27 10:25:02'),
-(63, 'sad', 1, 83, 'uploads/replies/lion_tech_3_2020_4x.png', NULL, NULL, '2024-01-27 11:20:36', '2024-01-27 12:27:09'),
-(64, 'asda', 1, 88, 'uploads/replies/GEW9Rhla4AAuYNG.jpg', 'uploads/replies/vr dog.png', '', '2024-01-27 11:50:56', '2024-01-27 12:27:21'),
-(65, 'a<font color=\"#1d10d1\">sdsa</font>da<b><i><u><font color=\"#7fc615\">sdasda</font></u></i></b>', 1, 92, 'uploads/replies/1500x500 (1).jpg', 'uploads/replies/F__UtmqbIAAldPP.jpg', 'uploads/replies/vr dog.png', '2024-01-27 12:30:46', '2024-01-29 17:44:59');
+(68, 'test', 3, 98, NULL, NULL, NULL, '2024-02-05 17:32:06', '2024-02-05 17:32:06'),
+(69, 'asdasd', 1, 98, NULL, NULL, NULL, '2024-02-16 09:22:49', '2024-02-16 09:22:49');
 
 -- --------------------------------------------------------
 
@@ -101,7 +90,7 @@ CREATE TABLE `reports` (
 --
 
 INSERT INTO `reports` (`id`, `text`, `userId`, `reportedUserId`) VALUES
-(1, '<b><i><u>sadasd</u></i></b>', 1, 2);
+(4, 'asdsa', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -112,7 +101,9 @@ INSERT INTO `reports` (`id`, `text`, `userId`, `reportedUserId`) VALUES
 CREATE TABLE `tech` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `nameEST` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `descriptionEST` text NOT NULL,
   `image` varchar(255) NOT NULL,
   `year` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -121,10 +112,10 @@ CREATE TABLE `tech` (
 -- Дамп данных таблицы `tech`
 --
 
-INSERT INTO `tech` (`id`, `name`, `description`, `image`, `year`) VALUES
-(1, 'Apple M1 Chip', 'Apple introduced its M1 chip in 2020, but its impact continued to be significant in 2021. The M1 is a custom-designed ARM-based system on a chip (SoC) that powers a range of Apple devices, including the MacBook Air, MacBook Pro, and Mac mini. It brought notable improvements in performance and energy efficiency, marking Apple\'s transition away from Intel processors.', 'https://th.bing.com/th/id/OIP.3ODPI6UHE1z7YMNGBELP_QHaEK?rs=1&pid=ImgDetMain', '2021'),
-(2, 'NVIDIA GeForce RTX 30 Series GPUs', 'NVIDIA released its GeForce RTX 30 series graphics cards based on the Ampere architecture. Notable models include the GeForce RTX 3080, RTX 3070, and RTX 3060. These GPUs introduced advancements in ray tracing and AI-powered features, delivering impressive performance for gaming, content creation, and professional applications.', 'https://th.bing.com/th/id/OIP.ssfyf2CkcLcvgM2l_1OL9QHaEK?rs=1&pid=ImgDetMain', '2021'),
-(3, 'AMD Ryzen 5000 Series CPUs', 'AMD continued its success in the CPU market with the release of the Ryzen 5000 series, featuring the Zen 3 architecture. CPUs like the Ryzen 9 5950X and Ryzen 9 5900X offered excellent multi-core performance, making them popular choices for gaming and content creation. AMD\'s Zen 3 architecture brought improvements in IPC (instructions per cycle) and overall efficiency.', 'https://th.bing.com/th/id/OIP.QHwhrV27K5zWB5HirppPqwHaEK?rs=1&pid=ImgDetMain', '2021');
+INSERT INTO `tech` (`id`, `name`, `nameEST`, `description`, `descriptionEST`, `image`, `year`) VALUES
+(1, 'Apple M1 Chip', 'Apple M1 kiip', 'Apple introduced its M1 chip in 2020, but its impact continued to be significant in 2021. The M1 is a custom-designed ARM-based system on a chip (SoC) that powers a range of Apple devices, including the MacBook Air, MacBook Pro, and Mac mini. It brought notable improvements in performance and energy efficiency, marking Apple\'s transition away from Intel processors.', ' Apple tutvustas oma M1 kiipi aastal 2020, kuid selle mõju oli märkimisväärne ka 2021. M1 on kohandatud ARM-põhine süsteem kiip (SoC), mis toidab mitmeid Apple\'i seadmeid, sealhulgas MacBook Air, MacBook Pro ja Mac mini. See tõi kaasa märkimisväärseid edusamme jõudluse ja energiatõhususe osas, märkides Apple\'i üleminekut Intel\'i protsessoritest.', 'https://th.bing.com/th/id/OIP.3ODPI6UHE1z7YMNGBELP_QHaEK?rs=1&pid=ImgDetMain', '2021'),
+(2, 'NVIDIA GeForce RTX 30 Series GPUs', 'NVIDIA GeForce RTX 30 seeria graafikaprotsessorid', 'NVIDIA released its GeForce RTX 30 series graphics cards based on the Ampere architecture. Notable models include the GeForce RTX 3080, RTX 3070, and RTX 3060. These GPUs introduced advancements in ray tracing and AI-powered features, delivering impressive performance for gaming, content creation, and professional applications.', 'NVIDIA avaldas oma GeForce RTX 30 seeria graafikakaardid, mis põhinevad Ampere arhitektuuril. Märkimisväärsed mudelid hõlmavad GeForce RTX 3080, RTX 3070 ja RTX 3060. Need graafikaprotsessorid tõid kaasa edusammud kiirjälgimise ja AI-toega funktsioonides, pakkudes muljetavaldavat jõudlust mängude, sisuloome ja professionaalsete rakenduste jaoks.', 'https://th.bing.com/th/id/OIP.ssfyf2CkcLcvgM2l_1OL9QHaEK?rs=1&pid=ImgDetMain', '2021'),
+(3, 'AMD Ryzen 5000 Series CPUs', 'AMD Ryzen 5000 seeria protsessorid', 'AMD continued its success in the CPU market with the release of the Ryzen 5000 series, featuring the Zen 3 architecture. CPUs like the Ryzen 9 5950X and Ryzen 9 5900X offered excellent multi-core performance, making them popular choices for gaming and content creation. AMD\'s Zen 3 architecture brought improvements in IPC (instructions per cycle) and overall efficiency.', ' AMD jätkas edu protsessoriturul, tuues turule Ryzen 5000 seeria, millel on Zen 3 arhitektuur. Protsessorid nagu Ryzen 9 5950X ja Ryzen 9 5900X pakkusid suurepärast mitmiktuuma jõudlust, muutes need populaarseteks valikuteks mängude ja sisuloome jaoks. AMD Zen 3 arhitektuur tõi kaasa edusamme IPC-s (juhiste arv tsükli kohta) ja üldises efektiivsuses.', 'https://th.bing.com/th/id/OIP.QHwhrV27K5zWB5HirppPqwHaEK?rs=1&pid=ImgDetMain', '2021');
 
 -- --------------------------------------------------------
 
@@ -144,10 +135,9 @@ CREATE TABLE `topics` (
 --
 
 INSERT INTO `topics` (`id`, `name`, `description`, `userid`) VALUES
-(1, 'Announcements', 'test', 1),
-(29, 'Other', 't', 1),
-(30, 'General yes', '<font color=\"#4e21a1\">s<i>ad<b><u><a href=\"http://vk.com\">sadasd sasadsa</a></u></b></i></font>', 1),
-(43, 'asda', '', 1);
+(1, 'Announcements', '', 1),
+(29, 'Other', '', 1),
+(30, 'General Questions', '<font color=\"#1a1a1a\">A channel where you can ask a question anyone.</font>', 1);
 
 -- --------------------------------------------------------
 
@@ -175,10 +165,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`, `imgpath`, `description`, `twitter`, `instagram`, `facebook`, `discord`, `banexpiry`) VALUES
-(1, 'admin@test.ee', '$2y$10$r8xcQsYIm35EIS99fZcnY.gncYL0QgYmxMAwAD7ggr0OqVTNC/1d6', 'Admin231321', 'admin', 'uploads/users/GEW9Rhla4AAuYNG.jpg', '<u style=\"\"><font color=\"#9e6767\">a dsadas <b style=\"\">dsadasda<i style=\"\">d s<a href=\"http://www.roblox.com/my/avatar\" style=\"\">adadasda</a></i></b></font></u>', '12321', '213', NULL, NULL, NULL),
-(2, 'user@test.ee', '$2y$10$OUU7XB56xQ4u5qvyBB0YOuX0n2jh34y532XEOvJ.ceoZBVijnKDOG', 'User', 'user', 'uploads/users/GEW9Rhla4AAuYNG.jpg', 'tetatas', NULL, NULL, NULL, NULL, NULL),
-(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager', 'uploads/questionmark.jpg', 'This <b><i><font color=\"#09fb39\">user descripti<u>on is emptydasdadadas dadsdad&nbsp;</u></font></i></b>', NULL, NULL, NULL, NULL, NULL),
-(18, 'test@gmail.com', '$2y$10$VDpa0BYPjHpDCl6RmOX3oOpXV/aoIh/ffWkDnkeSbmXumfLNYpMNy', 'test', 'manager', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', '\'This user description is empty\'', NULL, NULL, NULL, NULL, '2024-01-31 17:15:00');
+(1, 'admin@test.ee', '$2y$10$r8xcQsYIm35EIS99fZcnY.gncYL0QgYmxMAwAD7ggr0OqVTNC/1d6', 'Admin', 'admin', 'uploads/users/GEW9Rhla4AAuYNG.jpg', '<u style=\"\"><font color=\"#9e6767\">a dsadas <b style=\"\">dsadasda<i style=\"\">d s<a href=\"http://www.roblox.com/my/avatar\" style=\"\">adadasda</a></i></b></font></u>', '12321', '213', '12', '12', NULL),
+(2, 'user@test.ee', '$2y$10$U6WdQgTA0fw50J15NGQcG.pP.IfN.R95vfadxtYULn0Q1w0/XwbwC', 'User', 'user', 'uploads/users/kitty kitty.png', 'teta<u style=\"\"><i style=\"font-weight: bold;\">ta</i>sdsadas</u>', NULL, NULL, NULL, NULL, NULL),
+(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager', 'uploads/users/vrkitten fr.png', 'This <b><i><font color=\"#09fb39\">user descripti<u>on is emptydasdadadas dadsdad&nbsp;</u></font></i></b>', NULL, NULL, NULL, NULL, NULL),
+(18, 'test@gmail.com', '$2y$10$VDpa0BYPjHpDCl6RmOX3oOpXV/aoIh/ffWkDnkeSbmXumfLNYpMNy', 'test', 'manager', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', '\'This user description is empty\'', NULL, NULL, NULL, NULL, '2024-01-31 17:15:00'),
+(19, 'furranous@gmail.com', '$2y$10$Q3EbBtwxWvVYvXrI089oSenxaQoyZericvQn2S0pLLdWVGJiKFG26', 'Furranous', 'user', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', '\'This user description is empty\'', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -236,19 +227,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT для таблицы `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT для таблицы `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `tech`
@@ -260,13 +251,13 @@ ALTER TABLE `tech`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

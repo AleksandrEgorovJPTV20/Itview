@@ -199,6 +199,10 @@ section {
   padding: 20px 0;
 }
 
+.container-xl {
+  max-width: 1420px !Important;
+}
+
 .header.header-scrolled {
   background: #fff;
   padding: 15px 0;
@@ -245,12 +249,27 @@ section {
   position: relative;
 }
 
+.language-btn {
+  background: none; 
+  border: none; 
+  font-family: 'Nunito', sans-serif; 
+  font-size: 18px;
+  color: #013289;
+  white-space: nowrap; 
+  transition: 0.3s;
+}
+
+.language-li {
+  text-align: center; 
+  min-width: 50px!important;
+}
+
 .navbar a,
 .navbar a:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0 10px 30px;
+  padding: 10px 0 10px 20px;
   font-family: "Nunito", sans-serif;
   font-size: 18px;
   font-weight: 700;
@@ -2415,6 +2434,10 @@ section {
   color: #012970;
 }
 
+/*--------------------------------------------------------------
+# loading animation
+--------------------------------------------------------------*/
+
 #loading-animation {
   position: fixed;
   top: 0;
@@ -2445,6 +2468,10 @@ section {
   100% { transform: rotate(360deg); }
 }
 
+/*--------------------------------------------------------------
+# Homepage
+--------------------------------------------------------------*/
+
 .typewriter-text {
   display: inline-block;
   overflow: hidden;
@@ -2471,6 +2498,10 @@ section {
   50% { opacity: 0; }
 }
 
+
+/*--------------------------------------------------------------
+# Forum, comments, buttons
+--------------------------------------------------------------*/
 .forum {
   margin-top: 5%;
   margin-bottom: 6%;
@@ -2570,6 +2601,10 @@ section {
   }
 }
 
+/*--------------------------------------------------------------
+# Lightbox
+--------------------------------------------------------------*/
+
 .lightbox {
   display: none;
   position: fixed;
@@ -2594,4 +2629,21 @@ section {
   justify-content: center;
   align-items: center;
   margin: auto;
+}
+
+/*--------------------------------------------------------------
+# Levitate animation homepage img
+--------------------------------------------------------------*/
+
+@keyframes levitate {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.hero-img {
+  animation: levitate 3s infinite;
 }

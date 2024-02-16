@@ -65,7 +65,6 @@ class ModelLogin {
 		unset($_SESSION['error']);
 		unset($_SESSION['email']);
 		unset($_SESSION['userId']);
-		session_destroy();
 		return;
 	}
 

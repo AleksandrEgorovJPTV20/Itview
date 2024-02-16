@@ -23,7 +23,7 @@ class Model {
 		$sql = "SELECT topics.*, users.username, users.imgpath
         FROM topics
         JOIN users ON topics.userid = users.id
-        ORDER BY topics.id DESC
+        ORDER BY topics.id ASC
         LIMIT :offset, :limit";
 
 		$db = new database();
@@ -48,7 +48,7 @@ class Model {
 				WHERE topics.name LIKE :searchTerm 
 					OR users.username LIKE :searchTerm
 					OR users.email LIKE :searchTerm
-				ORDER BY topics.id DESC
+				ORDER BY topics.id ASC
 				LIMIT :offset, :limit";
 
 		$db = new Database();

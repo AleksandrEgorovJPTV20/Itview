@@ -1,5 +1,16 @@
 <?php
 class Controller { 
+	//homepage controller
+   public static function changeLanguage($language) {
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
+		if (!empty($redirectRoute)) {
+			header("Location: /$redirectRoute");
+		} else {
+			header("Location: /");
+		}
+		$_SESSION['language'] = $language;
+		exit();
+	}
    //homepage controller
    public static function StartSite() {
 		include_once('view/homepage.php');

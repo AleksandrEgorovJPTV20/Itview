@@ -11,27 +11,27 @@
                     // Assuming $topicId contains the current topic ID
                     echo '<input type="hidden" name="topic" value="' . $topicId . '">';
                 ?>
-                <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white; width: 60%;" placeholder="Search comment">
+                <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white; width: 60%;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Otsi kommentaari' : 'Search comment');?>">
             </form>
             <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;">Author</h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;">Post</h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author');?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Postitused' : 'Posts');?></h2>
                 <?php 
-                if($topicId != 1){
+                if($topicId != 1 || isset($_SESSION['role']) && $_SESSION['role'] == 'admin' ){
                     if(!isset($_SESSION['userId'])){
                         echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                                <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">Login to comment</a>
-                                <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">Back</a>
+                                <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse kommentaarideks' : 'Login to comment') . '</a>
+                                <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
                             </div>';
                     }else{
                         echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                                <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal">Create comment</a>
-                                <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">Back</a>
+                                <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Looge kommentaar' : 'Create Comment') . '</a>
+                                <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
                             </div>';
                     }
                 }else{
                     echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                    <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">Back</a>
+                    <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
                     </div>';                 
                 }
                 ?>
@@ -39,7 +39,7 @@
             <div class="col-lg-6 d-flex" data-aos="fade-up" style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%;" data-aos-delay="200">
             <?php
                 if (empty($comments)) {
-                    echo '<h2 style="margin-top: 50px; font-size: 30px;">No comments found</h2>';
+                    echo '<h2 style="margin-top: 50px; font-size: 30px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ei leitud kommentaare' : 'No comments found') . '</h2>';
                 } else {
                     foreach ($comments as $comment) {
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
@@ -62,7 +62,7 @@
                         
                         echo '</div>';
                         echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
-                        echo '<a href="comments?replies=' . $comment['id'] . '" style="border: none; margin: 0px; margin-top: 10px; color: white;" class="getstarted scrollto">Replies</a>';
+                        echo '<a href="comments?replies=' . $comment['id'] . '" style="border: none; margin: 0px; margin-top: 10px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastused' : 'Replies') . '</a>';
                         if (isset($_SESSION['userId'])) {
                             if ($comment['userid'] == $_SESSION['userId']) {
                                 echo '<a type="button" 
