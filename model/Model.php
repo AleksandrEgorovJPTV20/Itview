@@ -391,10 +391,10 @@ class Model {
 		$email = !empty($_POST['email']) ? $_POST['email'] : $user['email'];
 		$password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
 		$description = !empty($_POST['description']) ? $_POST['description'] : $user['description'];
-		$twitter = !empty($_POST['twitter']) ? $_POST['twitter'] : $user['twitter'];
-		$instagram = !empty($_POST['instagram']) ? $_POST['instagram'] : $user['instagram'];
-		$facebook = !empty($_POST['facebook']) ? $_POST['facebook'] : $user['facebook'];
-		$discord = !empty($_POST['discord']) ? $_POST['discord'] : $user['discord'];
+		$twitter = !empty($_POST['twitter']) ? $_POST['twitter'] : '';
+		$instagram = !empty($_POST['instagram']) ? $_POST['instagram'] : '';
+		$facebook = !empty($_POST['facebook']) ? $_POST['facebook'] : '';
+		$discord = !empty($_POST['discord']) ? $_POST['discord'] : '';
 
 		// Handle image upload
 		if (isset($_FILES['userImage']) && $_FILES['userImage']['error'] === UPLOAD_ERR_OK) {
@@ -411,7 +411,7 @@ class Model {
 
 		if (!password_verify($confirmPassword, $user['password'])) {
 			// Password and confirm password do not match
-			$_SESSION['userEditMessage'] = 'Error: Confirm password does not match the current password.';
+			$_SESSION['userEditMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga: Kinnitussalas ei klapi praeguse salasõnaga' : 'Error: Confirm password does not match the current password');
 			return false;
 		}
 
@@ -448,7 +448,7 @@ class Model {
         if ($existingReport) {
             // If there is an existing report, you can handle it accordingly
             // For example, display a message to the user
-            $_SESSION['userReportMessage'] = 'You have already reported this user.';
+            $_SESSION['userReportMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Olete selle kasutaja juba raporteerinud' : 'You have already reported this user');
             return false;
         }
 
@@ -459,10 +459,10 @@ class Model {
 
         // You can check if the insertion was successful and handle accordingly
         if ($stmt->rowCount() > 0) {
-            $_SESSION['userReportMessage'] = 'Report sent successfully.';
+            $_SESSION['userReportMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raport saadetud edukalt' : 'Report sent successfully');
             return true;
         } else {
-            $_SESSION['userReportMessage'] = 'Failed to send report.';
+            $_SESSION['userReportMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus raporti saatmine' : 'Failed to send report');
             return false;
         }
     }

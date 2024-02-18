@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 16 2024 г., 18:29
+-- Время создания: Фев 18 2024 г., 16:08
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `comments` (
   `id` int(11) NOT NULL,
-  `text` varchar(255) DEFAULT NULL,
+  `text` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `topicid` int(11) NOT NULL,
   `imgpath` varchar(255) DEFAULT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `text`, `userid`, `topicid`, `imgpath`, `imgpath2`, `imgpath3`, `created_at`, `updated_at`) VALUES
-(98, 'test', 1, 1, 'uploads/comments/hiii.png', '', '', '2024-02-05 17:31:48', '2024-02-15 19:25:10');
+(98, '<b>testa</b>', 1, 1, 'uploads/comments/hiii.png', '', '', '2024-02-05 17:31:48', '2024-02-18 17:00:46');
 
 -- --------------------------------------------------------
 
@@ -54,7 +54,7 @@ INSERT INTO `comments` (`id`, `text`, `userid`, `topicid`, `imgpath`, `imgpath2`
 
 CREATE TABLE `replies` (
   `id` int(11) NOT NULL,
-  `text` varchar(255) DEFAULT NULL,
+  `text` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `commentid` int(11) NOT NULL,
   `imgpath` varchar(255) DEFAULT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE `replies` (
 
 INSERT INTO `replies` (`id`, `text`, `userid`, `commentid`, `imgpath`, `imgpath2`, `imgpath3`, `created_at`, `updated_at`) VALUES
 (68, 'test', 3, 98, NULL, NULL, NULL, '2024-02-05 17:32:06', '2024-02-05 17:32:06'),
-(69, 'asdasd', 1, 98, NULL, NULL, NULL, '2024-02-16 09:22:49', '2024-02-16 09:22:49');
+(69, 'aaaaaaaa', 1, 98, 'uploads/replies/cyclus.png', '', '', '2024-02-16 09:22:49', '2024-02-18 17:01:12');
 
 -- --------------------------------------------------------
 
@@ -152,7 +152,7 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `role` enum('admin','manager','user') NOT NULL DEFAULT 'user',
   `imgpath` varchar(255) NOT NULL DEFAULT 'https://i.ibb.co/CKqT1FV/questionmark.jpg',
-  `description` varchar(255) NOT NULL DEFAULT '''This user description is empty''',
+  `description` text NOT NULL DEFAULT 'This user description is empty',
   `twitter` varchar(255) DEFAULT NULL,
   `instagram` varchar(255) DEFAULT NULL,
   `facebook` varchar(255) DEFAULT NULL,
@@ -165,11 +165,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `username`, `role`, `imgpath`, `description`, `twitter`, `instagram`, `facebook`, `discord`, `banexpiry`) VALUES
-(1, 'admin@test.ee', '$2y$10$r8xcQsYIm35EIS99fZcnY.gncYL0QgYmxMAwAD7ggr0OqVTNC/1d6', 'Admin', 'admin', 'uploads/users/GEW9Rhla4AAuYNG.jpg', '<u style=\"\"><font color=\"#9e6767\">a dsadas <b style=\"\">dsadasda<i style=\"\">d s<a href=\"http://www.roblox.com/my/avatar\" style=\"\">adadasda</a></i></b></font></u>', '12321', '213', '12', '12', NULL),
-(2, 'user@test.ee', '$2y$10$U6WdQgTA0fw50J15NGQcG.pP.IfN.R95vfadxtYULn0Q1w0/XwbwC', 'User', 'user', 'uploads/users/kitty kitty.png', 'teta<u style=\"\"><i style=\"font-weight: bold;\">ta</i>sdsadas</u>', NULL, NULL, NULL, NULL, NULL),
-(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager', 'uploads/users/vrkitten fr.png', 'This <b><i><font color=\"#09fb39\">user descripti<u>on is emptydasdadadas dadsdad&nbsp;</u></font></i></b>', NULL, NULL, NULL, NULL, NULL),
+(1, 'admin@test.ee', '$2y$10$r8xcQsYIm35EIS99fZcnY.gncYL0QgYmxMAwAD7ggr0OqVTNC/1d6', 'Admin', 'admin', 'uploads/users/GEW9Rhla4AAuYNG.jpg', '<u style=\"\"><font color=\"#9e6767\">a dsadas <b style=\"\">dsadasda<i style=\"\">d s<a href=\"http://www.roblox.com/my/avatar\" style=\"\">adadasda</a></i></b></font></u>', '12', '213', '12', '12', NULL),
+(2, 'user@test.eea', '$2y$10$U6WdQgTA0fw50J15NGQcG.pP.IfN.R95vfadxtYULn0Q1w0/XwbwC', 'User', 'user', 'uploads/users/kitty kitty.png', '<u><b><i>test testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest testtest&nbsp;</i></b></u><br>', 'asd', 'asd', 'фыв', 'asd', NULL),
+(3, 'manager@test.ee', '$2y$10$5sbLzHFIYZ6Djsb8/TKopOaWjZAPm/k/CVkRUJUnPgmOzgXEwy2Xq', 'Manager', 'manager', 'uploads/users/vrkitten fr.png', 'This <b><i><font color=\"#09fb39\">user descripti<u>on is emptydasdadadas dadsdad&nbsp;</u></font></i></b>', '', NULL, NULL, NULL, NULL),
 (18, 'test@gmail.com', '$2y$10$VDpa0BYPjHpDCl6RmOX3oOpXV/aoIh/ffWkDnkeSbmXumfLNYpMNy', 'test', 'manager', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', '\'This user description is empty\'', NULL, NULL, NULL, NULL, '2024-01-31 17:15:00'),
-(19, 'furranous@gmail.com', '$2y$10$Q3EbBtwxWvVYvXrI089oSenxaQoyZericvQn2S0pLLdWVGJiKFG26', 'Furranous', 'user', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', '\'This user description is empty\'', NULL, NULL, NULL, NULL, NULL);
+(19, 'furranous@gmail.com', '$2y$10$Q3EbBtwxWvVYvXrI089oSenxaQoyZericvQn2S0pLLdWVGJiKFG26', 'Furranous', 'user', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', '\'This user description is empty\'', NULL, NULL, NULL, NULL, NULL),
+(20, 'user12312@test.ee', '$2y$10$t74XLXbSGDIEh5E02JX1KOBaVVR7I/JH64Oaq/qo9WNMixUX.DwjG', 'User tesstasta ', 'user', 'https://i.ibb.co/CKqT1FV/questionmark.jpg', '\'This user description is empty\'', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -227,13 +228,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT для таблицы `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT для таблицы `reports`
@@ -257,7 +258,7 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

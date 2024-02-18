@@ -25,7 +25,7 @@
                             </div>';
                     }else{
                         echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                                <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Looge kommentaar' : 'Create Comment') . '</a>
+                                <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo kommentaar' : 'Create Comment') . '</a>
                                 <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
                             </div>';
                     }
@@ -113,7 +113,7 @@
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
             <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
-                <h1 style="text-align: center; color: #013289;">Create comment</h1>
+                <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo kommentaar' : 'Create comment') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
                     if (isset($_SESSION['createMessage'])) {
@@ -124,27 +124,27 @@
                 </p>
                 <div class="mb-3">
                     <div class="style-buttons" style="margin: 5px; justify-content: center;">
-                        <button type="button" onclick="applyStyle('italic', 'commentInput')">Italic</button>
-                        <button type="button" onclick="applyStyle('bold', 'commentInput')">Bold</button>
-                        <button type="button" onclick="applyStyle('underline', 'commentInput')">Underline</button>
+                        <button type="button" onclick="applyStyle('italic', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
+                        <button type="button" onclick="applyStyle('bold', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
+                        <button type="button" onclick="applyStyle('underline', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Allajoonitud' : 'Underline') ;?></button>
                         <button type="button" onclick="applyLink('commentInput')">Link</button>
                         <input type="color" id="colorPicker" onchange="applyColor('commentInput')">
                     </div>
-                    <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
+                    <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description') ;?></div>
                 </div>
                 <div class="mb-3">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="ImageInput1" name="Image1" accept="image/*">
                         <input type="file" class="custom-file-input" id="ImageInput2" name="Image2" accept="image/*" style="display: none;">
                         <input type="file" class="custom-file-input" id="ImageInput3" name="Image3" accept="image/*" style="display: none;">
-                        <label class="custom-file-label" for="ImageInput1">Choose up to 3 image files</label>
+                        <label class="custom-file-label" for="ImageInput1"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Valige kuni 3 pilti' : 'Choose up to 3 images') ;?></label>
                     </div>
                     <div id="selectedImagesContainer" class="mt-2"></div>
-                    <button type="button" class="btn btn-danger mt-2" id="removeImagesBtn" style="display: none;">Remove Images</button>
+                    <button type="button" class="btn btn-danger mt-2" id="removeImagesBtn" style="display: none;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda pildid' : 'Remove images') ;?></button>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Create</button>
-                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo' : 'Create') ;?></button>
+                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
                 <!-- Hidden input to store raw HTML content -->
                 <input type="hidden" id="rawCommentInput" name="comment">
@@ -160,7 +160,7 @@
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
             <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
-                <h1 style="text-align: center; color: #013289;">Edit comment</h1>
+                <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda kommentaar' : 'Edit comment') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
                     if (isset($_SESSION['editCommentMessage'])) {
@@ -172,9 +172,9 @@
                 <div class="mb-3">
                     <input type="hidden" name="commentId" value="">
                     <div class="style-buttons" style="margin: 5px; justify-content: center;">
-                        <button type="button" onclick="applyEditStyle('italic', 'commentInputEdit')">Italic</button>
-                        <button type="button" onclick="applyEditStyle('bold', 'commentInputEdit')">Bold</button>
-                        <button type="button" onclick="applyEditStyle('underline', 'commentInputEdit')">Underline</button>
+                        <button type="button" onclick="applyEditStyle('italic', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
+                        <button type="button" onclick="applyEditStyle('bold', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
+                        <button type="button" onclick="applyEditStyle('underline', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Allajoonitud' : 'Underline') ;?></button>
                         <button type="button" onclick="applyEditLink('commentInputEdit')">Link</button>
                         <input  type="color" id="colorPickerEdit" onchange="applyEditColor('commentInputEdit')">
                     </div>
@@ -186,14 +186,14 @@
                         <input type="file" class="custom-file-input" id="editImageInput1" name="Image1" accept="image/*">
                         <input type="file" class="custom-file-input" id="editImageInput2" name="Image2" accept="image/*" style="display: none;">
                         <input type="file" class="custom-file-input" id="editImageInput3" name="Image3" accept="image/*" style="display: none;">
-                        <label class="custom-file-label" for="editImageInput1">Choose up to 3 image files</label>
+                        <label class="custom-file-label" for="editImageInput1"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Valige kuni 3 pilti' : 'Choose up to 3 images') ;?></label>
                     </div>
                     <div id="selectedImagesContainerEdit" class="mt-2"></div>
-                    <button type="button" class="btn btn-danger mt-2" id="removeImagesBtnEdit" style="display: none;">Remove Images</button>
+                    <button type="button" class="btn btn-danger mt-2" id="removeImagesBtnEdit" style="display: none;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda pildid' : 'Remove images') ;?></button>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
-                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
             </form>
         </div>
@@ -207,7 +207,7 @@
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289;">Delete comment</h1>
+              <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta kommentaar' : 'Delete comment') ;?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php
                     if (isset($_SESSION['deleteCommentMessage'])) {
@@ -220,8 +220,8 @@
                   <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Delete</button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -307,7 +307,7 @@
 
             // Adjust the file count to a maximum of 3
             fileCount = Math.min(fileCount, maxImages);
-            var fileCountText = fileCount + ' file(s) selected';
+            var fileCountText = fileCount + '<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? ' valitud fail(id)' : ' file(s) selected') ;?>';
 
             if (fileCount > 0) {
                 $('.custom-file-label').html(fileCountText);
@@ -335,7 +335,7 @@
             // Clear the selected images and hide the "Remove Images" button
             container.empty(); // Clear the container content
             $(fileInputs.join(', ')).val('');
-            $('.custom-file-label').html('Choose up to 3 image files'); // Clear the contenteditable div
+            $('.custom-file-label').html('<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Valige kuni 3 pilti' : 'Choose up to 3 files') ;?>'); // Clear the contenteditable div
 
             removeImagesBtn.hide();
 

@@ -12,9 +12,9 @@ class ControllerAdmin {
 				$topicId = $_POST['deleteId'];
 
 				if (ModelAdmin::deleteTopic($topicId)) {
-					$_SESSION['deleteTopicMessage'] = 'Topic deleted successfully';
+					$_SESSION['deleteTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema kustutatud edukalt' : 'Topic deleted successfully');
 				} else {
-					$_SESSION['deleteTopicMessage'] = 'Failed to delete topic';
+					$_SESSION['deleteTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus teema kustutamine' : 'Failed to delete topic');
 				}
 			} elseif (isset($_POST['topicId'])) {
 				// If 'topicId' is set, it means we are editing a topic
@@ -26,9 +26,9 @@ class ControllerAdmin {
 					$topicDescription = $_POST['description'];
 
 					if (ModelAdmin::editTopic($topicId, $topicName, $topicDescription)) {
-						$_SESSION['editTopicMessage'] = 'Topic edited successfully';
+						$_SESSION['editTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema muudetud edukalt' : 'Topic edited successfully');
 					} else {
-						$_SESSION['editTopicMessage'] = 'Failed to edit topic';
+						$_SESSION['editTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus teema muutmine' : 'Failed to edit topic');
 					}
 				}
 			}
@@ -68,7 +68,7 @@ class ControllerAdmin {
 					// Edit existing comment
 					$commentId = $_POST['commentId'];
 					$commentEdited = ModelAdmin::editComment($commentId, $commentText);
-					$_SESSION['editCommentMessage'] = $commentEdited ? 'Comment edited successfully' : 'Error editing comment';
+					$_SESSION['editCommentMessage'] = $commentEdited ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar muudetud edukalt' : 'Comment edited successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga kommentaari muutmisel' : 'Error editing comment');
 				} 
 	
 				// Redirect to refresh the page
@@ -82,7 +82,7 @@ class ControllerAdmin {
 				$commentDeleted = ModelAdmin::deleteComment($commentIdToDelete);
 	
 				// Set session variable based on the deletion result
-				$_SESSION['deleteCommentMessage'] = $commentDeleted ? 'Comment deleted successfully' : 'Error deleting comment';
+				$_SESSION['deleteCommentMessage'] = $commentDeleted ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar kustutatud edukalt' : 'Comment deleted successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga kommentaari kustutamisel' : 'Error deleting comment');
 	
 				// Redirect to refresh the page
 				header("Location: /dashboard?comments");
@@ -113,17 +113,12 @@ class ControllerAdmin {
 				$replyId = $_POST['replyId'];
 				$replyText = $_POST['reply'];
 				$result = ModelAdmin::editReply($replyId, $replyText);
-				$_SESSION['editReplyMessage'] = $result ? 'Reply edited successfully' : 'Error editing reply';
-			} elseif (isset($_POST['comment'])) {
-				// Creating a new reply
-				$commentText = $_POST['comment'];
-				$result = Model::createReply($commentId, $userId, $commentText);
-				$_SESSION['replyMessage'] = $result ? 'Reply created successfully' : 'Error creating reply';
+				$_SESSION['editReplyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus muudetud edukalt' : 'Reply edited successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse muutmisel' : 'Error editing reply');
 			} elseif (isset($_POST['deleteId'])) {
 				// Deleting a reply
 				$deleteId = $_POST['deleteId'];
 				$result = ModelAdmin::deleteReply($deleteId);
-				$_SESSION['deleteReplyMessage'] = $result ? 'Reply deleted successfully' : 'Error deleting reply';
+				$_SESSION['deleteReplyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus kustutatud edukalt' : 'Reply deleted successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse kustutamisel' : 'Error deleting reply');
 			}
 
 			// Redirect to refresh the page
@@ -142,7 +137,7 @@ class ControllerAdmin {
 
 	public static function dashboardUsers() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 	
@@ -156,9 +151,9 @@ class ControllerAdmin {
 			// Check if the edit was successful
 			if ($editedUser) {
 				// Optionally, you can set a success message here
-				$_SESSION['userEditMessage'] = 'User profile edited successfully.';
+				$_SESSION['userEditMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja profiil muudetud edukalt' : 'User profile edited successfully');
 			} else {
-				$_SESSION['userEditMessage'] = 'Failed to update user profile';
+				$_SESSION['userEditMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja profiili uuendamine' : 'Failed to update user profile');
 			}
 			header("Location: /dashboard?users");
 			exit();
@@ -171,7 +166,7 @@ class ControllerAdmin {
 			$banned = ModelAdmin::banUser($userId, $banexpiry);
 
 			// Optionally, set a success or error message here
-			$_SESSION['banUserMessage'] = $banned ? 'User has been banned.' : 'Failed to ban user.';
+			$_SESSION['banUserMessage'] = $banned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on keelatud' : 'User has been banned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja keelamine' : 'Failed to ban user');
 
 			header("Location: /dashboard?users");
 			exit();
@@ -183,7 +178,7 @@ class ControllerAdmin {
 			$unbanned = ModelAdmin::unbanUser($userId);
 
 			// Optionally, set a success or error message here
-			$_SESSION['banUserMessage'] = $unbanned ? 'User has been unbanned.' : 'Failed to unban user.';
+			$_SESSION['banUserMessage'] = $unbanned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on taasaktiveeritud' : 'User has been unbanned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja taasaktiveerimine' : 'Failed to unban user');
 
 			header("Location: /dashboard?users");
 			exit();
@@ -213,7 +208,7 @@ class ControllerAdmin {
 			$banned = ModelAdmin::banUser($userId, $banexpiry);
 
 			// Optionally, set a success or error message here
-			$_SESSION['banUserMessage'] = $banned ? 'User has been banned.' : 'Failed to ban user.';
+			$_SESSION['banUserMessage'] = $banned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on keelatud' : 'User has been banned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja keelamine' : 'Failed to ban user');
 
 			header("Location: /dashboard?reports");
 			exit();
@@ -225,7 +220,7 @@ class ControllerAdmin {
 			$unbanned = ModelAdmin::unbanUser($userId);
 
 			// Optionally, set a success or error message here
-			$_SESSION['banUserMessage'] = $unbanned ? 'User has been unbanned.' : 'Failed to unban user.';
+			$_SESSION['banUserMessage'] = $unbanned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on taasaktiveeritud' : 'User has been unbanned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja taasaktiveerimine' : 'Failed to unban user');
 
 			header("Location: /dashboard?reports");
 			exit();
@@ -236,7 +231,7 @@ class ControllerAdmin {
 
 			$result = ModelAdmin::deleteReport($deleteId);
 
-			$_SESSION['deleteReportMessage'] = $result ? 'Report deleted successfully' : 'Error deleting report';
+			$_SESSION['deleteReportMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raport kustutatud edukalt' : 'Report deleted successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga raporti kustutamisel' : 'Error deleting report');
 		}
 
 		$reports = !empty($searchQuery) ? ModelAdmin::searchReports($searchQuery) : ModelAdmin::getAllReports($page, $itemsPerPage);

@@ -175,7 +175,7 @@ $route = explode('/', $path)[$num];
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="login" method="POST" class="content" style="margin: auto; padding: 10px 60px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289; margin: 20px 0px;">Login</h1>
+              <h1 style="text-align: center; color: #013289; margin: 20px 0px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login');?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['loginMessage'])) {echo $_SESSION['loginMessage']; unset($_SESSION['loginMessage']);} ?>
               </p>
@@ -227,17 +227,17 @@ $route = explode('/', $path)[$num];
 
                   echo $redirectValue;
                 ?>
-                <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
+                <input type="email" name="email" class="form-control" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta e-post' : 'Enter email');?>" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
-                  <input type="password" name="password" class="form-control" placeholder="Enter your password" style="margin-bottom: 20px;" required>
+                  <input type="password" name="password" class="form-control" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta parool' : 'Enter password');?>" style="margin-bottom: 20px;" required>
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Login</button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login');?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
               </div>
               <div>
-                <p style="text-align: center; color: #013289;">Dont have an account? <a type="button" data-dismiss="modal" data-toggle="modal" data-target="#registerModal" style="font-weight: bold;">Register here</a></p>
+                <p style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ei ole kontot? ' : 'Dont have an account? ');?><a type="button" data-dismiss="modal" data-toggle="modal" data-target="#registerModal" style="font-weight: bold;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru siin' : 'Register here');?></a></p>
               </div>
           </form>
       </div>
@@ -253,7 +253,7 @@ $route = explode('/', $path)[$num];
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="register" method="POST" class="content" style="margin: auto; padding: 10px 60px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289; margin: 20px 0px;">Register</h1>
+              <h1 style="text-align: center; color: #013289; margin: 20px 0px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru' : 'Register');?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['registerMessage'])) {echo $_SESSION['registerMessage']; unset($_SESSION['registerMessage']);} ?>
               </p>
@@ -305,20 +305,20 @@ $route = explode('/', $path)[$num];
 
                   echo $redirectValue;
                 ?>
-                  <input type="text" name="username" class="form-control" placeholder="Enter your username" style="margin-bottom: 20px;" required>
+                  <input type="text" name="username" class="form-control" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta kasutajanimi' : 'Enter username');?>" style="margin-bottom: 20px;" required>
               </div>
               <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Enter your email" style="margin: 20px 0px;" required>
+                <input type="email" name="email" class="form-control" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta e-posti' : 'Enter email');?>" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
-                  <input type="password" name="password" class="form-control" placeholder="Enter your password" style="margin-bottom: 20px;" required>
+                  <input type="password" name="password" class="form-control" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta parool' : 'Enter password');?>" style="margin-bottom: 20px;" required>
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Register</button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru' : 'Register');?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
               </div>
               <div>
-                <p style="text-align: center; color: #013289;">Already have an account? <a type="button" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" style="font-weight: bold;">Login here</a></p>
+                <p style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kas sul on juba konto? ' : 'Already have an account? ');?><a type="button" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" style="font-weight: bold;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse siin' : 'Login here');?></a></p>
               </div>
           </form>
       </div>
@@ -334,7 +334,7 @@ $route = explode('/', $path)[$num];
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289;">Are you sure?</h1>
+              <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi välja' : 'Logout');?></h1>
               <?php 
                   $redirectValue = '';
 
@@ -383,8 +383,8 @@ $route = explode('/', $path)[$num];
                   echo $redirectValue;
                 ?>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Confirm</button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kinnita' : 'Confirm');?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
             </div>
           </form>
       </div>

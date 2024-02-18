@@ -53,6 +53,18 @@
                         echo '</p>';
                         echo '<p style="margin: 0; margin-top: 10px;">' . $user['email'] . ', ' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Roll' : 'Role') . ': '.$user['role'].'</p>';
                         echo '<p>' . $user['description'] . '</p>';
+                        if(!empty($user['twitter'])){
+                            echo '<a href="https://twitter.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
+                        }
+                        if(!empty($user['facebook'])){
+                            echo '<a href="https://facebook.com" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 10px;" src="assets/img/facebook.png" alt="Facebook"></a>';
+                        }
+                        if(!empty($user['instagram'])){
+                            echo '<a href="https://instagram.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/instagram.png" alt="Instagram"></a>';
+                        }
+                        if(!empty($user['discord'])){
+                            echo '<a href="https://discord.com" target="_blank"><img style="width: 50px; height: 50px; margin-left: 10px;" src="assets/img/discord.png" alt="Discord"></a>';
+                        }
                         echo '</div>';
                         echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
                         echo '<a type="button" 
@@ -64,6 +76,10 @@
                                 data-email="' . $user['email'] . '"
                                 data-description="' . htmlspecialchars($user['description']) . '"
                                 data-imgpath="' . $user['imgpath'] . '"
+                                data-twitter="' . $user['twitter'] . '"
+                                data-instagram="' . $user['instagram'] . '"
+                                data-facebook="' . $user['facebook'] . '"
+                                data-discord="' . $user['discord'] . '"
                                 class="getstarted scrollto edit-user-link">
                                 <i class="fas fa-edit"></i>
                                 </a>';
@@ -102,7 +118,7 @@
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="dashboard?users" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
-            <h1 style="text-align: center; color: #013289;">Edit profile</h1>
+            <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda profiil' : 'Edit profile') ;?></h1>
             <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
             </p>
@@ -122,9 +138,9 @@
             ?>
             <div class="mb-3">
                 <div class="style-buttons" style="margin: 5px; justify-content: center;">
-                    <button type="button" onclick="applyStyleEditProfile('italic', 'descriptionInputEdit')">Italic</button>
-                    <button type="button" onclick="applyStyleEditProfile('bold', 'descriptionInputEdit')">Bold</button>
-                    <button type="button" onclick="applyStyleEditProfile('underline', 'descriptionInputEdit')">Underline</button>
+                    <button type="button" onclick="applyStyleEditProfile('italic', 'descriptionInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
+                    <button type="button" onclick="applyStyleEditProfile('bold', 'descriptionInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
+                    <button type="button" onclick="applyStyleEditProfile('underline', 'descriptionInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Allajoonitud' : 'Underline') ;?></button>
                     <button type="button" onclick="applyEditLinkProfile('descriptionInputEdit')">Link</button>
                     <input  type="color" id="colorPickerEdit" onchange="applyEditProfileColor('descriptionInputEdit')">
                 </div>
@@ -134,27 +150,65 @@
             <div class="mb-3">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="userImageInput" name="userImage" accept="image/*" onchange="previewImage()">
-                    <label class="custom-file-label" for="userImageInput">Choose profile picture file</label>
+                    <label class="custom-file-label" for="userImageInput"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Valige profiilipilt' : 'Choose profile picture') ;?></label>
                 </div>
             </div>
             <?php 
             if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
                 echo '<div class="mb-3">
-                    <input type="text" name="password" class="form-control" style="margin: 20px 0px;" placeholder="Edit password">
+                    <input type="text" name="password" class="form-control" style="margin: 20px 0px;" placeholder="' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda parool' : 'Edit password') . '">
                 </div>';
             }
             if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
                 echo '<div class="mb-3">
                 <select name="role" class="form-control">
-                <option value="user">User</option>
-                    <option value="manager">Manager</option>
+                <option value="user">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja' : 'User') . '</option>
+                    <option value="manager">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Haldur' : 'Manager') . '</option>
                 </select>
             </div>';
             }
             ?>
             <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Update</button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#userSocialsModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda sotsiaal' : 'Edit socials') ;?></button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="userSocialsModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
+          </div>
+          <form action="dashboard?users" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda sotsiaalmeedia' : 'Edit social media') ;?></h1>
+            <p style="text-align: center; color: #013289;">
+                <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
+            </p>
+            <div class="mb-3" style="text-align: center;">
+                <input type="hidden" name="userId" value="">
+                <img id="userImagePreview" src="" name="image" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="twitter" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Lisa Twitteri link' : 'Add twitter link') ;?>" value="">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="instagram" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Lisa Instagrami link' : 'Add instagram link') ;?>" value="">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="facebook" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Lisa Facebooki link' : 'Add facebook link') ;?>" value="">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="discord" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Add Discordi link' : 'Add discord link') ;?>" value="">
+            </div>
+            <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#editUserModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') ;?></button>
             </div>
           </form>
       </div>
@@ -168,7 +222,7 @@
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
             <form action="dashboard?users" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                <h1 style="text-align: center; color: #013289;">Ban user</h1>
+                <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela kasutaja' : 'Ban user') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
                     if (isset($_SESSION['banUserMessage'])) {
@@ -184,16 +238,16 @@
                     <img src="" name="image" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
                 </div>
                 <div class="mb-3" style="text-align: center;">
-                    <h3 style="color: #013289;">Set ban time</h3>
+                    <h3 style="color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Määra keelu aeg' : 'Set ban time') ;?></h3>
                     <input type="datetime-local" id="banexpiry" name="banexpiry" val=''>
                 </div>
                 <div class="mb-3" style="text-align: center;">
                     <p id="banStatusText" style="color: #013289;"></p>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="unban" class="getstarted scrollto">Unban</button>
-                    <button style="border: none;" variant="primary" type="submit" name="ban" class="getstarted scrollto">Ban</button>
-                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="unban" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda keeld' : 'Unban') ;?></button>
+                    <button style="border: none;" variant="primary" type="submit" name="ban" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela' : 'Ban') ;?></button>
+                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
             </form>
         </div>
@@ -210,6 +264,10 @@
       var email = $(this).data('email');
       var description = $(this).data('description');
       var imgpath = $(this).data('imgpath');
+      var twitter = $(this).data('twitter');
+      var instagram = $(this).data('instagram');
+      var facebook = $(this).data('facebook');
+      var discord = $(this).data('discord');
 
       // Populate the form fields with user data
       $('#editUserModal [name="userId"]').val(userId);
@@ -219,6 +277,13 @@
       $('#descriptionInputEdit').html(description);
       $('#editUserModal input[name="description"]').val(description);
       $('#editUserModal [name="image"]').attr('src', imgpath);
+
+      $('#userSocialsModal [name="userId"]').val(userId);
+      $('#userSocialsModal [name="image"]').attr('src', imgpath);
+      $('#userSocialsModal [name="twitter"]').val(twitter);
+      $('#userSocialsModal [name="instagram"]').val(instagram);
+      $('#userSocialsModal [name="facebook"]').val(facebook);
+      $('#userSocialsModal [name="discord"]').val(discord);
 
 
       // Add the user ID as a hidden input field
@@ -234,9 +299,9 @@ $('.ban-user-link').on('click', function() {
     var banStatusText;
     // Set banexpiry to current time if it is null or empty
     if (banexpiry === null || banexpiry === '') {
-        banStatusText = 'User is not banned'
+        banStatusText = '<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja ei ole keelatud' : 'User is not banned') ;?>';
     }else{
-        banStatusText = 'User is banned'
+        banStatusText = '<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on keelatud' : 'User is banned') ;?>';
     }
 
     // Update the banUserModal form fields

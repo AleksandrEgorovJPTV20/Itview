@@ -92,7 +92,7 @@
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
           <form action="dashboard?reports" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-              <h1 style="text-align: center; color: #013289;">Delete report</h1>
+              <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta raport' : 'Delete report') ;?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php
                     if (isset($_SESSION['deleteReportMessage'])) {
@@ -105,8 +105,8 @@
                   <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto">Delete</button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -120,7 +120,7 @@
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
             <form action="dashboard?reports" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                <h1 style="text-align: center; color: #013289;">Ban user</h1>
+                <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela kasutaja' : 'Ban user') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
                     if (isset($_SESSION['banUserMessage'])) {
@@ -136,16 +136,16 @@
                     <img src="" name="image" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
                 </div>
                 <div class="mb-3" style="text-align: center;">
-                    <h3 style="color: #013289;">Set ban time</h3>
+                    <h3 style="color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Määra keelu aeg' : 'Set ban time') ;?></h3>
                     <input type="datetime-local" id="banexpiry" name="banexpiry" val=''>
                 </div>
                 <div class="mb-3" style="text-align: center;">
                     <p id="banStatusText" style="color: #013289;"></p>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="unban" class="getstarted scrollto">Unban</button>
-                    <button style="border: none;" variant="primary" type="submit" name="ban" class="getstarted scrollto">Ban</button>
-                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal">Close</button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="unban" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda keeld' : 'Unban') ;?></button>
+                    <button style="border: none;" variant="primary" type="submit" name="ban" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela' : 'Ban') ;?></button>
+                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
             </form>
         </div>
@@ -163,9 +163,9 @@ $('.ban-user-link').on('click', function() {
     var banStatusText;
     // Set banexpiry to current time if it is null or empty
     if (banexpiry === null || banexpiry === '') {
-        banStatusText = 'User is not banned'
+        banStatusText = '<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja ei ole keelatud' : 'User is not banned') ;?>';
     }else{
-        banStatusText = 'User is banned'
+        banStatusText = '<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on keelatud' : 'User is banned') ;?>';
     }
 
     // Update the banUserModal form fields

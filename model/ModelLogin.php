@@ -31,7 +31,7 @@ class ModelLogin {
 	
 							// Set loginMessage accordingly
 							if ($banexpiry != null) {
-								$_SESSION['loginMessage'] = 'User has been banned until: ' . $banexpiry;
+								$_SESSION['loginMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on keelatud kuni: ' : 'User is banned until: ') . $banexpiry;
 								return;
 							}
 						}
@@ -43,13 +43,12 @@ class ModelLogin {
 						$_SESSION['password'] = $item['password'];
 						$_SESSION['role'] = $item['role'];
 						$_SESSION['userId'] = $item['id'];
-						$_SESSION['loginMessage'] = 'Successfully logged in';
 						return;
 					} else {
-						$_SESSION['loginMessage'] = 'Wrong email or password';
+						$_SESSION['loginMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vale e-posti või parool' : 'Wrong email or password');
 					}
 				} else {
-					$_SESSION['loginMessage'] = "User doesn't exist";
+					$_SESSION['loginMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja ei eksisteeri' : 'User doesnt exist');
 				}
 			}
 		}
@@ -86,13 +85,13 @@ class ModelLogin {
 					$item2 = $database->executeRun($sql2);
 					if($item2==true){
 						$result=true;
-						$_SESSION['registerMessage']='Account successfully created';
+						$_SESSION['registerMessage']= (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Konto on edukalt loodud' : 'Account successfully created');
 					}
 				}else{
-					$_SESSION['registerMessage']='Wrong email';
+					$_SESSION['registerMessage']= (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vale e-posti' : 'Wrong email');
 				}
 			}else{
-				$_SESSION['registerMessage']='User already exists';
+				$_SESSION['registerMessage']= (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja eksisteerib juba' : 'User already exists');
 			}
 		}
 	}

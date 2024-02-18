@@ -36,9 +36,9 @@ class Controller {
 				$topicId = $_POST['deleteId'];
 
 				if (ModelAdmin::deleteTopic($topicId)) {
-					$_SESSION['deleteTopicMessage'] = 'Topic deleted successfully';
+					$_SESSION['deleteTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema kustutatud edukalt' : 'Topic deleted successfully');
 				} else {
-					$_SESSION['deleteTopicMessage'] = 'Failed to delete topic';
+					$_SESSION['deleteTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus teema kustutamine' : 'Failed to delete topic');
 				}
 			} elseif (isset($_POST['topicId'])) {
 				// If 'topicId' is set, it means we are editing a topic
@@ -50,9 +50,9 @@ class Controller {
 					$topicDescription = $_POST['description'];
 
 					if (ModelAdmin::editTopic($topicId, $topicName, $topicDescription)) {
-						$_SESSION['editTopicMessage'] = 'Topic edited successfully';
+						$_SESSION['editTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema muudetud edukalt' : 'Topic edited successfully');
 					} else {
-						$_SESSION['editTopicMessage'] = 'Failed to edit topic';
+						$_SESSION['editTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus teema muutmine' : 'Failed to edit topic');
 					}
 				}
 			} elseif (isset($_POST['comment'])) {
@@ -63,12 +63,12 @@ class Controller {
 
 				if (Model::createTopic($topicName, $topicDescription, $comment)) {
 					// Redirect to forum with a success message
-					$_SESSION['createMessage'] = 'Topic created successfully';
+					$_SESSION['createMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema loodud edukalt' : 'Topic created successfully');
 					header("Location: /forum");
 					exit();
 				} else {
 					// If topic creation fails, redirect to forum with an error message
-					$_SESSION['createMessage'] = 'Failed to create topic';
+					$_SESSION['createMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus teema loomine' : 'Failed to create topic');
 					header("Location: /forum");
 					exit();
 				}
@@ -117,11 +117,11 @@ class Controller {
 					// Edit existing comment
 					$commentId = $_POST['commentId'];
 					$commentEdited = ModelAdmin::editComment($commentId, $commentText);
-					$_SESSION['editCommentMessage'] = $commentEdited ? 'Comment edited successfully' : 'Error editing comment';
+					$_SESSION['editCommentMessage'] = $commentEdited ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar muudetud edukalt' : 'Comment edited successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga kommentaari muutmisel' : 'Error editing comment');
 				} else {
 					// Create new comment
 					$commentCreated = Model::createComment($topicId, $userId, $commentText);
-					$_SESSION['createMessage'] = $commentCreated ? 'Comment created successfully' : 'Error creating comment';
+					$_SESSION['createMessage'] = $commentCreated ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar loodud edukalt' : 'Comment created successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga kommentaari loomisel' : 'Error creating comment');
 				}
 
 				// Redirect to refresh the page
@@ -135,7 +135,7 @@ class Controller {
 				$commentDeleted = ModelAdmin::deleteComment($commentIdToDelete);
 
 				// Set session variable based on the deletion result
-				$_SESSION['deleteCommentMessage'] = $commentDeleted ? 'Comment deleted successfully' : 'Error deleting comment';
+				$_SESSION['deleteCommentMessage'] = $commentDeleted ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar kustutatud edukalt' : 'Comment deleted successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga kommentaari kustutamisel' : 'Error deleting comment');
 
 				// Redirect to refresh the page
 				header("Location: /comments?topic=" . $topicId);
@@ -175,17 +175,17 @@ class Controller {
 				$replyId = $_POST['replyId'];
 				$replyText = $_POST['reply'];
 				$result = ModelAdmin::editReply($replyId, $replyText);
-				$_SESSION['editReplyMessage'] = $result ? 'Reply edited successfully' : 'Error editing reply';
+				$_SESSION['editReplyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus muudetud edukalt' : 'Reply edited successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse muutmisel' : 'Error editing reply');
 			} elseif (isset($_POST['comment'])) {
 				// Creating a new reply
 				$commentText = $_POST['comment'];
 				$result = Model::createReply($commentId, $userId, $commentText);
-				$_SESSION['replyMessage'] = $result ? 'Reply created successfully' : 'Error creating reply';
+				$_SESSION['replyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus loodud edukalt' : 'Reply created successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse loomisel' : 'Error creating reply');
 			} elseif (isset($_POST['deleteId'])) {
 				// Deleting a reply
 				$deleteId = $_POST['deleteId'];
 				$result = ModelAdmin::deleteReply($deleteId);
-				$_SESSION['deleteReplyMessage'] = $result ? 'Reply deleted successfully' : 'Error deleting reply';
+				$_SESSION['deleteReplyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus kustutatud edukalt' : 'Reply deleted successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse kustutamisel' : 'Error deleting reply');
 			}
 
 			// Redirect to refresh the page
@@ -212,10 +212,7 @@ class Controller {
 				$_SESSION['name'] = $updatedUser['username'];
 				$_SESSION['email'] = $updatedUser['email'];
 				$_SESSION['password'] = $updatedUser['password'];
-				$_SESSION['userEditMessage'] = 'User profile updated successfully';
-
-			} else {
-				$_SESSION['userEditMessage'] = 'Failed to update user profile';
+				$_SESSION['userEditMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja profiil edukalt uuendatud' : 'User profile updated successfully');
 			}
 			header("Location: /profile?user=" . $userId);
 			exit();
