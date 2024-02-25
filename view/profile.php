@@ -34,16 +34,16 @@
                             echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userReportModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Aruandlus' : 'Report') . ' '.$user['username'].'</a></div>';
                         }
                         if(!empty($user['twitter'])){
-                            echo '<a href="https://twitter.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
+                            echo '<a href="'.$user['twitter'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
                         }
                         if(!empty($user['facebook'])){
-                            echo '<a href="https://facebook.com" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 10px;" src="assets/img/facebook.png" alt="Facebook"></a>';
+                            echo '<a href="'.$user['facebook'].'" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 10px;" src="assets/img/facebook.png" alt="Facebook"></a>';
                         }
                         if(!empty($user['instagram'])){
-                            echo '<a href="https://instagram.com" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/instagram.png" alt="Instagram"></a>';
+                            echo '<a href="'.$user['instagram'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/instagram.png" alt="Instagram"></a>';
                         }
                         if(!empty($user['discord'])){
-                            echo '<a href="https://discord.com" target="_blank"><img style="width: 50px; height: 50px; margin-left: 10px;" src="assets/img/discord.png" alt="Discord"></a>';
+                            echo '<a href="'.$user['discord'].'" target="_blank"><img style="width: 50px; height: 50px; margin-left: 10px;" src="assets/img/discord.png" alt="Discord"></a>';
                         }
                         echo '</div>';
                         echo '<div class="user-profile-description">';

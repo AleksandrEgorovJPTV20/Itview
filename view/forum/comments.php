@@ -190,6 +190,7 @@
                     </div>
                     <div id="selectedImagesContainerEdit" class="mt-2"></div>
                     <button type="button" class="btn btn-danger mt-2" id="removeImagesBtnEdit" style="display: none;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda pildid' : 'Remove images') ;?></button>
+                    <input type="hidden" name="removeImages" id="removeImagesInput" value="0">
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                     <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
@@ -301,8 +302,8 @@
         
         $(fileInputs.join(', ')).on('change', function () {
             var files = getSelectedFiles(); // Get the selected files
+            $('#removeImagesInput').val('0');
             removeImagesBtn.hide();
-
             var fileCount = selectedImages.length + 1;
 
             // Adjust the file count to a maximum of 3
@@ -341,7 +342,7 @@
 
             // Show the first file input
             $(fileInputs[0]).show();
-
+            $('#removeImagesInput').val('1');
             // Enable the file inputs after removing the images
             enableFileInputs();
 

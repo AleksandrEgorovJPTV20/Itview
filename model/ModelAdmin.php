@@ -48,52 +48,60 @@ class ModelAdmin {
 	public static function editComment($commentId, $commentText)
 	{
 		$db = new Database();
-	
+
+		// Check if removeImages input is set to 1
+		$removeImages = isset($_POST['removeImages']) && $_POST['removeImages'] == '1';
+
 		// Handle image upload
 		$uploadDir = 'uploads/comments/';
 		$uploadPath1 = '';
 		$uploadPath2 = '';
 		$uploadPath3 = '';
-	
-		if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
-			$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
-			move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
+
+		if (!$removeImages) {
+			if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
+				$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
+				move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
+			}
+
+			if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
+				$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
+				move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
+			}
+
+			if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
+				$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
+				move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
+			}
 		}
-	
-		if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
-			$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
-			move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
-		}
-	
-		if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
-			$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
-			move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
-		}
-	
+
 		// Prepare the SQL query
 		$sql = "UPDATE comments 
 				SET text = :commentText";
-	
+
 		// Add image paths to the query only if new files are selected
-		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+		if (!$removeImages && (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3))) {
 			$sql .= ", imgpath = :imgpath, imgpath2 = :imgpath2, imgpath3 = :imgpath3";
+		} else {
+			// Set image paths to null or empty if removeImages is true
+			$sql .= ", imgpath = null, imgpath2 = null, imgpath3 = null";
 		}
-	
+
 		$sql .= ", updated_at = NOW()
-				 WHERE id = :commentId";
-	
+				WHERE id = :commentId";
+
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
 		$stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
-	
+
 		// Bind image paths only if new files are selected
-		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+		if (!$removeImages && (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3))) {
 			$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR);
 			$stmt->bindParam(':imgpath2', $uploadPath2, PDO::PARAM_STR);
 			$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR);
 		}
-	
+
 		// Check if the query executed successfully
 		if ($stmt->execute()) {
 			return true; // Comment edit successful
@@ -141,25 +149,30 @@ class ModelAdmin {
 	{
 		$db = new Database();
 
+		// Check if removeImages input is set to 1
+		$removeImages = isset($_POST['removeImages']) && $_POST['removeImages'] == '1';
+
 		// Handle image upload
 		$uploadDir = 'uploads/replies/';
 		$uploadPath1 = '';
 		$uploadPath2 = '';
 		$uploadPath3 = '';
 
-		if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
-			$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
-			move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
-		}
+		if (!$removeImages) {
+			if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
+				$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
+				move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
+			}
 
-		if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
-			$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
-			move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
-		}
+			if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
+				$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
+				move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
+			}
 
-		if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
-			$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
-			move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
+			if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
+				$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
+				move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
+			}
 		}
 
 		// Prepare the SQL query
@@ -167,8 +180,11 @@ class ModelAdmin {
 				SET text = :replyText";
 
 		// Add image paths to the query only if new files are selected
-		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+		if (!$removeImages && (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3))) {
 			$sql .= ", imgpath = :imgpath, imgpath2 = :imgpath2, imgpath3 = :imgpath3";
+		} else {
+			// Set image paths to null or empty if removeImages is true
+			$sql .= ", imgpath = null, imgpath2 = null, imgpath3 = null";
 		}
 
 		$sql .= ", updated_at = NOW()
@@ -180,7 +196,7 @@ class ModelAdmin {
 		$stmt->bindParam(':replyId', $replyId, PDO::PARAM_INT);
 
 		// Bind image paths only if new files are selected
-		if (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3)) {
+		if (!$removeImages && (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3))) {
 			$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR);
 			$stmt->bindParam(':imgpath2', $uploadPath2, PDO::PARAM_STR);
 			$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR);
