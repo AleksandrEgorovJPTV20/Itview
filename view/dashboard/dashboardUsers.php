@@ -57,13 +57,13 @@
                             echo '<a href="'.$user['twitter'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
                         }
                         if(!empty($user['facebook'])){
-                            echo '<a href="'.$user['facebook'].'" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 10px;" src="assets/img/facebook.png" alt="Facebook"></a>';
+                            echo '<a href="'.$user['facebook'].'" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 15px;" src="assets/img/facebook.png" alt="Facebook"></a>';
                         }
                         if(!empty($user['instagram'])){
                             echo '<a href="'.$user['instagram'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/instagram.png" alt="Instagram"></a>';
                         }
                         if(!empty($user['discord'])){
-                            echo '<a href="'.$user['discord'].'" target="_blank"><img style="width: 50px; height: 50px; margin-left: 10px;" src="assets/img/discord.png" alt="Discord"></a>';
+                            echo '<a href="'.$user['discord'].'" target="_blank"><img style="width: 60px; height: 50px; margin-left: 15px;" src="assets/img/discord.png" alt="Discord"></a>';
                         }
                         echo '</div>';
                         echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
