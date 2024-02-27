@@ -49,7 +49,6 @@
                                        <i class="fas fa-edit"></i>
                                     </button>';
                             
-                                // Add Delete button with icon
                                 echo '<button type="button" 
                                        class="getstarted scrollto delete-topic-link"
                                        style="border: none; margin: 0px; margin-top: 10px; font-size: 16px;" 

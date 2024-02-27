@@ -49,7 +49,7 @@
                     echo '<p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raporti põhjus' : 'Report reason') . ': ' . $report['text'] . '</p>';
                     echo '</div>';
                     echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
-                    echo '<a type="button" 
+                    echo '<button type="button" 
                             style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px; margin-right: 5px;" 
                             data-toggle="modal" 
                             data-target="#banUserModal" 
@@ -58,15 +58,15 @@
                             data-banexpiry="' . $report['banexpiry'] . '"
                             class="getstarted scrollto ban-user-link">
                             <i class="fa fa-ban"></i>
-                            </a>';
-                    echo '<a type="button" 
+                            </button>';
+                    echo '<button type="button" 
                             style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px;" 
                             data-toggle="modal" 
                             data-target="#deleteReportModal" 
                             data-delete-id="' . $report['reportId'] . '" 
                             class="getstarted scrollto delete-report-link">
                             <i class="fa fa-trash"></i>
-                        </a>';
+                        </button>';
                     echo '</div>';
                     echo '</div>';
                 }

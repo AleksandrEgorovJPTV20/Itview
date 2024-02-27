@@ -55,7 +55,7 @@
                         
                         echo '</div>';
                         echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
-                        echo '<a type="button" 
+                        echo '<button type="button" 
                                 style="border: none; margin: 0px 5px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
                                 data-toggle="modal" 
                                 data-target="#editCommentModal" 
@@ -66,15 +66,15 @@
                                 data-imgpath3="' . (!empty($comment['imgpath3']) ? $comment['imgpath3'] : '') . '"
                                 class="getstarted scrollto edit-comment-link">
                                 <i class="fas fa-edit"></i>
-                                </a>';
-                        echo '<a type="button" 
+                                </button>';
+                        echo '<button type="button" 
                               style="border: none; margin: 0px; color: white; height: 43px; font-size: 16px; margin-top: 10px;" 
                               data-toggle="modal" 
                               data-target="#deleteCommentModal" 
                               data-delete-id="' . $comment['id'] . '" 
                               class="getstarted scrollto delete-comment-link">
                               <i class="fa fa-trash"></i>
-                            </a>';
+                            </button>';
                         echo '</div>';
                         echo '</div>';
                     }

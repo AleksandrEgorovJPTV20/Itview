@@ -63,9 +63,6 @@ $route = explode('/', $path)[$num];
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto" href="/"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kodu' : 'Home');?></a></li>
-          <li><a class="nav-link scrollto" href="/#about"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teave' : 'About');?></a></li>
-          <li><a class="nav-link scrollto" href="/#tech"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tehnoloogia' : 'Tech');?></a></li>
-          <li><a class="nav-link scrollto" href="/#faq"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'KKK' : 'FAQ') . '';?></a></li>
           <li><a class="nav-link scrollto" href="/#contact"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kontaktid' : 'Contacts');?></a></li>
           <?php
             if (!isset($_SESSION['userId'])) {

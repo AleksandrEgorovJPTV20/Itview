@@ -52,7 +52,7 @@
                             }
                         echo '</div>';
                             echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
-                            echo '<a type="button" 
+                            echo '<button type="button" 
                                      style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-right: 5px;" 
                                      data-toggle="modal" 
                                      data-target="#editReplyModal" 
@@ -63,15 +63,15 @@
                                      data-imgpath3="' . (!empty($reply['imgpath3']) ? $reply['imgpath3'] : '') . '"
                                      class="getstarted scrollto edit-reply-link">
                                      <i class="fas fa-edit"></i>
-                                  </a>';
-                            echo '<a type="button" 
+                                  </button>';
+                            echo '<button type="button" 
                                   style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px;" 
                                   data-toggle="modal" 
                                   data-target="#deleteReplyModal" 
                                   data-delete-id="' . $reply['id'] . '" 
                                   class="getstarted scrollto delete-reply-link">
                                   <i class="fa fa-trash"></i>
-                               </a>';
+                               </button>';
                             echo '</div>';
                         echo '</div>';
                     }

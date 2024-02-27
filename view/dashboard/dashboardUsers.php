@@ -67,7 +67,7 @@
                         }
                         echo '</div>';
                         echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
-                        echo '<a type="button" 
+                        echo '<button type="button" 
                                 style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-right: 5px;" 
                                 data-toggle="modal" 
                                 data-target="#editUserModal" 
@@ -82,8 +82,8 @@
                                 data-discord="' . $user['discord'] . '"
                                 class="getstarted scrollto edit-user-link">
                                 <i class="fas fa-edit"></i>
-                                </a>';
-                        echo '<a type="button" 
+                                </button>';
+                        echo '<button type="button" 
                                 style="border: none; margin: 0px; color: white; height: 43px; margin-top: 10px;" 
                                 data-toggle="modal" 
                                 data-target="#banUserModal" 
@@ -92,7 +92,7 @@
                                 data-banexpiry="' . $user['banexpiry'] . '"
                                 class="getstarted scrollto ban-user-link">
                                 <i class="fa fa-ban"></i>
-                                </a>';
+                                </button>';
                         echo '</div>';
                         echo '</div>';
                     }

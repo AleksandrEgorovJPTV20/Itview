@@ -82,7 +82,7 @@ class ModelAdmin {
 		// Add image paths to the query only if new files are selected
 		if (!$removeImages && (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3))) {
 			$sql .= ", imgpath = :imgpath, imgpath2 = :imgpath2, imgpath3 = :imgpath3";
-		} else {
+		} elseif($removeImages) {
 			// Set image paths to null or empty if removeImages is true
 			$sql .= ", imgpath = null, imgpath2 = null, imgpath3 = null";
 		}
@@ -182,7 +182,7 @@ class ModelAdmin {
 		// Add image paths to the query only if new files are selected
 		if (!$removeImages && (!empty($uploadPath1) || !empty($uploadPath2) || !empty($uploadPath3))) {
 			$sql .= ", imgpath = :imgpath, imgpath2 = :imgpath2, imgpath3 = :imgpath3";
-		} else {
+		} elseif($removeImages) {
 			// Set image paths to null or empty if removeImages is true
 			$sql .= ", imgpath = null, imgpath2 = null, imgpath3 = null";
 		}
