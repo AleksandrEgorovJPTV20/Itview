@@ -108,7 +108,7 @@
 
 <div class="modal fade" id="commentModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
@@ -155,7 +155,7 @@
 
 <div class="modal fade" id="editCommentModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
@@ -203,7 +203,7 @@
 
   <div class="modal fade" id="deleteCommentModal"  aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>

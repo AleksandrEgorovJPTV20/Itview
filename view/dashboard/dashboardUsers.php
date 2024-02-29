@@ -113,7 +113,7 @@
 
 <div class="modal fade" id="editUserModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
@@ -171,7 +171,7 @@
             <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
                 <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#userSocialsModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda sotsiaal' : 'Edit socials') ;?></button>
+                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#userSocialsModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sotsiaal' : 'Socials') ;?></button>
             </div>
           </form>
       </div>
@@ -217,7 +217,7 @@
 
   <div class="modal fade" id="banUserModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
