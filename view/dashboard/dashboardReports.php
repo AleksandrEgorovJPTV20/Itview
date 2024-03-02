@@ -1,6 +1,10 @@
 <!-- Dashboard reports -->
 <?php
 	ob_start();
+    $host = explode('?', $_SERVER['REQUEST_URI']);
+    $path = $host[0];
+    $num = substr_count($path, '/');
+    $route = explode('/', $path)[$num];
 ?>
 
 <div id="forum" class="forum about">
@@ -102,6 +106,20 @@
                 ?>
             </p>
               <div class="mb-3">
+                <?php
+                        $query = '?users';
+
+                        if (!empty($page)) {
+                            $query .= '&page=' . $page;
+                        }
+
+                        if (!empty($searchQuery)) {
+                            $query .= '&search=' . $searchQuery;
+                        }
+
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                        echo $redirectValue;                
+                    ?>
                   <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
@@ -130,6 +148,20 @@
                     ?>
                 </p>
                 <div class="mb-3">
+                    <?php
+                        $query = '?reports';
+
+                        if (!empty($page)) {
+                            $query .= '&page=' . $page;
+                        }
+
+                        if (!empty($searchQuery)) {
+                            $query .= '&search=' . $searchQuery;
+                        }
+
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                        echo $redirectValue;                
+                    ?>
                     <input type="hidden" name="userId" value="">
                 </div>
                 <div class="mb-3" style="text-align: center;">

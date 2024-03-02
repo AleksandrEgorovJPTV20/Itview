@@ -2,9 +2,10 @@
 class ControllerAdmin {
     public static function dashboard() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 
 		if (isset($_POST['send'])) {
 			if (isset($_POST['deleteId'])) {
@@ -34,7 +35,7 @@ class ControllerAdmin {
 			}
 
 			// Redirect to dashboard with a success or error message
-			header("Location: /dashboard");
+			header("Location: /$redirectRoute");
 			exit();
 		}
 
@@ -54,10 +55,11 @@ class ControllerAdmin {
 
     public static function dashboardComments() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-	
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
+
 		// Handle comment creation, editing, or deletion if the form is submitted
 		if (isset($_POST['send'])) {
 	
@@ -72,7 +74,7 @@ class ControllerAdmin {
 				} 
 	
 				// Redirect to refresh the page
-				header("Location: /dashboard?comments");
+				header("Location: /$redirectRoute");
 				exit();
 			}
 	
@@ -85,7 +87,7 @@ class ControllerAdmin {
 				$_SESSION['deleteCommentMessage'] = $commentDeleted ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar kustutatud edukalt' : 'Comment deleted successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga kommentaari kustutamisel' : 'Error deleting comment');
 	
 				// Redirect to refresh the page
-				header("Location: /dashboard?comments");
+				header("Location: /$redirectRoute");
 				exit();
 			}
 		}
@@ -100,9 +102,10 @@ class ControllerAdmin {
 
     public static function dashboardReplies() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 
 		// Handle reply creation, editing, or deletion if the form is submitted
 		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
@@ -122,7 +125,7 @@ class ControllerAdmin {
 			}
 
 			// Redirect to refresh the page
-			header("Location: /dashboard?replies");
+			header("Location: /$redirectRoute");
 			exit();
 		}
 		// Handle search query
@@ -140,7 +143,7 @@ class ControllerAdmin {
 		$itemsPerPage = 6; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-	
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 		// Check if the form is submitted
 		if (isset($_POST['send'])) {
 			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
@@ -155,7 +158,7 @@ class ControllerAdmin {
 			} else {
 				$_SESSION['userEditMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja profiili uuendamine' : 'Failed to update user profile');
 			}
-			header("Location: /dashboard?users");
+			header("Location: /$redirectRoute");
 			exit();
 		} elseif (isset($_POST['ban'])) {
 			// Check if ban button is pressed
@@ -168,7 +171,7 @@ class ControllerAdmin {
 			// Optionally, set a success or error message here
 			$_SESSION['banUserMessage'] = $banned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on keelatud' : 'User has been banned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja keelamine' : 'Failed to ban user');
 
-			header("Location: /dashboard?users");
+			header("Location: /$redirectRoute");
 			exit();
 		} elseif (isset($_POST['unban'])) {
 			// Check if unban button is pressed
@@ -180,7 +183,7 @@ class ControllerAdmin {
 			// Optionally, set a success or error message here
 			$_SESSION['banUserMessage'] = $unbanned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on taasaktiveeritud' : 'User has been unbanned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja taasaktiveerimine' : 'Failed to unban user');
 
-			header("Location: /dashboard?users");
+			header("Location: /$redirectRoute");
 			exit();
 		}
 		
@@ -198,7 +201,8 @@ class ControllerAdmin {
 		$itemsPerPage = 5;
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-	
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
+
 		if (isset($_POST['ban'])) {
 			// Check if ban button is pressed
 			$userId = isset($_POST['userId']) ? intval($_POST['userId']) : 0;
@@ -210,7 +214,7 @@ class ControllerAdmin {
 			// Optionally, set a success or error message here
 			$_SESSION['banUserMessage'] = $banned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on keelatud' : 'User has been banned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja keelamine' : 'Failed to ban user');
 
-			header("Location: /dashboard?reports");
+			header("Location: /$redirectRoute");
 			exit();
 		} elseif (isset($_POST['unban'])) {
 			// Check if unban button is pressed
@@ -222,7 +226,7 @@ class ControllerAdmin {
 			// Optionally, set a success or error message here
 			$_SESSION['banUserMessage'] = $unbanned ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja on taasaktiveeritud' : 'User has been unbanned') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus kasutaja taasaktiveerimine' : 'Failed to unban user');
 
-			header("Location: /dashboard?reports");
+			header("Location: /$redirectRoute");
 			exit();
 		}
 		elseif (isset($_POST['deleteId'])) {

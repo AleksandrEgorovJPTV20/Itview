@@ -1,6 +1,10 @@
 <!-- Forum comments -->
 <?php
 	ob_start();
+    $host = explode('?', $_SERVER['REQUEST_URI']);
+    $path = $host[0];
+    $num = substr_count($path, '/');
+    $route = explode('/', $path)[$num];
 ?>
 
 <div id="forum" class="forum about">
@@ -112,7 +116,7 @@
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
-            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <form action="comments?topic=<?php echo $topicId; ?>" onsubmit="return validateCommentForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo kommentaar' : 'Create comment') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -123,6 +127,22 @@
                     ?>
                 </p>
                 <div class="mb-3">
+                    <?php
+                        if (isset($topicId)) {
+                            $query = '?topic=' . $topicId;
+
+                            if (!empty($page)) {
+                                $query .= '&page=' . $page;
+                            }
+
+                            if (!empty($searchQuery)) {
+                                $query .= '&search=' . $searchQuery;
+                            }
+
+                            $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                            echo $redirectValue;
+                        }                  
+                    ?>
                     <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyStyle('italic', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
                         <button type="button" onclick="applyStyle('bold', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
@@ -130,7 +150,7 @@
                         <button type="button" onclick="applyLink('commentInput')">Link</button>
                         <input type="color" id="colorPicker" onchange="applyColor('commentInput')">
                     </div>
-                    <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description') ;?></div>
+                    <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
                 </div>
                 <div class="mb-3">
                     <div class="custom-file">
@@ -159,7 +179,7 @@
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
-            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <form action="comments?topic=<?php echo $topicId; ?>" onsubmit="return validateEditCommentForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda kommentaar' : 'Edit comment') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -170,6 +190,22 @@
                     ?>
                 </p>
                 <div class="mb-3">
+                    <?php
+                        if (isset($topicId)) {
+                            $query = '?topic=' . $topicId;
+
+                            if (!empty($page)) {
+                                $query .= '&page=' . $page;
+                            }
+
+                            if (!empty($searchQuery)) {
+                                $query .= '&search=' . $searchQuery;
+                            }
+
+                            $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                            echo $redirectValue;
+                        }                  
+                    ?>                    
                     <input type="hidden" name="commentId" value="">
                     <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyEditStyle('italic', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
@@ -218,6 +254,22 @@
                 ?>
             </p>
               <div class="mb-3">
+                    <?php
+                        if (isset($topicId)) {
+                            $query = '?topic=' . $topicId;
+
+                            if (!empty($page)) {
+                                $query .= '&page=' . $page;
+                            }
+
+                            if (!empty($searchQuery)) {
+                                $query .= '&search=' . $searchQuery;
+                            }
+
+                            $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                            echo $redirectValue;
+                        }                  
+                    ?>
                   <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
@@ -385,82 +437,150 @@
 
 
 <script>
+    const commentInput = document.getElementById('commentInput');
+    const languageCreate = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
+
+    // Set placeholder text when the div is clicked
+    commentInput.addEventListener('focus', function () {
+        const placeholderText = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        if (commentInput.textContent.trim() === placeholderText) {
+            commentInput.innerHTML = ''; // Clear the placeholder when the user starts typing
+        }
+    });
+
+    // Clear placeholder text if the div is empty when it loses focus
+    commentInput.addEventListener('blur', function () {
+        const placeholderText = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        if (commentInput.textContent.trim() === '') {
+            commentInput.innerHTML = `<div style="color: #aaa;">${placeholderText}</div>`;
+        }
+    });
+
+    function validateCommentForm() {
+        const placeholderText = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        // Trim the content and check if it's not empty
+        if (commentInput.textContent.trim() === placeholderText) {
+            alert(languageCreate === 'est' ? 'Palun sisestage kommentaar enne loomist!' : 'Please enter a comment before creating!');
+            return false; // Prevent form submission
+        }
+
+        // Update the raw input before submitting
+        updateRawInput('commentInput');
+        return true; // Allow form submission
+    }
+
     function applyStyle(style, elementId) {
-        const commentInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
         updateRawInput(elementId);
     }
 
     function applyLink(elementId) {
-        const commentInput = document.getElementById(elementId);
-        const linkURL = prompt('Enter the link URL:');
+        const linkURL = prompt(languageCreate === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
         if (linkURL) {
-          // Check if the link is absolute (starts with http://, https://, or //)
-          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-          // If not absolute, prepend with 'http://'
-          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-          document.execCommand('createLink', false, absoluteLink);
+            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+            document.execCommand('createLink', false, absoluteLink);
         }
         updateRawInput(elementId);
     }
 
     function applyColor(elementId) {
-        const commentInput = document.getElementById(elementId);
         const colorValue = document.getElementById('colorPicker').value;
         document.execCommand('foreColor', false, colorValue);
         updateRawInput(elementId);
     }
 
     function updateRawInput(elementId) {
-        const commentInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawCommentInput');
-        rawInput.value = commentInput.innerHTML;
+        const cleanedContent = commentInput.innerHTML.replace(/<br>$/, '');
+        rawInput.value = cleanedContent;
+    }
+
+    // Initialize placeholder
+    const placeholderTextCreate = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+    if (commentInput.textContent.trim() === '') {
+        commentInput.innerHTML = `<div style="color: #aaa;">${placeholderTextCreate}</div>`;
     }
 
     // Add an event listener to trigger updateRawInput on text input
-    document.getElementById('commentInput').addEventListener('input', function () {
+    commentInput.addEventListener('input', function () {
         updateRawInput('commentInput');
     });
 </script>
 
+
+
 <script>
+    const commentInputEdit = document.getElementById('commentInputEdit');
+    const languageEdit = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
+
+    // Set placeholder text when the div is clicked
+    commentInputEdit.addEventListener('focus', function () {
+        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        if (commentInputEdit.textContent.trim() === placeholderTextEdit) {
+            commentInputEdit.innerHTML = ''; // Clear the placeholder when the user starts typing
+        }
+    });
+
+    // Clear placeholder text if the div is empty when it loses focus
+    commentInputEdit.addEventListener('blur', function () {
+        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        if (commentInputEdit.textContent.trim() === '') {
+            commentInputEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextEdit}</div>`;
+        }
+    });
+
+    function validateEditCommentForm() {
+        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        // Trim the content and check if it's not empty
+        if (commentInputEdit.textContent.trim() === placeholderTextEdit) {
+            alert(languageEdit === 'est' ? 'Palun sisestage kommentaar enne uuendamist!' : 'Please enter a comment before updating!');
+            return false; // Prevent form submission
+        }
+
+        // Update the raw input before submitting
+        updateRawInputEdit('commentInputEdit');
+        return true; // Allow form submission
+    }
+
     function applyEditStyle(style, elementId) {
-        const commentInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
         updateRawInputEdit(elementId);
     }
 
     function applyEditLink(elementId) {
-        const commentInput = document.getElementById(elementId);
-        const linkURL = prompt('Enter the link URL:');
+        const linkURL = prompt(languageEdit === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
         if (linkURL) {
-          // Check if the link is absolute (starts with http://, https://, or //)
-          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-          // If not absolute, prepend with 'http://'
-          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-          document.execCommand('createLink', false, absoluteLink);
+            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+            document.execCommand('createLink', false, absoluteLink);
         }
         updateRawInputEdit(elementId);
     }
 
     function applyEditColor(elementId) {
-        const commentInput = document.getElementById(elementId);
         const color = document.getElementById('colorPickerEdit').value;
         document.execCommand('foreColor', false, color);
         updateRawInputEdit(elementId);
     }
 
     function updateRawInputEdit(elementId) {
-        const commentInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawCommentInputEdit');
-        rawInput.value = commentInput.innerHTML;
+        const cleanedContent = commentInputEdit.innerHTML.replace(/<br>$/, '');
+        rawInput.value = cleanedContent;
     }
+
+    // Initialize placeholder
+    const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+    if (commentInputEdit.textContent.trim() === '') {
+        commentInputEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextEdit}</div>`;
+    }
+
     // Add an event listener to trigger updateRawInputEdit on text input
-    document.getElementById('commentInputEdit').addEventListener('input', function () {
+    commentInputEdit.addEventListener('input', function () {
         updateRawInputEdit('commentInputEdit');
     });
 </script>
-
 
 <?php
 	$content = ob_get_clean();

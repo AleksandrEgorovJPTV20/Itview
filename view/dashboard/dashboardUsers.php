@@ -1,6 +1,10 @@
 <!-- Dashboard users -->
 <?php
 	ob_start();
+    $host = explode('?', $_SERVER['REQUEST_URI']);
+    $path = $host[0];
+    $num = substr_count($path, '/');
+    $route = explode('/', $path)[$num];
 ?>
 
 <div id="forum" class="forum about">
@@ -123,6 +127,20 @@
                 <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
             </p>
             <div class="mb-3" style="text-align: center;">
+                <?php
+                    $query = '?users';
+
+                    if (!empty($page)) {
+                        $query .= '&page=' . $page;
+                    }
+
+                    if (!empty($searchQuery)) {
+                        $query .= '&search=' . $searchQuery;
+                    }
+
+                    $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                    echo $redirectValue;                
+                ?>
                 <input type="hidden" name="userId" value="">
                 <img id="userImagePreview" src="" name="image" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
             </div>
@@ -190,6 +208,20 @@
                 <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
             </p>
             <div class="mb-3" style="text-align: center;">
+                <?php
+                    $query = '?users';
+
+                    if (!empty($page)) {
+                        $query .= '&page=' . $page;
+                    }
+
+                    if (!empty($searchQuery)) {
+                        $query .= '&search=' . $searchQuery;
+                    }
+
+                    $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                    echo $redirectValue;                
+                ?>
                 <input type="hidden" name="userId" value="">
                 <img id="userImagePreview" src="" name="image" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
             </div>
@@ -232,6 +264,20 @@
                     ?>
                 </p>
                 <div class="mb-3">
+                    <?php
+                        $query = '?users';
+
+                        if (!empty($page)) {
+                            $query .= '&page=' . $page;
+                        }
+
+                        if (!empty($searchQuery)) {
+                            $query .= '&search=' . $searchQuery;
+                        }
+
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                        echo $redirectValue;                
+                    ?>
                     <input type="hidden" name="userId" value="">
                 </div>
                 <div class="mb-3" style="text-align: center;">
@@ -274,8 +320,11 @@
       $('#editUserModal [name="username"]').val(username);
       $('#editUserModal [name="email"]').val(email);
       $('#editUserModal [name="description"]').val(description);
+      if(description == ''){
+        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
+        description = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
+      }
       $('#descriptionInputEdit').html(description);
-      $('#editUserModal input[name="description"]').val(description);
       $('#editUserModal [name="image"]').attr('src', imgpath);
 
       $('#userSocialsModal [name="userId"]').val(userId);
@@ -345,41 +394,62 @@ $('#banUserModal').on('hidden.bs.modal', function() {
 </script>
 
 <script>
+    const descriptionInputEditProfile = document.getElementById('descriptionInputEdit');
+    const languageEditProfile = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
+
+    // Set placeholder text when the div is clicked
+    descriptionInputEditProfile.addEventListener('focus', function () {
+        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
+        if (descriptionInputEditProfile.textContent.trim() === placeholderTextEditProfile) {
+            descriptionInputEditProfile.innerHTML = ''; // Clear the placeholder when the user starts typing
+        }
+    });
+
+    // Clear placeholder text if the div is empty when it loses focus
+    descriptionInputEditProfile.addEventListener('blur', function () {
+        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
+        if (descriptionInputEditProfile.textContent.trim() === '') {
+            descriptionInputEditProfile.innerHTML = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
+        }
+    });
+
     function applyStyleEditProfile(style, elementId) {
-        const descriptionInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
-        updateRawInput(elementId);
+        updateRawInputEditProfile(elementId);
     }
 
     function applyEditLinkProfile(elementId) {
-        const descriptionInput = document.getElementById(elementId);
-        const linkURL = prompt('Enter the link URL:');
+        const linkURL = prompt(languageEditProfile === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
         if (linkURL) {
-          // Check if the link is absolute (starts with http://, https://, or //)
-          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-          // If not absolute, prepend with 'http://'
-          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-          document.execCommand('createLink', false, absoluteLink);
+            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+            document.execCommand('createLink', false, absoluteLink);
         }
-        updateRawInput(elementId);
+        updateRawInputEditProfile(elementId);
     }
 
     function applyEditProfileColor(elementId) {
-        const descriptionInput = document.getElementById(elementId);
         const colorValue = document.getElementById('colorPickerEdit').value;
         document.execCommand('foreColor', false, colorValue);
-        updateRawInput(elementId);
+        updateRawInputEditProfile(elementId);
     }
 
-    function updateRawInput(elementId) {
+    function updateRawInputEditProfile(elementId) {
         const descriptionInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawDescriptionInputEdit');
-        rawInput.value = descriptionInput.innerHTML;
+        const cleanedContent = descriptionInput.innerHTML.replace(/<br>$/, '');
+        rawInput.value = cleanedContent;
     }
 
-    // Add an event listener to trigger updateRawInput on text input
-    document.getElementById('descriptionInputEdit').addEventListener('input', function () {
-        updateRawInput('descriptionInputEdit');
+    // Initialize placeholder
+    const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
+    if (descriptionInputEditProfile.textContent.trim() === '') {
+        descriptionInputEditProfile.innerHTML = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
+    }
+
+    // Add an event listener to trigger updateRawInputEditProfile on text input
+    descriptionInputEditProfile.addEventListener('input', function () {
+        updateRawInputEditProfile('descriptionInputEdit');
     });
 </script>
 

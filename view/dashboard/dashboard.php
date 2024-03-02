@@ -1,6 +1,10 @@
 <!-- Dashboard -->
 <?php
 	ob_start();
+  $host = explode('?', $_SERVER['REQUEST_URI']);
+  $path = $host[0];
+  $num = substr_count($path, '/');
+  $route = explode('/', $path)[$num];
 ?>
 
 <div id="forum" class="forum about">
@@ -59,7 +63,7 @@
                                     </button>';
                             echo '</div>';
                             if(!empty($topic['description'])){
-                              echo '<hr style="width: 100%;">';
+                              echo '<hr style="width: 100%; margin: 0px!important;">';
                               echo '<div style="flex-basis: 100%; text-align: justify;"><p>'.$topic['description'].'</p></div>';
                             }
                             echo '</div>';
@@ -91,7 +95,19 @@
                 <?php if (isset($_SESSION['editTopicMessage'])) {echo $_SESSION['editTopicMessage']; unset($_SESSION['editTopicMessage']);} ?>
               </p>
               <div class="mb-3">
-              <input type="hidden" name="topicId" value="">
+                  <?php
+                      $query = '?';
+                      if (!empty($page)) {
+                          $query .= '&page=' . $page;
+                      }
+                      if (!empty($searchQuery)) {
+                          $query .= '&search=' . $searchQuery;
+                      }
+
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                      echo $redirectValue;                
+                  ?>
+                <input type="hidden" name="topicId" value="">
                 <input type="text" name="name" class="form-control" placeholder="Enter topic name" style="margin: 20px 0px;" required>
               </div>
              <div class="mb-3">
@@ -126,6 +142,18 @@
                 <?php if (isset($_SESSION['deleteTopicMessage'])) {echo $_SESSION['deleteTopicMessage']; unset($_SESSION['deleteTopicMessage']);} ?>
               </p>
               <div class="mb-3">
+              <?php
+                  $query = '?';
+                  if (!empty($page)) {
+                      $query .= '&page=' . $page;
+                  }
+                  if (!empty($searchQuery)) {
+                      $query .= '&search=' . $searchQuery;
+                  }
+
+                  $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                  echo $redirectValue;                
+              ?>
               <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
@@ -146,6 +174,10 @@
     $('#editTopicModal input[name="topicId"]').val(topicId);
     $('#editTopicModal input[name="name"]').val(topicName);
     $('#editTopicModal input[name="description"]').val(topicDescription);
+    if(topicDescription == ''){
+        const placeholderText = languageDescription === 'est' ? 'Sisesta teema kirjeldus' : 'Enter topic description';
+        topicDescription = `<div style="color: #aaa;">${placeholderText}</div>`;
+    }
     $('#topicInputDescriptionEdit').html(topicDescription);
   });
 
@@ -167,23 +199,39 @@
 </script>
 
 <script>
+    const topicInputDescriptionEdit = document.getElementById('topicInputDescriptionEdit');
+    const languageDescriptionEdit = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
+
+    // Set placeholder text when the div is clicked
+    topicInputDescriptionEdit.addEventListener('focus', function () {
+        const placeholderTextEdit = languageDescriptionEdit === 'est' ? 'Sisesta teema kirjeldus' : 'Enter topic description';
+        if (topicInputDescriptionEdit.textContent.trim() === placeholderTextEdit) {
+            topicInputDescriptionEdit.innerHTML = ''; // Clear the placeholder when the user starts typing
+        }
+    });
+
+    // Clear placeholder text if the div is empty when it loses focus
+    topicInputDescriptionEdit.addEventListener('blur', function () {
+        const placeholderTextEdit = languageDescriptionEdit === 'est' ? 'Sisesta teema kirjeldus' : 'Enter topic description';
+        if (topicInputDescriptionEdit.textContent.trim() === '') {
+            topicInputDescriptionEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextEdit}</div>`;
+        }
+    });
+
     function applyStyleDescriptionEdit(style, elementId) {
-        const descriptionInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
         updateRawInputDescriptionEdit(elementId);
     }
 
     function applyLinkDescriptionEdit(elementId) {
         const descriptionInput = document.getElementById(elementId);
-        const linkURL = prompt('Enter the link URL:');
+        const linkURL = prompt(languageDescriptionEdit === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
         if (linkURL) {
-          // Check if the link is absolute (starts with http://, https://, or //)
-          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-          // If not absolute, prepend with 'http://'
-          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-          document.execCommand('createLink', false, absoluteLink);
+            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+            document.execCommand('createLink', false, absoluteLink);
         }
-      updateRawInputDescriptionEdit(elementId)
+        updateRawInputDescriptionEdit(elementId);
     }
 
     function applyColorDescriptionEdit(elementId) {
@@ -196,11 +244,18 @@
     function updateRawInputDescriptionEdit(elementId) {
         const descriptionInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawTopicInputDescriptionEdit');
-        rawInput.value = descriptionInput.innerHTML;
+        const cleanedContent = descriptionInput.innerHTML.replace(/<br>$/, '');
+        rawInput.value = cleanedContent;
+    }
+
+    // Initialize placeholder
+    const placeholderTextDescriptionEdit = languageDescriptionEdit === 'est' ? 'Sisesta teema kirjeldus' : 'Enter topic description';
+    if (topicInputDescriptionEdit.textContent.trim() === '') {
+        topicInputDescriptionEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextDescriptionEdit}</div>`;
     }
 
     // Add an event listener to trigger updateRawInputDescriptionEdit on text input
-    document.getElementById('topicInputDescriptionEdit').addEventListener('input', function () {
+    topicInputDescriptionEdit.addEventListener('input', function () {
         updateRawInputDescriptionEdit('topicInputDescriptionEdit');
     });
 </script>

@@ -28,7 +28,7 @@ class Controller {
 	public static function forum($page = 1) {
 		$itemsPerPage = 5; // Set the number of items per page
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : null;
-
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 		// Check if the form for creating, editing, or deleting a topic was submitted
 		if (isset($_POST['send'])) {
 			if (isset($_POST['deleteId'])) {
@@ -64,18 +64,18 @@ class Controller {
 				if (Model::createTopic($topicName, $topicDescription, $comment)) {
 					// Redirect to forum with a success message
 					$_SESSION['createMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema loodud edukalt' : 'Topic created successfully');
-					header("Location: /forum");
+					header("Location: /$redirectRoute");
 					exit();
 				} else {
 					// If topic creation fails, redirect to forum with an error message
 					$_SESSION['createMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus teema loomine' : 'Failed to create topic');
-					header("Location: /forum");
+					header("Location: /$redirectRoute");
 					exit();
 				}
 			}
 
 			// Redirect to forum with a success or error message
-			header("Location: /forum");
+			header("Location: /$redirectRoute");
 			exit();
 		}
 
@@ -105,6 +105,7 @@ class Controller {
 		$itemsPerPage = 5; // Set your desired items per page
 
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 
 		// Handle comment creation, editing, or deletion if the form is submitted
 		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
@@ -125,7 +126,7 @@ class Controller {
 				}
 
 				// Redirect to refresh the page
-				header("Location: /comments?topic=" . $topicId);
+				header("Location: /$redirectRoute");
 				exit();
 			}
 
@@ -138,7 +139,7 @@ class Controller {
 				$_SESSION['deleteCommentMessage'] = $commentDeleted ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar kustutatud edukalt' : 'Comment deleted successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga kommentaari kustutamisel' : 'Error deleting comment');
 
 				// Redirect to refresh the page
-				header("Location: /comments?topic=" . $topicId);
+				header("Location: /$redirectRoute");
 				exit();
 			}
 		}
@@ -161,6 +162,7 @@ class Controller {
 		$itemsPerPage = 5; // Set your desired items per page
 
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 
 		// Call the model method to get all replies for a comment
 		$replies = Model::getAllRepliesByCommentId($commentId, $page, $itemsPerPage);
@@ -189,7 +191,7 @@ class Controller {
 			}
 
 			// Redirect to refresh the page
-			header("Location: /comments?replies=" . $commentId);
+			header("Location: /$redirectRoute");
 			exit();
 		}
 

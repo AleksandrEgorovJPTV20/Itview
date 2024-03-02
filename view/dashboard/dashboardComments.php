@@ -1,6 +1,10 @@
 <!-- Dashboard comments -->
 <?php
 	ob_start();
+    $host = explode('?', $_SERVER['REQUEST_URI']);
+    $path = $host[0];
+    $num = substr_count($path, '/');
+    $route = explode('/', $path)[$num];
 ?>
 
 <div id="forum" class="forum about">
@@ -100,7 +104,7 @@
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
-          <form action="dashboard?comments" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+          <form action="dashboard?comments" method="POST" onsubmit="return validateEditCommentForm();" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda kommentaar' : 'Edit comment') ;?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php
@@ -111,6 +115,20 @@
                 ?>
             </p>
               <div class="mb-3">
+                    <?php
+                        $query = '?comments';
+
+                        if (!empty($page)) {
+                            $query .= '&page=' . $page;
+                        }
+
+                        if (!empty($searchQuery)) {
+                            $query .= '&search=' . $searchQuery;
+                        }
+
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                        echo $redirectValue;                
+                    ?>
                     <input type="hidden" name="commentId" value="">
                     <div class="style-buttons" style="margin: 5px; justify-content: center;">
                         <button type="button" onclick="applyEditStyle('italic', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
@@ -159,6 +177,20 @@
                 ?>
             </p>
               <div class="mb-3">
+                    <?php
+                        $query = '?comments';
+
+                        if (!empty($page)) {
+                            $query .= '&page=' . $page;
+                        }
+
+                        if (!empty($searchQuery)) {
+                            $query .= '&search=' . $searchQuery;
+                        }
+
+                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
+                        echo $redirectValue;                
+                    ?>
                   <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
@@ -326,39 +358,73 @@
 </script>
 
 <script>
+    const commentInputEdit = document.getElementById('commentInputEdit');
+    const languageEdit = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
+
+    // Set placeholder text when the div is clicked
+    commentInputEdit.addEventListener('focus', function () {
+        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        if (commentInputEdit.textContent.trim() === placeholderTextEdit) {
+            commentInputEdit.innerHTML = ''; // Clear the placeholder when the user starts typing
+        }
+    });
+
+    // Clear placeholder text if the div is empty when it loses focus
+    commentInputEdit.addEventListener('blur', function () {
+        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        if (commentInputEdit.textContent.trim() === '') {
+            commentInputEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextEdit}</div>`;
+        }
+    });
+
+    function validateEditCommentForm() {
+        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+        // Trim the content and check if it's not empty
+        if (commentInputEdit.textContent.trim() === placeholderTextEdit) {
+            alert(languageEdit === 'est' ? 'Palun sisestage kommentaar enne uuendamist!' : 'Please enter a comment before updating!');
+            return false; // Prevent form submission
+        }
+
+        // Update the raw input before submitting
+        updateRawInputEdit('commentInputEdit');
+        return true; // Allow form submission
+    }
+
     function applyEditStyle(style, elementId) {
-        const commentInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
         updateRawInputEdit(elementId);
     }
 
     function applyEditLink(elementId) {
-        const commentInput = document.getElementById(elementId);
-        const linkURL = prompt('Enter the link URL:');
+        const linkURL = prompt(languageEdit === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
         if (linkURL) {
-          // Check if the link is absolute (starts with http://, https://, or //)
-          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-          // If not absolute, prepend with 'http://'
-          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-          document.execCommand('createLink', false, absoluteLink);
+            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+            document.execCommand('createLink', false, absoluteLink);
         }
         updateRawInputEdit(elementId);
     }
 
     function applyEditColor(elementId) {
-        const commentInput = document.getElementById(elementId);
         const color = document.getElementById('colorPickerEdit').value;
         document.execCommand('foreColor', false, color);
         updateRawInputEdit(elementId);
     }
 
     function updateRawInputEdit(elementId) {
-        const commentInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawCommentInputEdit');
-        rawInput.value = commentInput.innerHTML;
+        const cleanedContent = commentInputEdit.innerHTML.replace(/<br>$/, '');
+        rawInput.value = cleanedContent;
     }
+
+    // Initialize placeholder
+    const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
+    if (commentInputEdit.textContent.trim() === '') {
+        commentInputEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextEdit}</div>`;
+    }
+
     // Add an event listener to trigger updateRawInputEdit on text input
-    document.getElementById('commentInputEdit').addEventListener('input', function () {
+    commentInputEdit.addEventListener('input', function () {
         updateRawInputEdit('commentInputEdit');
     });
 </script>

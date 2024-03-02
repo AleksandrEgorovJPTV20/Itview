@@ -5,8 +5,6 @@ $path = $host[0];
 $num = substr_count($path, '/');
 $route = explode('/', $path)[$num];
 
-// Include other necessary files or logic here
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -390,7 +390,7 @@ class Model {
 		$username = !empty($_POST['username']) ? $_POST['username'] : $user['username'];
 		$email = !empty($_POST['email']) ? $_POST['email'] : $user['email'];
 		$password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
-		$description = !empty($_POST['description']) ? $_POST['description'] : $user['description'];
+		$description = !empty($_POST['description']) ? $_POST['description'] : '';
 		$twitter = !empty($_POST['twitter']) ? $_POST['twitter'] : '';
 		$instagram = !empty($_POST['instagram']) ? $_POST['instagram'] : '';
 		$facebook = !empty($_POST['facebook']) ? $_POST['facebook'] : '';

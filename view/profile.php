@@ -29,26 +29,28 @@
                         }
 
                         if (isset($_SESSION['userId']) && $_SESSION['userId'] == $userId) {
-                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userProfileModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiili muutmine' : 'Edit profile') . '</a></div>';
+                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userProfileModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiili muutmine' : 'Edit profile') . '</a></div>';
                         }elseif(isset($_SESSION['userId']) && $user['role'] != 'admin'){
-                            echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userReportModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Aruandlus' : 'Report') . ' '.$user['username'].'</a></div>';
+                            echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userReportModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Aruandlus' : 'Report') . ' '.$user['username'].'</a></div>';
                         }
                         if(!empty($user['twitter'])){
-                            echo '<a href="'.$user['twitter'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
+                            echo '<a href="'.$user['twitter'].'" target="_blank"><img style="width: 50px; height: 50px; margin-top: 5px;" src="assets/img/twitter.png" alt="Twitter"></a>';
                         }
                         if(!empty($user['facebook'])){
-                            echo '<a href="'.$user['facebook'].'" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 15px;" src="assets/img/facebook.png" alt="Facebook"></a>';
+                            echo '<a href="'.$user['facebook'].'" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 15px; margin-top: 5px;" src="assets/img/facebook.png" alt="Facebook"></a>';
                         }
                         if(!empty($user['instagram'])){
-                            echo '<a href="'.$user['instagram'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/instagram.png" alt="Instagram"></a>';
+                            echo '<a href="'.$user['instagram'].'" target="_blank"><img style="width: 50px; height: 50px; margin-top: 5px;" src="assets/img/instagram.png" alt="Instagram"></a>';
                         }
                         if(!empty($user['discord'])){
-                            echo '<a href="'.$user['discord'].'" target="_blank"><img style="width: 60px; height: 50px; margin-left: 15px;" src="assets/img/discord.png" alt="Discord"></a>';
+                            echo '<a href="'.$user['discord'].'" target="_blank"><img style="width: 60px; height: 50px; margin-top: 5px; margin-left: 15px;" src="assets/img/discord.png" alt="Discord"></a>';
                         }
-                        echo '</div>';
-                        echo '<div class="user-profile-description">';
-                        echo '<h2>'. $user['username'] .' ' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? ' kirjeldus' : ' description') . '</h2><p>'. $user['description'] .'</p>';
-                        echo '</div>';
+                        echo '</div>'; 
+                        if($user['description'] != '' || !empty($user['description'])){
+                            echo '<div class="user-profile-description">';
+                            echo '<h2>'. $user['username'] .' ' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? ' kirjeldus' : ' description') . '</h2><p>'. $user['description'] .'</p>';
+                            echo '</div>';
+                        }
                     }
                     ?>
                 </div>
@@ -155,7 +157,7 @@
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
-          <form action="profile?user=<?php echo $userId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+          <form action="profile?user=<?php echo $userId; ?>" onsubmit="return validateReportForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
             <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raporteeri ' : 'Report ') ;?> <?php echo $user['username']; ?></h1>
             <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['userReportMessage'])) {echo $_SESSION['userReportMessage']; unset($_SESSION['userReportMessage']);} ?>
@@ -171,7 +173,7 @@
                     <button type="button" onclick="applyReportLink('descriptionInputReport')">Link</button>
                     <input  type="color" id="colorPickerReport" onchange="applyReportColor('descriptionInputReport')">
                 </div>
-                <div contenteditable="true" id="descriptionInputReport" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta raporti kirjeldus' : 'Enter report description') ;?></div>
+                <div contenteditable="true" id="descriptionInputReport" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"></div>
                 <input type="hidden" name="description" id="rawDescriptionInputReport" value="" required>
             </div>
             <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
@@ -207,66 +209,114 @@
 </script>
 
 <script>
+    const descriptionInputEditProfile = document.getElementById('descriptionInputEdit');
+    const languageEditProfile = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
+
+    // Set placeholder text when the div is clicked
+    descriptionInputEditProfile.addEventListener('focus', function () {
+        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
+        if (descriptionInputEditProfile.textContent.trim() === placeholderTextEditProfile) {
+            descriptionInputEditProfile.innerHTML = ''; // Clear the placeholder when the user starts typing
+        }
+    });
+
+    // Clear placeholder text if the div is empty when it loses focus
+    descriptionInputEditProfile.addEventListener('blur', function () {
+        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
+        if (descriptionInputEditProfile.textContent.trim() === '') {
+            descriptionInputEditProfile.innerHTML = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
+        }
+    });
+
     function applyStyleEditProfile(style, elementId) {
-        const descriptionInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
-        updateRawInput(elementId);
+        updateRawInputEditProfile(elementId);
     }
 
     function applyEditLinkProfile(elementId) {
-        const descriptionInput = document.getElementById(elementId);
-        const linkURL = prompt('Enter the link URL:');
+        const linkURL = prompt(languageEditProfile === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
         if (linkURL) {
-          // Check if the link is absolute (starts with http://, https://, or //)
-          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-          // If not absolute, prepend with 'http://'
-          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-          document.execCommand('createLink', false, absoluteLink);
+            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+            document.execCommand('createLink', false, absoluteLink);
         }
-        updateRawInput(elementId);
+        updateRawInputEditProfile(elementId);
     }
 
     function applyEditProfileColor(elementId) {
-        const descriptionInput = document.getElementById(elementId);
         const colorValue = document.getElementById('colorPickerEdit').value;
         document.execCommand('foreColor', false, colorValue);
-        updateRawInput(elementId);
+        updateRawInputEditProfile(elementId);
     }
 
-    function updateRawInput(elementId) {
+    function updateRawInputEditProfile(elementId) {
         const descriptionInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawDescriptionInputEdit');
-        rawInput.value = descriptionInput.innerHTML;
+        const cleanedContent = descriptionInput.innerHTML.replace(/<br>$/, '');
+        rawInput.value = cleanedContent;
     }
 
-    // Add an event listener to trigger updateRawInput on text input
-    document.getElementById('descriptionInputEdit').addEventListener('input', function () {
-        updateRawInput('descriptionInputEdit');
+    // Initialize placeholder
+    const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
+    if (descriptionInputEditProfile.textContent.trim() === '') {
+        descriptionInputEditProfile.innerHTML = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
+    }
+
+    // Add an event listener to trigger updateRawInputEditProfile on text input
+    descriptionInputEditProfile.addEventListener('input', function () {
+        updateRawInputEditProfile('descriptionInputEdit');
     });
 </script>
 
 <script>
+    const descriptionInputReport = document.getElementById('descriptionInputReport');
+    const languageReport = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
+
+    // Set placeholder text when the div is clicked
+    descriptionInputReport.addEventListener('focus', function () {
+        const placeholderTextReport = languageReport === 'est' ? 'Sisesta raporti kirjeldus' : 'Enter report description';
+        if (descriptionInputReport.textContent.trim() === placeholderTextReport) {
+            descriptionInputReport.innerHTML = ''; // Clear the placeholder when the user starts typing
+        }
+    });
+
+    // Clear placeholder text if the div is empty when it loses focus
+    descriptionInputReport.addEventListener('blur', function () {
+        const placeholderTextReport = languageReport === 'est' ? 'Sisesta raporti kirjeldus' : 'Enter report description';
+        if (descriptionInputReport.textContent.trim() === '') {
+            descriptionInputReport.innerHTML = `<div style="color: #aaa;">${placeholderTextReport}</div>`;
+        }
+    });
+
+    function validateReportForm() {
+        const placeholderTextReport = languageReport === 'est' ? 'Sisesta raporti kirjeldus' : 'Enter report description';
+        // Trim the content and check if it's not empty
+        if (descriptionInputReport.textContent.trim() === placeholderTextReport) {
+            alert(languageReport === 'est' ? 'Palun sisestage raporti kirjeldus enne saatmist!' : 'Please enter a report description before submitting!');
+            return false; // Prevent form submission
+        }
+
+        // Update the raw input before submitting
+        updateRawInputReport('descriptionInputReport');
+        return true; // Allow form submission
+    }
+
     function applyStyleReport(style, elementId) {
-        const descriptionInput = document.getElementById(elementId);
         document.execCommand(style, false, null);
         updateRawInputReport(elementId);
     }
 
     function applyReportLink(elementId) {
-        const descriptionInput = document.getElementById(elementId);
-        const linkURL = prompt('Enter the link URL:');
+        const linkURL = prompt(languageReport === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
         if (linkURL) {
-          // Check if the link is absolute (starts with http://, https://, or //)
-          const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-          // If not absolute, prepend with 'http://'
-          const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-          document.execCommand('createLink', false, absoluteLink);
+            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
+            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
+            document.execCommand('createLink', false, absoluteLink);
         }
         updateRawInputReport(elementId);
     }
 
     function applyReportColor(elementId) {
-        const descriptionInput = document.getElementById(elementId);
         const colorValue = document.getElementById('colorPickerReport').value;
         document.execCommand('foreColor', false, colorValue);
         updateRawInputReport(elementId);
@@ -275,14 +325,22 @@
     function updateRawInputReport(elementId) {
         const descriptionInput = document.getElementById(elementId);
         const rawInput = document.getElementById('rawDescriptionInputReport');
-        rawInput.value = descriptionInput.innerHTML;
+        const cleanedContent = descriptionInput.innerHTML.replace(/<br>$/, '');
+        rawInput.value = cleanedContent;
     }
 
-    // Add an event listener to trigger updateRawInput on text input
-    document.getElementById('descriptionInputReport').addEventListener('input', function () {
+    // Initialize placeholder
+    const placeholderTextReport = languageReport === 'est' ? 'Sisesta raporti kirjeldus' : 'Enter report description';
+    if (descriptionInputReport.textContent.trim() === '') {
+        descriptionInputReport.innerHTML = `<div style="color: #aaa;">${placeholderTextReport}</div>`;
+    }
+
+    // Add an event listener to trigger updateRawInputReport on text input
+    descriptionInputReport.addEventListener('input', function () {
         updateRawInputReport('descriptionInputReport');
     });
 </script>
+
 <?php
 	$content = ob_get_clean();
 	include "view/templates/layout.php";
