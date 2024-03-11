@@ -2,7 +2,7 @@
 <?php
 	ob_start();
 ?>
-
+<!-- HTML section -->
 <div id="forum" class="forum about">
     <div class="container" data-aos="fade-up">
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
@@ -59,6 +59,7 @@
     </div>
 </div>
 
+<!-- Modal form section -->
 <div class="modal fade" id="userProfileModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
@@ -185,6 +186,7 @@
     </div>
   </div>
 
+<!-- Script section -->
 <script>
     function previewImage() {
         var input = document.getElementById('userImageInput');

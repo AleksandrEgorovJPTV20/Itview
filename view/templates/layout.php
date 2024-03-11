@@ -165,6 +165,7 @@ $route = explode('/', $path)[$num];
 		?>
 	</div>
 
+<!-- Modal forms section -->
   <!-- Login -->
   <div class="modal fade" id="loginModal" aria-hidden="true">
     <div class="modal-dialog" role="document">

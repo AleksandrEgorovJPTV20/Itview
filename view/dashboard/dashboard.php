@@ -6,13 +6,28 @@
   $num = substr_count($path, '/');
   $route = explode('/', $path)[$num];
 ?>
-
+<!-- HTML section -->
 <div id="forum" class="forum about">
     <div class="container" data-aos="fade-up">
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
             <form class="d-flex justify-content-center align-items-center my-4" data-aos="fade-up" data-aos-delay="200">
                 <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white;  width: 60%;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Otsi teemasid' : 'Search topics') ;?>">
             </form>
+            <?php 
+                $i=0;
+                foreach($topics as $topic){
+                    $i++;
+                }
+            ?>
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku teemasid -' : 'Total topics -') ;?> 
+            <?php 
+                if($searchQuery){
+                    echo $i;
+                }else{
+                    echo $totalItems;
+                }
+            ?>
+            </h2>
             <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="width: 100%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Juhtpaneeli juhtimine' : 'Dashboard control') ;?></h2>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
@@ -83,6 +98,8 @@
     </div>
 </div>
 
+
+<!-- Modal form section -->
   <div class="modal fade" id="editTopicModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
@@ -165,6 +182,7 @@
     </div>
   </div>
 
+<!-- Script section -->
   <script>
   $('.edit-topic-link').on('click', function() {
     var topicId = $(this).data('topic-id');

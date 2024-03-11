@@ -243,7 +243,7 @@ class ModelAdmin {
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
-
+	// Model method to search comments
 	public static function searchComments($searchQuery) {
 		$db = new Database();
 	
@@ -254,6 +254,7 @@ class ModelAdmin {
 				INNER JOIN topics ON comments.topicid = topics.id
 				WHERE users.username LIKE :searchQuery
 				OR users.email LIKE :searchQuery
+				OR comments.text LIKE :searchQuery
 				ORDER BY comments.id DESC";
 	
 		// Bind parameters and execute the query
@@ -301,7 +302,7 @@ class ModelAdmin {
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
-
+	// Model method to search replies
 	public static function searchReplies($searchQuery) {
 		$db = new Database();
 	
@@ -311,6 +312,7 @@ class ModelAdmin {
 				INNER JOIN users ON replies.userid = users.id
 				WHERE users.username LIKE :searchQuery
 				OR users.email LIKE :searchQuery
+				OR replies.text LIKE :searchQuery
 				ORDER BY replies.id DESC";
 	
 		// Bind parameters and execute the query
@@ -366,12 +368,12 @@ class ModelAdmin {
 
 		return $stmt->fetchColumn();
 	}
-
+	// Model method to search users
 	public static function searchUsers($searchQuery) {
 		$db = new Database();
 	
 		// Define the SQL query for searching users
-		$sql = "SELECT * FROM users WHERE username LIKE :searchQuery OR email LIKE :searchQuery";
+		$sql = "SELECT * FROM users WHERE username LIKE :searchQuery OR email LIKE :searchQuery OR role LIKE :searchQuery";
 		
 		$searchQuery = '%' . $searchQuery . '%';
 	
@@ -437,7 +439,7 @@ class ModelAdmin {
 		// Return updated user data
 		return $user;
 	}
-
+	// Model method to ban user
     public static function banUser($userId, $banexpiry) {
         $db = new Database();
 
@@ -463,6 +465,7 @@ class ModelAdmin {
         return $stmt->execute();
     }
 
+	// Model method to get all reports
     public static function getAllReports($page = 1, $itemsPerPage = 5) {
 		$db = new Database();
         $offset = ($page - 1) * $itemsPerPage;
@@ -481,7 +484,7 @@ class ModelAdmin {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
+	// Model method to get the total number of reports
     public static function getTotalReports() {
         $db = new Database();
 
@@ -492,7 +495,7 @@ class ModelAdmin {
 
         return $stmt->fetchColumn();
     }
-
+	// Model method to search reports
     public static function searchReports($searchQuery) {
         $db = new Database();
 
@@ -503,6 +506,7 @@ class ModelAdmin {
                 INNER JOIN users users2 ON reports.reportedUserId = users2.id
                 WHERE users2.username LIKE :searchQuery
                     OR users2.email LIKE :searchQuery
+                    OR users2.role LIKE :searchQuery					
                 ORDER BY reports.id DESC";
 
         // Bind parameters and execute the query
@@ -514,6 +518,7 @@ class ModelAdmin {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+	// Model method to delete report
     public static function deleteReport($deleteId) {
         $db = new Database();
 

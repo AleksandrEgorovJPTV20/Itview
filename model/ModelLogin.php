@@ -95,7 +95,7 @@ class ModelLogin {
 			}
 		}
 	}
-
+	// Model method to check if logged in user is banned or not
     public static function banCheck() {
         if (isset($_SESSION['userId'])) {
             $userId = $_SESSION['userId'];

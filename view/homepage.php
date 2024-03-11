@@ -2,6 +2,7 @@
 <?php
 	ob_start();
 ?>
+<!-- HTML section -->
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="hero d-flex align-items-center">
 
@@ -81,29 +82,50 @@
       </header>
       
       <div class="row gy-4">
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-box blue">
-                <img src="https://th.bing.com/th/id/OIP.3ODPI6UHE1z7YMNGBELP_QHaEK?rs=1&pid=ImgDetMain" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
-                <h3><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Apple M1 kiip' : 'Apple M1 Chip');?></h3>
-                <p><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Apple tutvustas oma M1 kiipi aastal 2020, kuid selle mõju oli märkimisväärne ka 2021. M1 on kohandatud ARM-põhine süsteem kiip (SoC), mis toidab mitmeid Applei seadmeid, sealhulgas MacBook Air, MacBook Pro ja Mac mini. See tõi kaasa märkimisväärseid edusamme jõudluse ja energiatõhususe osas, märkides Applei üleminekut Inteli protsessoritest.' : 'Apple introduced its M1 chip in 2020, but its impact continued to be significant in 2021. The M1 is a custom-designed ARM-based system on a chip (SoC) that powers a range of Apple devices, including the MacBook Air, MacBook Pro, and Mac mini. It brought notable improvements in performance and energy efficiency, marking Apples transition away from Intel processors.');?></p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-box blue">
-                <img src="https://th.bing.com/th/id/OIP.ssfyf2CkcLcvgM2l_1OL9QHaEK?rs=1&pid=ImgDetMain" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
-                <h3><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'NVIDIA GeForce RTX 30 seeria graafikaprotsessorid' : 'NVIDIA GeForce RTX 30 Series GPUs');?></h3>
-                <p><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'NVIDIA avaldas oma GeForce RTX 30 seeria graafikakaardid, mis põhinevad Ampere arhitektuuril. Märkimisväärsed mudelid hõlmavad GeForce RTX 3080, RTX 3070 ja RTX 3060. Need graafikaprotsessorid tõid kaasa edusammud kiirjälgimise ja AI-toega funktsioonides, pakkudes muljetavaldavat jõudlust mängude, sisuloome ja professionaalsete rakenduste jaoks.' : 'NVIDIA released its GeForce RTX 30 series graphics cards based on the Ampere architecture. Notable models include the GeForce RTX 3080, RTX 3070, and RTX 3060. These GPUs introduced advancements in ray tracing and AI-powered features, delivering impressive performance for gaming, content creation, and professional applications.');?></p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-box blue">
-                <img src="assets/img/about.png" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
-                <h3><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'AMD Ryzen 5000 seeria protsessorid' : 'AMD Ryzen 5000 Series CPUs');?></h3>
-                <p><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'AMD jätkas edu protsessoriturul, tuues turule Ryzen 5000 seeria, millel on Zen 3 arhitektuur. Protsessorid nagu Ryzen 9 5950X ja Ryzen 9 5900X pakkusid suurepärast mitmiktuuma jõudlust, muutes need populaarseteks valikuteks mängude ja sisuloome jaoks. AMD Zen 3 arhitektuur tõi kaasa edusamme IPC-s (juhiste arv tsükli kohta) ja üldises efektiivsuses.' : 'AMD continued its success in the CPU market with the release of the Ryzen 5000 series, featuring the Zen 3 architecture. CPUs like the Ryzen 9 5950X and Ryzen 9 5900X offered excellent multi-core performance, making them popular choices for gaming and content creation. AMDs Zen 3 architecture brought improvements in IPC (instructions per cycle) and overall efficiency.');?></p>
-            </div>
-          </div>
-      </div>
 
+      <?php
+        if (isset($year)) {
+            // Your existing code
+            if (isset($alltech) && $alltech) {
+                foreach ($alltech as $tech) {
+                    echo '<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-box blue">
+                        <img src="' . $tech['image'] . '" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
+                        <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? $tech['nameEST'] : $tech["name"]) . '</h3>
+                        <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? $tech['descriptionEST'] : $tech["description"]) . '</p>
+                    </div>
+                    </div>';
+                }
+            } else {
+                echo '<div class="section-header" style="display: flex; font-size: 18px; text-align: center; margin: 0px; justify-content: center;"><p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Puuduvad andmed' : 'No data') . '</p></div>';
+            }
+        } else {
+            echo '<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-box blue">
+                    <img src="https://th.bing.com/th/id/OIP.3ODPI6UHE1z7YMNGBELP_QHaEK?rs=1&pid=ImgDetMain" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
+                    <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Apple M1 kiip' : 'Apple M1 Chip') . '</h3>
+                    <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Apple tutvustas oma M1 kiipi aastal 2020, kuid selle mõju oli märkimisväärne ka 2021. M1 on kohandatud ARM-põhine süsteem kiip (SoC), mis toidab mitmeid Applei seadmeid, sealhulgas MacBook Air, MacBook Pro ja Mac mini. See tõi kaasa märkimisväärseid edusamme jõudluse ja energiatõhususe osas, märkides Applei üleminekut Inteli protsessoritest.' : 'Apple introduced its M1 chip in 2020, but its impact continued to be significant in 2021. The M1 is a custom-designed ARM-based system on a chip (SoC) that powers a range of Apple devices, including the MacBook Air, MacBook Pro, and Mac mini. It brought notable improvements in performance and energy efficiency, marking Apple\'s transition away from Intel processors.') . '</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-box blue">
+                    <img src="https://th.bing.com/th/id/OIP.ssfyf2CkcLcvgM2l_1OL9QHaEK?rs=1&pid=ImgDetMain" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
+                    <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'NVIDIA GeForce RTX 30 seeria graafikaprotsessorid' : 'NVIDIA GeForce RTX 30 Series GPUs') . '</h3>
+                    <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'NVIDIA avaldas oma GeForce RTX 30 seeria graafikakaardid, mis põhinevad Ampere arhitektuuril. Märkimisväärsed mudelid hõlmavad GeForce RTX 3080, RTX 3070 ja RTX 3060. Need graafikaprotsessorid tõid kaasa edusammud kiirjälgimise ja AI-toega funktsioonides, pakkudes muljetavaldavat jõudlust mängude, sisuloome ja professionaalsete rakenduste jaoks.' : 'NVIDIA released its GeForce RTX 30 series graphics cards based on the Ampere architecture. Notable models include the GeForce RTX 3080, RTX 3070, and RTX 3060. These GPUs introduced advancements in ray tracing and AI-powered features, delivering impressive performance for gaming, content creation, and professional applications.') . '</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-box blue">
+                    <img src="assets/img/about.png" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
+                    <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'AMD Ryzen 5000 seeria protsessorid' : 'AMD Ryzen 5000 Series CPUs') . '</h3>
+                    <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'AMD jätkas edu protsessoriturul, tuues turule Ryzen 5000 seeria, millel on Zen 3 arhitektuur. Protsessorid nagu Ryzen 9 5950X ja Ryzen 9 5900X pakkusid suurepärast mitmiktuuma jõudlust, muutes need populaarseteks valikuteks mängude ja sisuloome jaoks. AMD Zen 3 arhitektuur tõi kaasa edusamme IPC-s (juhiste arv tsükli kohta) ja üldises efektiivsuses.' : 'AMD continued its success in the CPU market with the release of the Ryzen 5000 series, featuring the Zen 3 architecture. CPUs like the Ryzen 9 5950X and Ryzen 9 5900X offered excellent multi-core performance, making them popular choices for gaming and content creation. AMD\'s Zen 3 architecture brought improvements in IPC (instructions per cycle) and overall efficiency.') . '</p>
+                </div>
+            </div>';
+        }
+      ?>
+
+
+      </div>
     </div>
 </section>
 <!-- End Tech -->
@@ -258,6 +280,7 @@
 </section>
 <!-- End Contact -->
 
+<!-- Script section -->
 <script>
     function startTypingAnimationEST() {
       setTimeout(function () {

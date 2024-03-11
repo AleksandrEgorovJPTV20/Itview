@@ -11,21 +11,20 @@ class Controller {
 		$_SESSION['language'] = $language;
 		exit();
 	}
+
    //homepage controller
    public static function StartSite() {
+		if (isset($_GET['year'])) {
+			$year = $_GET['year'];
+			$alltech = Model::getAlltechByYear($year);
+		}
 		include_once('view/homepage.php');
 		return;
 	}
 
-	//tech by year controller
-	public static function tech($year) {
-		$alltech = Model::getAlltechByYear($year);
-		include_once('view/homepageYears.php');
-		return;
-	}
-
 	//forum controller
-	public static function forum($page = 1) {
+	public static function forum() {
+		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 		$itemsPerPage = 5; // Set the number of items per page
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : null;
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -79,16 +78,9 @@ class Controller {
 			exit();
 		}
 
-		// Handle search or display all topics
-		if ($searchQuery) {
-			$topics = Model::searchTopics($searchQuery, $page, $itemsPerPage);
-			$totalItems = 0;
-		} else {
-			// If no search term, use getAllTopics method
-			$topics = Model::getAllTopics($page, $itemsPerPage);
-			$totalItems = Model::getTotalTopics();
-		}
-
+		$topics = !empty($searchQuery) ? Model::searchTopics($searchQuery) : Model::getAllTopics($page, $itemsPerPage);
+		$totalItems = Model::getTotalTopics();
+		
 		// Get the comment counts for topics
 		$commentCounts = Model::getCommentCountForTopics($topics);
 

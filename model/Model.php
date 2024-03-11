@@ -39,8 +39,7 @@ class Model {
 
 
 	// Model for searching topics by name, username, or description
-	public static function searchTopics($searchTerm, $page = 1, $itemsPerPage = 2) {
-		$offset = ($page - 1) * $itemsPerPage;
+	public static function searchTopics($searchTerm) {
 
 		$sql = "SELECT topics.*, users.username, users.imgpath, users.email
 				FROM topics
@@ -48,14 +47,11 @@ class Model {
 				WHERE topics.name LIKE :searchTerm 
 					OR users.username LIKE :searchTerm
 					OR users.email LIKE :searchTerm
-				ORDER BY topics.id ASC
-				LIMIT :offset, :limit";
+				ORDER BY topics.id ASC";
 
 		$db = new Database();
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
-		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-		$stmt->bindParam(':limit', $itemsPerPage, PDO::PARAM_INT);
 		$stmt->execute();
 
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -179,7 +175,7 @@ class Model {
 				FROM comments 
 				INNER JOIN users ON comments.userid = users.id
 				WHERE comments.topicid = :topicid 
-				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery)
+				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery OR comments.text LIKE :searchQuery)
 				ORDER BY comments.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
@@ -273,7 +269,7 @@ class Model {
 				FROM replies
 				INNER JOIN users ON replies.userid = users.id
 				WHERE replies.commentid = :commentid
-				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery)
+				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery OR replies.text LIKE :searchQuery)
 				ORDER BY replies.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
@@ -437,7 +433,7 @@ class Model {
 		return $user;
 	}
 
-
+	// Model method to report user
     public static function sendReport($reportedUserId, $reportText) {
         $userId = $_SESSION['userId'];
 		$db = new Database();

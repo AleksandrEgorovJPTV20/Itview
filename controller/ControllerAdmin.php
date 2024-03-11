@@ -1,8 +1,9 @@
 <?php 
 class ControllerAdmin {
+	// Dashboard controller
     public static function dashboard() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 6; // Set your desired items per page
+		$itemsPerPage = 5; // Set your desired items per page
 
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -39,23 +40,17 @@ class ControllerAdmin {
 			exit();
 		}
 
-		// Handle search or display all topics
-		if ($searchQuery) {
-			$topics = Model::searchTopics($searchQuery, $page, $itemsPerPage);
-			$totalItems = 0;
-		} else {
-			// If no search term, use getAllTopics method
-			$topics = Model::getAllTopics($page, $itemsPerPage);
-			$totalItems = Model::getTotalTopics();
-		}
+		$topics = !empty($searchQuery) ? Model::searchTopics($searchQuery) : Model::getAllTopics($page, $itemsPerPage);
+		$totalItems = Model::getTotalTopics();
+
 		$totalPages = ceil($totalItems / $itemsPerPage);
 		include_once('view/dashboard/dashboard.php');
 		return;
 	}
-
+	// Dashboard comments controller
     public static function dashboardComments() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 6; // Set your desired items per page
+		$itemsPerPage = 5; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -99,10 +94,10 @@ class ControllerAdmin {
 		include_once('view/dashboard/dashboardComments.php');
 		return;
 	}
-
+	// Dashboard replies controller
     public static function dashboardReplies() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 6; // Set your desired items per page
+		$itemsPerPage = 5; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -138,9 +133,10 @@ class ControllerAdmin {
 		return;
 	}
 
+	// Dashboard users controller
 	public static function dashboardUsers() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 6; // Set your desired items per page
+		$itemsPerPage = 5; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -196,6 +192,7 @@ class ControllerAdmin {
 		return;
 	}
 
+	// Dashboard reports controller
 	public static function dashboardReports() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 		$itemsPerPage = 5;

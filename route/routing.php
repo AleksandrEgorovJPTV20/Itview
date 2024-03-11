@@ -14,16 +14,9 @@ if (strstr($_SERVER['REQUEST_URI'], '?')) {
     $id = urldecode($host[1]);
 }
 
-
+//routing pages
 if ($route == '' || $route == 'index.php') {
-    if (isset($_GET['year'])) {
-        $year = $_GET['year'];
-        Controller::tech($year);
-    } elseif (isset($_GET) && !empty($_GET)) {
-        Controller::error();
-    } else {
-        Controller::StartSite();
-    }
+    Controller::StartSite();
 } elseif($route == 'language'){
     if (isset($_GET['est'])) {
         Controller::changeLanguage('est');
@@ -33,18 +26,17 @@ if ($route == '' || $route == 'index.php') {
         Controller::error();
     }
 } elseif ($route == 'forum') {
-    if (isset($id) && strpos($id, 'page=') === 0) {
-        $page = intval(substr($id, 5));
-    } else {
-        $page = 1;
-    }
-    Controller::forum($page);
+    Controller::forum();
 } elseif ($route == 'comments') {
     if (isset($_GET['topic'])) {
         $topicId = $_GET['topic'];
         Controller::comments($topicId);
-    } elseif (isset($_GET['replies'])) {
-        $commentId = $_GET['replies'];
+    } else {
+        Controller::error();
+    }
+} elseif ($route == 'replies') {
+    if (isset($_GET['comment'])) {
+        $commentId = $_GET['comment'];
         Controller::replies($commentId);
     } else {
         Controller::error();

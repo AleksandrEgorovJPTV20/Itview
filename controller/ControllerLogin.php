@@ -36,7 +36,7 @@ class ControllerLogin {
 		}
 		exit();
 	}
-
+	// Check user ban controller
 	public static function checkUserBan(){
 		if (ModelLogin::banCheck()) {
 			// User is banned, perform logout

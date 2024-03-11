@@ -6,15 +6,34 @@
     $num = substr_count($path, '/');
     $route = explode('/', $path)[$num];
 ?>
+<!-- HTML section -->
 <div id="forum" class="forum about">
     <div class="container" data-aos="fade-up">
         <div class="row gx-0" style="display: flex; justify-content: center; flex-wrap: wrap;">
             <form class="d-flex justify-content-center align-items-center my-4" data-aos="fade-up" data-aos-delay="200">
                 <?php
-                    echo '<input type="hidden" name="replies" value="' . $commentId . '">';
+                    echo '<input type="hidden" name="comment" value="' . $commentId . '">';
                 ?>
                 <input type="search" name="search" class="form-control me-2" style="border: 2px solid #63BDFF; border-radius: 50px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white; width: 60%;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Otsi vastused' : 'Search replies') ;?>">
             </form>
+            <?php 
+                $i=0;
+                foreach($replies as $reply){
+                    $i++;
+                }
+            ?>
+            <div class="navbar" style="display: flex; flex-wrap: wrap; justify-content: left; margin-bottom: 10px;"> 
+            <a type="button" style="border: none; margin: 0px; margin-right: 10px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#rulesModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></a>
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku vastuseid -' : 'Total replies -') ;?> 
+            <?php 
+                if($searchQuery){
+                    echo $i;
+                }else{
+                    echo $totalItems;
+                }
+            ?>
+            </h2>
+            </div>
             <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;"><?php echo  (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author') ;?></h2>
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Postitused' : 'Posts') ;?></h2>
@@ -120,21 +139,21 @@
         <?php
             // Pages amount
             for ($i = 1; $i <= $totalPages; $i++) {
-                echo "<a href='/comments?replies={$commentId}&page=$i'>$i</a> ";
+                echo "<a href='/replies?comment={$commentId}&page=$i'>$i</a> ";
             }
         ?>
         </div>
     </div>
 </div>
 
-
+<!-- Modal form section -->
 <div class="modal fade" id="replyModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
-            <form action="comments?replies=<?php echo $commentId; ?>" onsubmit="return validateReplyForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <form action="replies?comment=<?php echo $commentId; ?>" onsubmit="return validateReplyForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo vastus' : 'Create reply') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -147,7 +166,7 @@
                 <div class="mb-3">
                     <?php 
                         if (isset($commentId)) {
-                            $query = '?replies=' . $commentId;
+                            $query = '?comment=' . $commentId;
 
                             if (!empty($page)) {
                                 $query .= '&page=' . $page;
@@ -197,7 +216,7 @@
             <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
                 <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
             </div>
-            <form action="comments?replies=<?php echo $commentId; ?>" onsubmit="return validateEditReplyForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <form action="replies?comment=<?php echo $commentId; ?>" onsubmit="return validateEditReplyForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda vastus' : 'Edit reply') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -210,7 +229,7 @@
                 <div class="mb-3">
                     <?php 
                         if (isset($commentId)) {
-                            $query = '?replies=' . $commentId;
+                            $query = '?comment=' . $commentId;
 
                             if (!empty($page)) {
                                 $query .= '&page=' . $page;
@@ -262,7 +281,7 @@
           <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
             <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
           </div>
-          <form action="comments?replies=<?php echo $commentId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="replies?comment=<?php echo $commentId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta vastus' : 'Delete reply') ;?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php
@@ -276,7 +295,7 @@
                   <input type="hidden" name="deleteId" value="">
                   <?php 
                         if (isset($commentId)) {
-                            $query = '?replies=' . $commentId;
+                            $query = '?comment=' . $commentId;
 
                             if (!empty($page)) {
                                 $query .= '&page=' . $page;
@@ -300,6 +319,32 @@
     </div>
   </div>
 
+  <div class="modal fade" id="rulesModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
+            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
+          </div>
+          <form action="forum" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+              <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></h1>
+              <p style="text-align: center; color: #013289;">
+              </p>
+              <div class="mb-3">
+                <p style="text-align: justify; color: #013289; font-size: 22px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? '1. Ärge postitage sobimatuid kommentaare.' : '1. Do not post inappropriate comments.'); ?></p>
+                <p style="text-align: justify; color: #013289; font-size: 22px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? '2. Ärge jagage sisu, mis on mitte sobivad töökohas vaatamiseks (NSFW).' : '2. Do not share content not suitable for viewing in the workplace (NSFW).'); ?></p>
+                <p style="text-align: justify; color: #013289; font-size: 22px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? '3. Ärge kasutage vihkamissõnu või -keelt.' : '3. Do not use hate speech.'); ?></p>
+                <p style="text-align: justify; color: #013289; font-size: 22px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? '4. Ole lugupidav teiste kasutajate suhtes.' : '4. Be respectful towards other users.'); ?></p>
+                <p style="text-align: justify; color: #013289; font-size: 22px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? '5. Ärge reklaamige ega levitage rämpsposti.' : '5. Do not advertise or distribute spam.'); ?></p>
+              </div>
+              <div class="navbar text" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <button type="button" class="getstarted scrollto" style="border: none; margin-left: 0px!important;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script section -->
   <script>
     // Display image previews inside selectedImagesContainerEdit
     function displayImagePreview(imgpath, inputId) {
