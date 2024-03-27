@@ -133,7 +133,7 @@ class Controller {
 				exit();
 			}
 		}
-
+		$topicName = Model::getTopic($topicId);
 		// Retrieve comments based on search or regular retrieval
 		$comments = !empty($searchQuery) ? Model::searchComments($topicId, $searchQuery) : Model::getAllCommentsById($topicId, $page, $itemsPerPage);
 

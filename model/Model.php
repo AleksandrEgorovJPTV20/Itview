@@ -212,6 +212,21 @@ class Model {
 			return false; // Comment creation failed
 		}
 	}
+	// Get topic info for a comment
+	public static function getTopic($topicId) {
+
+		$sql = "SELECT topics.*
+		FROM topics
+		WHERE id = $topicId";
+	
+		$db = new database();
+		$stmt = $db->conn->prepare($sql);
+		$stmt->execute();
+		
+		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+		return $result;
+	}
 
 	// Calculating total comments for a specific topic
 	public static function getTotalCommentsById($topicId) {

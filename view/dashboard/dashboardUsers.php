@@ -27,11 +27,12 @@
                 if($searchQuery){
                     echo $i;
                 }else{
+                    $totalItems = $totalItems - 1;
                     echo $totalItems;
                 }
             ?>
             </h2>
-          <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="width: 100%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Juhtpaneeli juhtimine' : 'Dashboard control') ;?></h2>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
                     <a href="/dashboard"style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teemad' : 'Topics') ;?></a>
@@ -85,7 +86,7 @@
                                 data-email="' . $user['email'] . '"
                                 data-description="' . htmlspecialchars($user['description']) . '"
                                 data-imgpath="' . $user['imgpath'] . '"
-                                class="getstarted scrollto edit-user-link">
+                                class="getstarted edit-user-link">
                                 <i class="fas fa-edit"></i>
                                 </button>';
                         echo '<button type="button" 
@@ -95,7 +96,7 @@
                                 data-user-id="' . $user['id'] . '" 
                                 data-imgpath="' . $user['imgpath'] . '"
                                 data-banexpiry="' . $user['banexpiry'] . '"
-                                class="getstarted scrollto ban-user-link">
+                                class="getstarted ban-user-link">
                                 <i class="fa fa-ban"></i>
                                 </button>';
                         echo '</div>';
@@ -155,7 +156,7 @@
             }
             ?>
             <div class="mb-3">
-                <textarea class="profileDescription" name="description" required></textarea>
+                <textarea class="profileDescription" id="description" name="description" required></textarea>
             </div>
             <div class="mb-3">
                 <div class="custom-file">
@@ -166,7 +167,7 @@
             <?php 
             if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
                 echo '<div class="mb-3">
-                    <input type="text" name="password" class="form-control" style="margin: 20px 0px;" placeholder="' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda parool' : 'Edit password') . '">
+                    <input type="password" name="password" class="form-control" style="margin: 20px 0px;" placeholder="' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda parool' : 'Edit password') . '">
                 </div>';
             }
             if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'){
@@ -179,9 +180,8 @@
             }
             ?>
             <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#userSocialsModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sotsiaal' : 'Socials') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -229,9 +229,9 @@
                     <p id="banStatusText" style="color: #013289;"></p>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="unban" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda keeld' : 'Unban') ;?></button>
-                    <button style="border: none;" variant="primary" type="submit" name="ban" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela' : 'Ban') ;?></button>
-                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="unban" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda keeld' : 'Unban') ;?></button>
+                    <button style="border: none;" variant="primary" type="submit" name="ban" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela' : 'Ban') ;?></button>
+                    <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
             </form>
         </div>
@@ -256,12 +256,8 @@
       $('#editUserModal [name="userId"]').val(userId);
       $('#editUserModal [name="username"]').val(username);
       $('#editUserModal [name="email"]').val(email);
-      $('#editUserModal [name="description"]').val(description);
-      if(description == ''){
-        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
-        description = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
-      }
-      $('#descriptionInputEdit').html(description);
+      $('#description').val(description);
+      $('.richText-editor').html(description);
       $('#editUserModal [name="image"]').attr('src', imgpath);
 
       // Add the user ID as a hidden input field

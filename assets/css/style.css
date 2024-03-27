@@ -214,7 +214,7 @@ section {
 }
 
 .header .logo img {
-  max-height: 40px;
+  max-height: 60px;
   margin-right: 6px;
 }
 
@@ -2647,7 +2647,9 @@ section {
 .hero-img {
   animation: levitate 3s infinite;
 }
-
+/*--------------------------------------------------------------
+# Modal forms
+--------------------------------------------------------------*/
 .modal-forms {
   margin: auto; 
   padding: 20px; 
@@ -2657,4 +2659,32 @@ section {
   background: #e3eeff; 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); 
   margin-top: 5%;
+}
+
+/*--------------------------------------------------------------
+# Read more buttons
+--------------------------------------------------------------*/
+.read-more {
+  background: white;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.read-more-link {
+  background: white;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.button-text-container {
+  padding: 10px 0px; 
+  justify-content: space-around; 
+  border-radius: 10px; 
+  background: #86ccff; 
+  width: 100%; 
+  margin-bottom: 10px; 
+  flex-wrap: wrap; 
+  text-align: center;
 }

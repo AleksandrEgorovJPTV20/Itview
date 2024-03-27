@@ -41,6 +41,7 @@ class ModelLogin {
 						$_SESSION['name'] = $item['username'];
 						$_SESSION['email'] = $item['email'];
 						$_SESSION['password'] = $item['password'];
+						$_SESSION['imgpath'] = $item['imgpath'];
 						$_SESSION['role'] = $item['role'];
 						$_SESSION['userId'] = $item['id'];
 						return;
@@ -61,9 +62,10 @@ class ModelLogin {
 		unset($_SESSION['sessionId']);
 		unset($_SESSION['name']);
 		unset($_SESSION['role']);
-		unset($_SESSION['error']);
 		unset($_SESSION['email']);
 		unset($_SESSION['userId']);
+		unset($_SESSION['imgpath']);
+		unset($_SESSION['password']);
 		return;
 	}
 

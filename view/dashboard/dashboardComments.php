@@ -29,7 +29,7 @@
                 }
             ?>
             </h2>
-          <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="width: 100%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Juhtpaneeli juhtimine' : 'Dashboard control') ;?></h2>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
                     <a href="/dashboard"style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teemad' : 'Topics') ;?></a>
@@ -83,7 +83,7 @@
                                 data-imgpath="' . (!empty($comment['imgpath']) ? $comment['imgpath'] : '') . '"
                                 data-imgpath2="' . (!empty($comment['imgpath2']) ? $comment['imgpath2'] : '') . '"
                                 data-imgpath3="' . (!empty($comment['imgpath3']) ? $comment['imgpath3'] : '') . '"
-                                class="getstarted scrollto edit-comment-link">
+                                class="getstarted edit-comment-link">
                                 <i class="fas fa-edit"></i>
                                 </button>';
                         echo '<button type="button" 
@@ -91,7 +91,7 @@
                               data-toggle="modal" 
                               data-target="#deleteCommentModal" 
                               data-delete-id="' . $comment['id'] . '" 
-                              class="getstarted scrollto delete-comment-link">
+                              class="getstarted delete-comment-link">
                               <i class="fa fa-trash"></i>
                             </button>';
                         echo '</div>';
@@ -158,8 +158,8 @@
                     <input type="hidden" name="removeImages" id="removeImagesInput" value="0">
                 </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -197,8 +197,8 @@
                   <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>

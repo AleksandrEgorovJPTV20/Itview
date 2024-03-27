@@ -58,15 +58,13 @@ $route = explode('/', $path)[$num];
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="/" class="logo d-flex align-items-center">
-        <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 57px; height: 48px; flex-shrink: 0;">
+        <img src="assets/img/logo2.png" alt="" style="border-radius: 50%; width: 70px; height: 60px; flex-shrink: 0;">
         <span>IT View</span>
       </a>
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto" href="/"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kodu' : 'Home');?></a></li>
-          <li><a class="nav-link scrollto" href="/#contact"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kontaktid' : 'Contacts');?></a></li>
-          <?php
+        <?php
             if (!isset($_SESSION['userId'])) {
               echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#registerModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registreeri' : 'Register') . '</a></li>';
               echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login') . '</a></li>';
@@ -74,13 +72,15 @@ $route = explode('/', $path)[$num];
               if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'manager') {
                   echo '<li><a href="/dashboard" style="color: #013289;" class="nav-link">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Juhtpaneel' : 'Dashboard') . '</a></li>';
                   echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#logoutModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Välju' : 'Logout') . '</a></li>';
-                  echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiil' : 'Profile') . '</a></li>';
+                  echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '"><img src="'.$_SESSION['imgpath'].'" style="width: 50px; height: 50px; border-radius: 50%;"></a></li>';
               } else {
                   echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#logoutModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Välju' : 'Logout') . '</a></li>';
                   echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiil' : 'Profile') . '</a></li>';
               }
             }
           ?> 
+          <li><a class="nav-link scrollto" href="/"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kodu' : 'Home');?></a></li>
+          <li><a class="nav-link scrollto" href="/#contact"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kontaktid' : 'Contacts');?></a></li>
           <form id="languageForm" method="POST">
             <?php
                 $redirectValue = '';
@@ -98,19 +98,19 @@ $route = explode('/', $path)[$num];
                         }
 
                         $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
-                    } elseif (isset($commentId)) {
-                        $query = '?replies=' . $commentId;
-
-                        if (!empty($page)) {
-                            $query .= '&page=' . $page;
-                        }
-
-                        if (!empty($searchQuery)) {
-                            $query .= '&search=' . $searchQuery;
-                        }
-
-                        $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                     }
+                } elseif(!empty($commentId)){
+                  $query = '?comment=' . $commentId;
+
+                  if (!empty($page)) {
+                      $query .= '&page=' . $page;
+                  }
+
+                  if (!empty($searchQuery)) {
+                      $query .= '&search=' . $searchQuery;
+                  }
+
+                  $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                 } elseif (!empty($year)) {
                     $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
                 } elseif (!empty($page) && $route == 'forum') {
@@ -193,19 +193,19 @@ $route = explode('/', $path)[$num];
                           }
 
                           $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
-                      } elseif (isset($commentId)) {
-                          $query = '?replies=' . $commentId;
-
-                          if (!empty($page)) {
-                              $query .= '&page=' . $page;
-                          }
-
-                          if (!empty($searchQuery)) {
-                              $query .= '&search=' . $searchQuery;
-                          }
-
-                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                       }
+                  } elseif(!empty($commentId)){
+                      $query = '?comment=' . $commentId;
+    
+                      if (!empty($page)) {
+                          $query .= '&page=' . $page;
+                      }
+    
+                      if (!empty($searchQuery)) {
+                          $query .= '&search=' . $searchQuery;
+                      }
+    
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                   } elseif (!empty($year)) {
                       $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
                   } elseif (!empty($page) && $route == 'forum') {
@@ -230,8 +230,8 @@ $route = explode('/', $path)[$num];
                   <input type="password" name="password" class="form-control" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta parool' : 'Enter password');?>" style="margin-bottom: 20px;" required>
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login');?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login');?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
               </div>
               <div>
                 <p style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ei ole kontot? ' : 'Dont have an account? ');?><a type="button" data-dismiss="modal" data-toggle="modal" data-target="#registerModal" style="font-weight: bold;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru siin' : 'Register here');?></a></p>
@@ -268,19 +268,19 @@ $route = explode('/', $path)[$num];
                           }
 
                           $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
-                      } elseif (isset($commentId)) {
-                          $query = '?replies=' . $commentId;
-
-                          if (!empty($page)) {
-                              $query .= '&page=' . $page;
-                          }
-
-                          if (!empty($searchQuery)) {
-                              $query .= '&search=' . $searchQuery;
-                          }
-
-                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                       }
+                  } elseif(!empty($commentId)){
+                      $query = '?comment=' . $commentId;
+    
+                      if (!empty($page)) {
+                          $query .= '&page=' . $page;
+                      }
+    
+                      if (!empty($searchQuery)) {
+                          $query .= '&search=' . $searchQuery;
+                      }
+    
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                   } elseif (!empty($year)) {
                       $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
                   } elseif (!empty($page) && $route == 'forum') {
@@ -308,8 +308,8 @@ $route = explode('/', $path)[$num];
                   <input type="password" name="password" class="form-control" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sisesta parool' : 'Enter password');?>" style="margin-bottom: 20px;" required>
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru' : 'Register');?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru' : 'Register');?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
               </div>
               <div>
                 <p style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kas sul on juba konto? ' : 'Already have an account? ');?><a type="button" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" style="font-weight: bold;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse siin' : 'Login here');?></a></p>
@@ -342,19 +342,19 @@ $route = explode('/', $path)[$num];
                           }
 
                           $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
-                      } elseif (isset($commentId)) {
-                          $query = '?replies=' . $commentId;
-
-                          if (!empty($page)) {
-                              $query .= '&page=' . $page;
-                          }
-
-                          if (!empty($searchQuery)) {
-                              $query .= '&search=' . $searchQuery;
-                          }
-
-                          $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                       }
+                  } elseif(!empty($commentId)){
+                      $query = '?comment=' . $commentId;
+    
+                      if (!empty($page)) {
+                          $query .= '&page=' . $page;
+                      }
+    
+                      if (!empty($searchQuery)) {
+                          $query .= '&search=' . $searchQuery;
+                      }
+    
+                      $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
                   } elseif (!empty($year)) {
                       $redirectValue = '<input type="hidden" name="redirect_route" value="?year=' . $year . '">';
                   } elseif (!empty($page) && $route == 'forum') {
@@ -374,8 +374,8 @@ $route = explode('/', $path)[$num];
                   echo $redirectValue;
                 ?>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kinnita' : 'Confirm');?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kinnita' : 'Confirm');?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
             </div>
           </form>
       </div>

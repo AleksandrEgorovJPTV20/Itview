@@ -33,7 +33,7 @@
             // text formatting
             bold: true,
             italic: true,
-            underline: true,
+            underline: false,
 
             // text alignment
             leftAlign: false,

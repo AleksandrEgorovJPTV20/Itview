@@ -29,9 +29,9 @@
                         }
 
                         if (isset($_SESSION['userId']) && $_SESSION['userId'] == $userId) {
-                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userProfileModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiili muutmine' : 'Edit profile') . '</a></div>';
+                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted" data-toggle="modal" data-target="#userProfileModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiili muutmine' : 'Edit profile') . '</a></div>';
                         }elseif(isset($_SESSION['userId']) && $user['role'] != 'admin'){
-                            echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#userReportModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Aruandlus' : 'Report') . ' '.$user['username'].'</a></div>';
+                            echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted" data-toggle="modal" data-target="#userReportModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Aruandlus' : 'Report') . ' '.$user['username'].'</a></div>';
                         }
                         echo '</div>'; 
                         if($user['description'] != '' || !empty($user['description'])){
@@ -81,8 +81,8 @@
                 <input type="password" name="confirm_password" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kinnita praegune parool' : 'Confirm current password') ;?>" required>
             </div>
             <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -104,8 +104,8 @@
                 <textarea class="reportDescription" name="description"></textarea>
             </div>
             <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="report" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raporteeri' : 'Report') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="report" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raporteeri' : 'Report') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -117,7 +117,6 @@
     $(document).ready(function() {
       $('.profileDescription').richText();
       $('.reportDescription').richText();
-      $('.richText-editor').html(<?php $user['description'] ?>);
     });
 
     function previewImage() {

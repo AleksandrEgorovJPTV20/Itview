@@ -35,7 +35,7 @@
             ?>
             </h2>
             </div>
-            <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author');?></h2>
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Postitused' : 'Posts');?></h2>
                 <?php 
@@ -57,13 +57,16 @@
                 if (empty($comments)) {
                     echo '<h2 style="margin-top: 50px; font-size: 30px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ei leitud kommentaare' : 'No comments found') . '</h2>';
                 } else {
+                    foreach($topicName as $name){
+                        echo '<h2 style="text-align: center; margin-bottom: 10px;">'.$name['name'].'</h2>';
+                    }
                     foreach ($comments as $comment) {
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
                         echo '<a href="profile?user=' . $comment['userid'] . '" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="' . $comment['userimg'] . '"></img></a>';
                         echo '<div class="comment">
                                 <p style="margin: 0; margin-top: 10px;">' . $comment['username'] . '</p>
                                 <p style="font-size: 16px; margin: 0;">' . $comment['created_at'] . '</p>
-                                <p>' . $comment['text'] . '</p>';
+                                <p class="">' . $comment['text'] . '</p>';
                         
                         // Check and include the image containers
                         if (!empty($comment['imgpath'])) {
@@ -90,7 +93,7 @@
                                         data-imgpath="' . (!empty($comment['imgpath']) ? $comment['imgpath'] : '') . '"
                                         data-imgpath2="' . (!empty($comment['imgpath2']) ? $comment['imgpath2'] : '') . '"
                                         data-imgpath3="' . (!empty($comment['imgpath3']) ? $comment['imgpath3'] : '') . '"
-                                        class="getstarted scrollto edit-comment-link">
+                                        class="getstarted edit-comment-link">
                                         <i class="fas fa-edit"></i>
                                     </button>';
                                 echo '<button type="button" 
@@ -98,7 +101,7 @@
                                       data-toggle="modal" 
                                       data-target="#deleteCommentModal" 
                                       data-delete-id="' . $comment['id'] . '" 
-                                      class="getstarted scrollto delete-comment-link">
+                                      class="getstarted delete-comment-link">
                                       <i class="fa fa-trash"></i>
                                    </button>';
                             }
@@ -168,10 +171,9 @@
                     <button type="button" class="btn btn-danger mt-2" id="removeImagesBtn" style="display: none;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda pildid' : 'Remove images') ;?></button>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="send" name="send" class="getstarted scrollto" id="createCommentBtn"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo' : 'Create') ;?></button>
-                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="send" name="send" class="getstarted" id="createCommentBtn"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo' : 'Create') ;?></button>
+                    <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
-                <!-- Hidden input to store raw HTML content -->
             </form>
         </div>
     </div>
@@ -224,8 +226,8 @@
                     <input type="hidden" name="removeImages" id="removeImagesInput" value="0">
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
-                    <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                    <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
             </form>
         </div>
@@ -265,8 +267,8 @@
                   <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -289,14 +291,16 @@
                 <p style="text-align: justify; color: #013289; font-size: 22px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? '5. Ärge reklaamige ega levitage rämpsposti.' : '5. Do not advertise or distribute spam.'); ?></p>
               </div>
               <div class="navbar text" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button type="button" class="getstarted scrollto" style="border: none; margin-left: 0px!important;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button type="button" class="getstarted" style="border: none; margin-left: 0px!important;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
     </div>
   </div>
 
-  <script>
+
+<!-- Script section -->  
+<script>
     // Function to check textarea and fill label if empty
     function checkTextareaAndFillLabel() {
         const commentTextarea = document.getElementById('comment');
@@ -315,7 +319,7 @@
     });
 </script>
 
-  <script>
+<script>
     $(document).ready(function() {
         $('.commentDescription').richText();
         $('.editComment').richText();

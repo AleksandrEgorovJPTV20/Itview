@@ -3,7 +3,7 @@ class ControllerAdmin {
 	// Dashboard controller
     public static function dashboard() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -50,7 +50,7 @@ class ControllerAdmin {
 	// Dashboard comments controller
     public static function dashboardComments() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -97,7 +97,7 @@ class ControllerAdmin {
 	// Dashboard replies controller
     public static function dashboardReplies() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -136,7 +136,7 @@ class ControllerAdmin {
 	// Dashboard users controller
 	public static function dashboardUsers() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5; // Set your desired items per page
+		$itemsPerPage = 6; // Set your desired items per page
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
@@ -195,7 +195,7 @@ class ControllerAdmin {
 	// Dashboard reports controller
 	public static function dashboardReports() {
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$itemsPerPage = 5;
+		$itemsPerPage = 6;
 	
 		$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';

@@ -402,10 +402,6 @@ class ModelAdmin {
 		$password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
 		$description = !empty($_POST['description']) ? $_POST['description'] : '';
 		$role = !empty($_POST['role']) ? $_POST['role'] : $user['role'];
-		$twitter = !empty($_POST['twitter']) ? $_POST['twitter'] : '';
-		$instagram = !empty($_POST['instagram']) ? $_POST['instagram'] : '';
-		$facebook = !empty($_POST['facebook']) ? $_POST['facebook'] : '';
-		$discord = !empty($_POST['discord']) ? $_POST['discord'] : '';
 
 		// Handle image upload
 		if ($_FILES['userImage']['error'] === UPLOAD_ERR_OK) {
@@ -418,7 +414,7 @@ class ModelAdmin {
 		}
 
 		// Update the user in the database
-		$sql = "UPDATE users SET username = :username, email = :email, password = :password, imgpath = :imgpath, description = :description, role = :role, twitter = :twitter, instagram = :instagram, facebook = :facebook, discord = :discord WHERE id = :userId";
+		$sql = "UPDATE users SET username = :username, email = :email, password = :password, imgpath = :imgpath, description = :description, role = :role WHERE id = :userId";
 		$stmt = $db->conn->prepare($sql);
 
 		$stmt->bindParam(':username', $username, PDO::PARAM_STR);
@@ -427,10 +423,6 @@ class ModelAdmin {
 		$stmt->bindParam(':imgpath', $user['imgpath'], PDO::PARAM_STR); // No change if image not uploaded
 		$stmt->bindParam(':description', $description, PDO::PARAM_STR);
 		$stmt->bindParam(':role', $role, PDO::PARAM_STR);
-		$stmt->bindParam(':twitter', $twitter, PDO::PARAM_STR);
-		$stmt->bindParam(':instagram', $instagram, PDO::PARAM_STR);
-		$stmt->bindParam(':facebook', $facebook, PDO::PARAM_STR);
-		$stmt->bindParam(':discord', $discord, PDO::PARAM_STR);
 		$stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
 
 		// Execute the query

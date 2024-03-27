@@ -28,7 +28,7 @@
                 }
             ?>
             </h2>
-            <div class="col-lg-6 d-flex" style="padding: 10px 0px; justify-content: space-around; border-radius: 10px; background: #63BDFF; width: 100%; margin-bottom: 10px; flex-wrap: wrap; text-align: center;" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="width: 100%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Juhtpaneeli juhtimine' : 'Dashboard control') ;?></h2>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
                     <a href="/dashboard"style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teemad' : 'Topics') ;?></a>
@@ -58,7 +58,7 @@
                             echo '<div style="flex-basis: 25%;"><p>'.$topic['name'].'</p></div>';
                             echo '<div class="navbar forum-button" style="display: flex; justify-content: center; margin-bottom: 10px;">';
                                 echo '<button type="button" 
-                                       class="getstarted scrollto edit-topic-link"
+                                       class="getstarted edit-topic-link"
                                        style="border: none; margin: 0px 5px; margin-top: 10px; font-size: 16px;" 
                                        data-toggle="modal" 
                                        data-target="#editTopicModal" 
@@ -69,7 +69,7 @@
                                     </button>';
                             
                                 echo '<button type="button" 
-                                       class="getstarted scrollto delete-topic-link"
+                                       class="getstarted delete-topic-link"
                                        style="border: none; margin: 0px; margin-top: 10px; font-size: 16px;" 
                                        data-toggle="modal" 
                                        data-target="#deleteTopicModal" 
@@ -79,7 +79,7 @@
                             echo '</div>';
                             if(!empty($topic['description'])){
                               echo '<hr style="width: 100%; margin: 0px!important;">';
-                              echo '<div style="flex-basis: 100%; text-align: justify; word-break: break-all;"><p>'.$topic['description'].'</p></div>';
+                              echo '<div style="flex-basis: 100%; text-align: justify; word-break: break-all;"><p class="read-more">'.$topic['description'].'</p></div>';
                             }
                             echo '</div>';
                         }
@@ -128,8 +128,8 @@
                 <textarea class="editTopicDescription" id="editTopicDescription" name="description"></textarea>
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -160,8 +160,8 @@
               <input type="hidden" name="deleteId" value="">
               </div>
               <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
+                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta' : 'Delete') ;?></button>
+                <button type="button" class="getstarted" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
             </div>
           </form>
       </div>
@@ -170,6 +170,46 @@
 
 <!-- Script section -->
 <script>
+  $(document).ready(function() {
+    $(".read-more").each(function() {
+      var $this = $(this);
+      var fullText = $this.html(); // Get HTML content of current element
+      var truncatedText = fullText.substr(0, 100);
+
+      if (fullText.length > 100) {
+        $this.data("full-text", fullText); // Store full text data
+        $this.data("truncated-text", truncatedText); // Store truncated text data
+        $this.html(truncatedText +''+ "<a href='#' class='read-more-link'> Read more</a>");
+      } else {
+        $this.html(fullText);
+      }
+    });
+
+    // Event handler for showing more/less
+    $("body").on("click", ".read-more-link", function(event) {
+      event.preventDefault();
+      var $readMore = $(this).closest(".read-more");
+      var fullText = $readMore.data("full-text");
+      var isTruncated = !$readMore.hasClass("showing-full");
+
+      if (isTruncated) {
+        $readMore.html(fullText + "<a href='#' class='show-less-link'> Read less</a>");
+      } else {
+        var truncatedText = $readMore.data("truncated-text"); // Retrieve truncated text
+        $readMore.html(truncatedText + "<a href='#' class='read-more-link'> Read more</a>");
+      }
+      $readMore.toggleClass("showing-full");
+    });
+    
+    $("body").on("click", ".show-less-link", function(event) {
+      event.preventDefault();
+      var $readMore = $(this).closest(".read-more");
+      var truncatedText = $readMore.data("truncated-text"); // Retrieve truncated text
+      $readMore.html(truncatedText + "<a href='#' class='read-more-link'> Read more</a>");
+      $readMore.removeClass("showing-full");
+    });
+  });
+
     $(document).ready(function() {
       $('.editTopicDescription').richText();
   });
