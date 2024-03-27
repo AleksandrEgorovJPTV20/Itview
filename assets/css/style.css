@@ -582,7 +582,7 @@ section {
 --------------------------------------------------------------*/
 .about .content {
   background-color: #f6f9ff;
-  padding: 40px;
+  padding: 20px;
 }
 
 .about h3 {
@@ -2646,4 +2646,15 @@ section {
 
 .hero-img {
   animation: levitate 3s infinite;
+}
+
+.modal-forms {
+  margin: auto; 
+  padding: 20px; 
+  width: 100%; 
+  border: 2px solid #63BDFF; 
+  border-radius: 10px; 
+  background: #e3eeff; 
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); 
+  margin-top: 5%;
 }

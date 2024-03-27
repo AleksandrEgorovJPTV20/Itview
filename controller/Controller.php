@@ -54,13 +54,11 @@ class Controller {
 						$_SESSION['editTopicMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ebaõnnestus teema muutmine' : 'Failed to edit topic');
 					}
 				}
-			} elseif (isset($_POST['comment'])) {
-				// If 'comment' is set, it means we are creating a new topic
+			} elseif (isset($_POST['description'])) {
 				$topicName = $_POST['name'];
-				$topicDescription = $_POST['description'];
-				$comment = $_POST['comment'];
+				$topicDescription = !empty($_POST['description']) ? $_POST['description'] : '';
 
-				if (Model::createTopic($topicName, $topicDescription, $comment)) {
+				if (Model::createTopic($topicName, $topicDescription)) {
 					// Redirect to forum with a success message
 					$_SESSION['createMessage'] = (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema loodud edukalt' : 'Topic created successfully');
 					header("Location: /$redirectRoute");
@@ -170,10 +168,10 @@ class Controller {
 				$replyText = $_POST['reply'];
 				$result = ModelAdmin::editReply($replyId, $replyText);
 				$_SESSION['editReplyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus muudetud edukalt' : 'Reply edited successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse muutmisel' : 'Error editing reply');
-			} elseif (isset($_POST['comment'])) {
+			} elseif (isset($_POST['reply'])) {
 				// Creating a new reply
-				$commentText = $_POST['comment'];
-				$result = Model::createReply($commentId, $userId, $commentText);
+				$replyText = $_POST['reply'];
+				$result = Model::createReply($commentId, $userId, $replyText);
 				$_SESSION['replyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus loodud edukalt' : 'Reply created successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse loomisel' : 'Error creating reply');
 			} elseif (isset($_POST['deleteId'])) {
 				// Deleting a reply

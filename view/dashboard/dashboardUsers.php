@@ -22,7 +22,7 @@
                     }
                 }
             ?>
-            <h2>T<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kasutajaid -' : 'Total users -') ;?> 
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kasutajaid -' : 'Total users -') ;?> 
             <?php 
                 if($searchQuery){
                     echo $i;
@@ -74,18 +74,6 @@
                         echo '</p>';
                         echo '<p style="margin: 0; margin-top: 10px;">' . $user['email'] . ', ' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Roll' : 'Role') . ': '.$user['role'].'</p>';
                         echo '<p>' . $user['description'] . '</p>';
-                        if(!empty($user['twitter'])){
-                            echo '<a href="'.$user['twitter'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/twitter.png" alt="Twitter"></a>';
-                        }
-                        if(!empty($user['facebook'])){
-                            echo '<a href="'.$user['facebook'].'" target="_blank"><img style="width: 50px; height: 50px; margin: 0px 15px;" src="assets/img/facebook.png" alt="Facebook"></a>';
-                        }
-                        if(!empty($user['instagram'])){
-                            echo '<a href="'.$user['instagram'].'" target="_blank"><img style="width: 50px; height: 50px;" src="assets/img/instagram.png" alt="Instagram"></a>';
-                        }
-                        if(!empty($user['discord'])){
-                            echo '<a href="'.$user['discord'].'" target="_blank"><img style="width: 60px; height: 50px; margin-left: 15px;" src="assets/img/discord.png" alt="Discord"></a>';
-                        }
                         echo '</div>';
                         echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
                         echo '<button type="button" 
@@ -97,10 +85,6 @@
                                 data-email="' . $user['email'] . '"
                                 data-description="' . htmlspecialchars($user['description']) . '"
                                 data-imgpath="' . $user['imgpath'] . '"
-                                data-twitter="' . $user['twitter'] . '"
-                                data-instagram="' . $user['instagram'] . '"
-                                data-facebook="' . $user['facebook'] . '"
-                                data-discord="' . $user['discord'] . '"
                                 class="getstarted scrollto edit-user-link">
                                 <i class="fas fa-edit"></i>
                                 </button>';
@@ -137,10 +121,7 @@
 <div class="modal fade" id="editUserModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="dashboard?users" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+          <form action="dashboard?users" method="POST" class="content modal-forms" enctype="multipart/form-data">
             <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda profiil' : 'Edit profile') ;?></h1>
             <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
@@ -174,15 +155,7 @@
             }
             ?>
             <div class="mb-3">
-                <div class="style-buttons" style="margin: 5px; justify-content: center;">
-                    <button type="button" onclick="applyStyleEditProfile('italic', 'descriptionInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
-                    <button type="button" onclick="applyStyleEditProfile('bold', 'descriptionInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
-                    <button type="button" onclick="applyStyleEditProfile('underline', 'descriptionInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Allajoonitud' : 'Underline') ;?></button>
-                    <button type="button" onclick="applyEditLinkProfile('descriptionInputEdit')">Link</button>
-                    <input  type="color" id="colorPickerEdit" onchange="applyEditProfileColor('descriptionInputEdit')">
-                </div>
-                <div contenteditable="true" id="descriptionInputEdit" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"></div>
-                <input type="hidden" name="description" id="rawDescriptionInputEdit" required>
+                <textarea class="profileDescription" name="description" required></textarea>
             </div>
             <div class="mb-3">
                 <div class="custom-file">
@@ -215,64 +188,10 @@
     </div>
   </div>
 
-  <div class="modal fade" id="userSocialsModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="dashboard?users" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
-            <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda sotsiaalmeedia' : 'Edit social media') ;?></h1>
-            <p style="text-align: center; color: #013289;">
-                <?php if (isset($_SESSION['userEditMessage'])) {echo $_SESSION['userEditMessage']; unset($_SESSION['userEditMessage']);} ?>
-            </p>
-            <div class="mb-3" style="text-align: center;">
-                <?php
-                    $query = '?users';
-
-                    if (!empty($page)) {
-                        $query .= '&page=' . $page;
-                    }
-
-                    if (!empty($searchQuery)) {
-                        $query .= '&search=' . $searchQuery;
-                    }
-
-                    $redirectValue = '<input type="hidden" name="redirect_route" value="' . $route . $query . '">';
-                    echo $redirectValue;                
-                ?>
-                <input type="hidden" name="userId" value="">
-                <img id="userImagePreview" src="" name="image" alt="User Image" style="width: 100px; height: 100px; margin-bottom: 10px; border-radius: 50%;">
-            </div>
-            <div class="mb-3">
-                <input type="text" name="twitter" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Lisa Twitteri link' : 'Add twitter link') ;?>" value="">
-            </div>
-            <div class="mb-3">
-                <input type="text" name="instagram" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Lisa Instagrami link' : 'Add instagram link') ;?>" value="">
-            </div>
-            <div class="mb-3">
-                <input type="text" name="facebook" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Lisa Facebooki link' : 'Add facebook link') ;?>" value="">
-            </div>
-            <div class="mb-3">
-                <input type="text" name="discord" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Add Discordi link' : 'Add discord link') ;?>" value="">
-            </div>
-            <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Uuenda' : 'Update') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
-                <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal" data-toggle="modal" data-target="#editUserModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') ;?></button>
-            </div>
-          </form>
-      </div>
-    </div>
-  </div>
-
   <div class="modal fade" id="banUserModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-                <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            </div>
-            <form action="dashboard?users" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+            <form action="dashboard?users" method="POST" class="content modal-forms">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela kasutaja' : 'Ban user') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -321,6 +240,9 @@
 
 <!-- Script section -->
 <script>
+    $(document).ready(function() {
+      $('.profileDescription').richText();
+    });
   // Capture the click event on the "Edit user" link
   $('.edit-user-link').on('click', function() {
       // Get user data from data attributes
@@ -329,10 +251,6 @@
       var email = $(this).data('email');
       var description = $(this).data('description');
       var imgpath = $(this).data('imgpath');
-      var twitter = $(this).data('twitter');
-      var instagram = $(this).data('instagram');
-      var facebook = $(this).data('facebook');
-      var discord = $(this).data('discord');
 
       // Populate the form fields with user data
       $('#editUserModal [name="userId"]').val(userId);
@@ -345,14 +263,6 @@
       }
       $('#descriptionInputEdit').html(description);
       $('#editUserModal [name="image"]').attr('src', imgpath);
-
-      $('#userSocialsModal [name="userId"]').val(userId);
-      $('#userSocialsModal [name="image"]').attr('src', imgpath);
-      $('#userSocialsModal [name="twitter"]').val(twitter);
-      $('#userSocialsModal [name="instagram"]').val(instagram);
-      $('#userSocialsModal [name="facebook"]').val(facebook);
-      $('#userSocialsModal [name="discord"]').val(discord);
-
 
       // Add the user ID as a hidden input field
       $('#editUserModal input[name="userId"]').val(userId);
@@ -412,65 +322,6 @@ $('#banUserModal').on('hidden.bs.modal', function() {
     });
 </script>
 
-<script>
-    const descriptionInputEditProfile = document.getElementById('descriptionInputEdit');
-    const languageEditProfile = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
-
-    // Set placeholder text when the div is clicked
-    descriptionInputEditProfile.addEventListener('focus', function () {
-        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
-        if (descriptionInputEditProfile.textContent.trim() === placeholderTextEditProfile) {
-            descriptionInputEditProfile.innerHTML = ''; // Clear the placeholder when the user starts typing
-        }
-    });
-
-    // Clear placeholder text if the div is empty when it loses focus
-    descriptionInputEditProfile.addEventListener('blur', function () {
-        const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
-        if (descriptionInputEditProfile.textContent.trim() === '') {
-            descriptionInputEditProfile.innerHTML = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
-        }
-    });
-
-    function applyStyleEditProfile(style, elementId) {
-        document.execCommand(style, false, null);
-        updateRawInputEditProfile(elementId);
-    }
-
-    function applyEditLinkProfile(elementId) {
-        const linkURL = prompt(languageEditProfile === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
-        if (linkURL) {
-            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-            document.execCommand('createLink', false, absoluteLink);
-        }
-        updateRawInputEditProfile(elementId);
-    }
-
-    function applyEditProfileColor(elementId) {
-        const colorValue = document.getElementById('colorPickerEdit').value;
-        document.execCommand('foreColor', false, colorValue);
-        updateRawInputEditProfile(elementId);
-    }
-
-    function updateRawInputEditProfile(elementId) {
-        const descriptionInput = document.getElementById(elementId);
-        const rawInput = document.getElementById('rawDescriptionInputEdit');
-        const cleanedContent = descriptionInput.innerHTML.replace(/<br>$/, '');
-        rawInput.value = cleanedContent;
-    }
-
-    // Initialize placeholder
-    const placeholderTextEditProfile = languageEditProfile === 'est' ? 'Sisesta profiili kirjeldus' : 'Enter profile description';
-    if (descriptionInputEditProfile.textContent.trim() === '') {
-        descriptionInputEditProfile.innerHTML = `<div style="color: #aaa;">${placeholderTextEditProfile}</div>`;
-    }
-
-    // Add an event listener to trigger updateRawInputEditProfile on text input
-    descriptionInputEditProfile.addEventListener('input', function () {
-        updateRawInputEditProfile('descriptionInputEdit');
-    });
-</script>
 
 <?php
 	$content = ob_get_clean();

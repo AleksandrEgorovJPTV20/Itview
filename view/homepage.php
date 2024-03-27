@@ -318,7 +318,7 @@
 
         // Initial adjustment
         adjustTextSize();
-      }, 1200);
+      }, 600);
     }
 
     function startTypingAnimationENG() {
@@ -357,7 +357,7 @@
 
         // Initial adjustment
         adjustTextSize();
-      }, 1200);
+      }, 600);
     }
 
     <?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est') ? 'startTypingAnimationEST();' : 'startTypingAnimationENG();';?>

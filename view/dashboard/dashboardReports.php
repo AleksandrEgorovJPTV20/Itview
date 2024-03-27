@@ -64,8 +64,8 @@
                         echo ', '.$report['reportedUserName'].' ' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'ei ole keelatud' : 'is not banned') . '';
                     }
                     echo '</p>';
-                    echo '<p style="margin: 0; margin-top: 10px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raporteeritud kasutaja' : 'Reported user') . ': ' . $report['reportedUserEmail'] . ', ' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'raporteeritud poolt' : 'reported by') . ': '. $report['reporterEmail'] .'</p>';
-                    echo '<p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Raporti põhjus' : 'Report reason') . ': ' . $report['text'] . '</p>';
+                    echo '<p style="margin: 0; margin-top: 10px;">'. (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'raporteeritud poolt' : 'Reported by') . ': '. $report['reporterEmail'] .'</p>';
+                    echo '<p>' . $report['text'] . '</p>';
                     echo '</div>';
                     echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
                     echo '<button type="button" 
@@ -109,10 +109,7 @@
 <div class="modal fade" id="deleteReportModal"  aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="dashboard?reports" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="dashboard?reports" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta raport' : 'Delete report') ;?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php
@@ -151,10 +148,7 @@
   <div class="modal fade" id="banUserModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-                <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            </div>
-            <form action="dashboard?reports" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+            <form action="dashboard?reports" method="POST" class="content modal-forms">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Keela kasutaja' : 'Ban user') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php

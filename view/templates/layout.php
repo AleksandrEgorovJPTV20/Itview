@@ -40,6 +40,7 @@ $route = explode('/', $path)[$num];
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+  <link rel="stylesheet" href="assets/css/richtext.min.css">
   <link href="assets/css/style.css" rel="stylesheet">
   <link href="assets/css/carousel.css" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -170,10 +171,7 @@ $route = explode('/', $path)[$num];
   <div class="modal fade" id="loginModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="login" method="POST" class="content" style="margin: auto; padding: 10px 60px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="login" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289; margin: 20px 0px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login');?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['loginMessage'])) {echo $_SESSION['loginMessage']; unset($_SESSION['loginMessage']);} ?>
@@ -248,10 +246,7 @@ $route = explode('/', $path)[$num];
   <div class="modal fade" id="registerModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="register" method="POST" class="content" style="margin: auto; padding: 10px 60px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="register" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289; margin: 20px 0px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru' : 'Register');?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php if (isset($_SESSION['registerMessage'])) {echo $_SESSION['registerMessage']; unset($_SESSION['registerMessage']);} ?>
@@ -329,10 +324,7 @@ $route = explode('/', $path)[$num];
   <div class="modal fade" id="logoutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 10%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="logout" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="logout" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi välja' : 'Logout');?></h1>
               <?php 
                   $redirectValue = '';
@@ -424,6 +416,7 @@ $route = explode('/', $path)[$num];
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
   <!-- Template Main JS File -->
+  <script src="assets/js/jquery.richtext.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="assets/js/loadinganim.js"></script>
 </body>

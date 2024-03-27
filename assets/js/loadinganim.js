@@ -6,4 +6,4 @@
     setTimeout(function () {
       loadingAnimation.style.display = 'none';
     }, 500);
-  }, 1200); // Adjust delay based on your loading animation duration
+  }, 600); // Adjust delay based on your loading animation duration

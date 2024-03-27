@@ -113,10 +113,7 @@
 <div class="modal fade" id="editReplyModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-                <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            </div>
-            <form action="dashboard?replies" method="POST" onsubmit="return validateEditReplyForm();" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <form action="dashboard?replies" method="POST" class="content modal-forms" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda vastus' : 'Edit reply') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -142,15 +139,9 @@
                         echo $redirectValue;                
                     ?>
                     <input type="hidden" name="replyId" value="">
-                    <div class="style-buttons" style="margin: 5px; justify-content: center;">
-                        <button type="button" onclick="applyEditStyle('italic', 'commentInputEditReply')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
-                        <button type="button" onclick="applyEditStyle('bold', 'commentInputEditReply')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
-                        <button type="button" onclick="applyEditStyle('underline', 'commentInputEditReply')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Allajoonitud' : 'Underline') ;?></button>
-                        <button type="button" onclick="applyEditLink('commentInputEditReply')">Link</button>
-                        <input type="color" id="colorPickerEditReply" onchange="applyEditColor('commentInputEditReply')">
-                    </div>
-                    <div contenteditable="true" id="commentInputEditReply" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"></div>
-                    <input type="hidden" name="reply" id="rawCommentInputEditReply" required>
+                </div>
+                <div class="mb-3">
+                    <textarea class="editReply" id="editReply" name="reply"></textarea>
                 </div>
                 <div class="mb-3">
                     <div class="custom-file">
@@ -175,10 +166,7 @@
   <div class="modal fade" id="deleteReplyModal"  aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="dashboard?replies" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="dashboard?replies" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta vastus' : 'Delete reply') ;?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php
@@ -215,8 +203,11 @@
   </div>
 
 <!-- Script section -->
-  <script>
-    // Display image previews inside selectedImagesContainerEditReply
+<script>
+        $(document).ready(function() {
+        $('.editReply').richText();
+    });
+    // Display image previews inside selectedImagesContainerEdit
     function displayImagePreview(imgpath, inputId) {
         if (imgpath && inputId) {
             var imagePreview = $('<img class="selected-image-preview mb-2" style="width: 100px; height: 100px; margin-right: 5px;" src="' + imgpath + '" alt="Selected Image">');
@@ -225,7 +216,7 @@
         }
     }
 
-    // Clear image previews inside selectedImagesContainerEditReply
+    // Clear image previews inside selectedImagesContainerEdit
     function clearImagePreviews() {
         $('#selectedImagesContainerEdit').empty();
         $('#removeImagesBtnEdit').hide();
@@ -243,11 +234,6 @@
         // Clear existing image previews
         clearImagePreviews();
 
-        // Populate the form fields with the reply ID, text, and image path
-        $('#editReplyModal input[name="reply"]').val(replyText);
-        $('#commentInputEditReply').html(replyText);
-        $('#rawCommentInputEditReply').val(replyText);
-
         // Display image previews inside selectedImagesContainerEdit
         displayImagePreview(imgpath, 'editImageInput1');
         displayImagePreview(imgpath2, 'editImageInput2');
@@ -255,14 +241,16 @@
 
         // Add the reply ID as a hidden input field
         $('#editReplyModal input[name="replyId"]').val(replyId);
+        $('#editReply').val(replyText);
+        $('.richText-editor').html(replyText);
+        
     });
 
     // Clear form fields and image preview when the modal is closed
     $('#editReplyModal').on('hidden.bs.modal', function() {
-        $('#editReplyModal input[name="reply"]').val('');
         $('#editReplyModal input[name="replyId"]').val('');
-        $('#commentInputEditReply').html(''); // Clear the contenteditable div
-
+        $('#editReply').val('');
+        $('.richText-editor').html('');
         // Clear image previews inside selectedImagesContainerEditReply
         clearImagePreviews();
     });
@@ -368,78 +356,6 @@
 
     // Initialize file input handling for the edit form
     initializeFileInputs('#selectedImagesContainerEdit', ['#editImageInput1', '#editImageInput2', '#editImageInput3'], $('#removeImagesBtnEdit'), 3);
-</script>
-
-<script>
-    const commentInputEditReply = document.getElementById('commentInputEditReply');
-    const languageEditReply = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
-
-    // Set placeholder text when the div is clicked
-    commentInputEditReply.addEventListener('focus', function () {
-        const placeholderTextEditReply = languageEditReply === 'est' ? 'Sisesta vastuse kirjeldus' : 'Enter reply description';
-        if (commentInputEditReply.textContent.trim() === placeholderTextEditReply) {
-            commentInputEditReply.innerHTML = ''; // Clear the placeholder when the user starts typing
-        }
-    });
-
-    // Clear placeholder text if the div is empty when it loses focus
-    commentInputEditReply.addEventListener('blur', function () {
-        const placeholderTextEditReply = languageEditReply === 'est' ? 'Sisesta vastuse kirjeldus' : 'Enter reply description';
-        if (commentInputEditReply.textContent.trim() === '') {
-            commentInputEditReply.innerHTML = `<div style="color: #aaa;">${placeholderTextEditReply}</div>`;
-        }
-    });
-
-    function validateEditReplyForm() {
-        const placeholderTextEditReply = languageEditReply === 'est' ? 'Sisesta vastuse kirjeldus' : 'Enter reply description';
-        // Trim the content and check if it's not empty
-        if (commentInputEditReply.textContent.trim() === placeholderTextEditReply) {
-            alert(languageEditReply === 'est' ? 'Palun sisestage vastus enne uuendamist!' : 'Please enter a reply before updating!');
-            return false; // Prevent form submission
-        }
-
-        // Update the raw input before submitting
-        updateRawInputEditReply('commentInputEditReply');
-        return true; // Allow form submission
-    }
-
-    function applyEditStyle(style, elementId) {
-        document.execCommand(style, false, null);
-        updateRawInputEditReply(elementId);
-    }
-
-    function applyEditLink(elementId) {
-        const linkURL = prompt(languageEditReply === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
-        if (linkURL) {
-            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-            document.execCommand('createLink', false, absoluteLink);
-        }
-        updateRawInputEditReply(elementId);
-    }
-
-    function applyEditColor(elementId) {
-        const colorReply = document.getElementById('colorPickerEditReply').value;
-        document.execCommand('foreColor', false, colorReply);
-        updateRawInputEditReply(elementId);
-    }
-
-    function updateRawInputEditReply(elementId) {
-        const rawInput = document.getElementById('rawCommentInputEditReply');
-        const cleanedContent = commentInputEditReply.innerHTML.replace(/<br>$/, '');
-        rawInput.value = cleanedContent;
-    }
-
-    // Initialize placeholder
-    const placeholderTextEditReply = languageEditReply === 'est' ? 'Sisesta vastuse kirjeldus' : 'Enter reply description';
-    if (commentInputEditReply.textContent.trim() === '') {
-        commentInputEditReply.innerHTML = `<div style="color: #aaa;">${placeholderTextEditReply}</div>`;
-    }
-
-    // Add an event listener to trigger updateRawInputEditReply on text input
-    commentInputEditReply.addEventListener('input', function () {
-        updateRawInputEditReply('commentInputEditReply');
-    });
 </script>
 
 <?php

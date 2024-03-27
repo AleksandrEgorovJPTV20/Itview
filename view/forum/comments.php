@@ -39,22 +39,16 @@
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author');?></h2>
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Postitused' : 'Posts');?></h2>
                 <?php 
-                if($topicId != 1 || isset($_SESSION['role']) && $_SESSION['role'] == 'admin' ){
-                    if(!isset($_SESSION['userId'])){
-                        echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                                <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse kommentaarideks' : 'Login to comment') . '</a>
-                                <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
-                            </div>';
-                    }else{
-                        echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                                <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo kommentaar' : 'Create Comment') . '</a>
-                                <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
-                            </div>';
-                    }
+                if(!isset($_SESSION['userId'])){
+                    echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
+                        <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse kommentaarideks' : 'Login to comment') . '</a>
+                        <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
+                    </div>';
                 }else{
                     echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                    <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
-                    </div>';                 
+                        <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#commentModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo kommentaar' : 'Create Comment') . '</a>
+                        <a href="/forum" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
+                    </div>';
                 }
                 ?>
             </div>
@@ -131,10 +125,7 @@
 <div class="modal fade" id="commentModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-                <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            </div>
-            <form action="comments?topic=<?php echo $topicId; ?>" onsubmit="return validateCommentForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content modal-forms" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo kommentaar' : 'Create comment') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -161,14 +152,10 @@
                             echo $redirectValue;
                         }                  
                     ?>
-                    <div class="style-buttons" style="margin: 5px; justify-content: center;">
-                        <button type="button" onclick="applyStyle('italic', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
-                        <button type="button" onclick="applyStyle('bold', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
-                        <button type="button" onclick="applyStyle('underline', 'commentInput')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Allajoonitud' : 'Underline') ;?></button>
-                        <button type="button" onclick="applyLink('commentInput')">Link</button>
-                        <input type="color" id="colorPicker" onchange="applyColor('commentInput')">
-                    </div>
-                    <div id="commentInput" contenteditable="true" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 8px;"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="commentLabel" style="text-align: center; color: #013289;"></label>
+                    <textarea class="commentDescription" id="comment" name="comment" required></textarea>
                 </div>
                 <div class="mb-3">
                     <div class="custom-file">
@@ -181,11 +168,10 @@
                     <button type="button" class="btn btn-danger mt-2" id="removeImagesBtn" style="display: none;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Eemalda pildid' : 'Remove images') ;?></button>
                 </div>
                 <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
-                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted scrollto"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo' : 'Create') ;?></button>
+                    <button style="margin: 0px; border: none;" variant="primary" type="send" name="send" class="getstarted scrollto" id="createCommentBtn"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo' : 'Create') ;?></button>
                     <button type="button" class="getstarted scrollto" style="border: none;" variant="primary" data-dismiss="modal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close') ;?></button>
                 </div>
                 <!-- Hidden input to store raw HTML content -->
-                <input type="hidden" id="rawCommentInput" name="comment">
             </form>
         </div>
     </div>
@@ -194,10 +180,7 @@
 <div class="modal fade" id="editCommentModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-            <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-                <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-            </div>
-            <form action="comments?topic=<?php echo $topicId; ?>" onsubmit="return validateEditCommentForm();" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);" enctype="multipart/form-data">
+            <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content modal-forms" enctype="multipart/form-data">
                 <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda kommentaar' : 'Edit comment') ;?></h1>
                 <p style="text-align: center; color: #013289;">
                     <?php
@@ -225,15 +208,9 @@
                         }                  
                     ?>                    
                     <input type="hidden" name="commentId" value="">
-                    <div class="style-buttons" style="margin: 5px; justify-content: center;">
-                        <button type="button" onclick="applyEditStyle('italic', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kursiiv' : 'Italic') ;?></button>
-                        <button type="button" onclick="applyEditStyle('bold', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Rasvane' : 'Bold') ;?></button>
-                        <button type="button" onclick="applyEditStyle('underline', 'commentInputEdit')"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Allajoonitud' : 'Underline') ;?></button>
-                        <button type="button" onclick="applyEditLink('commentInputEdit')">Link</button>
-                        <input  type="color" id="colorPickerEdit" onchange="applyEditColor('commentInputEdit')">
-                    </div>
-                    <div contenteditable="true" id="commentInputEdit" class="form-control" style="margin-bottom: 20px; min-height: 100px; border: 1px solid #ccc; padding: 6px;"></div>
-                    <input type="hidden" name="comment" id="rawCommentInputEdit" required>
+                </div>
+                <div class="mb-3">
+                    <textarea class="editComment" id="editComment" name="comment"></textarea>
                 </div>
                 <div class="mb-3">
                     <div class="custom-file">
@@ -258,10 +235,7 @@
   <div class="modal fade" id="deleteCommentModal"  aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="comments?topic=<?php echo $topicId; ?>" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kustuta kommentaar' : 'Delete comment') ;?></h1>
               <p style="text-align: center; color: #013289;">
                 <?php
@@ -303,10 +277,7 @@
   <div class="modal fade" id="rulesModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
-          <div class="content" style="display: flex; justify-content: center; margin: auto; margin-top: 5%; height: 84px; width: 100%; background: #012970; border-radius: 10px 10px 0px 0px; padding: 0px;">
-            <img src="assets/img/logo1.png" alt="" style="border-radius: 20px; width: 70px; height: 58px; flex-shrink: 0; margin-top: 10px;">
-          </div>
-          <form action="forum" method="POST" class="content" style="margin: auto; padding: 20px; width: 100%; background: #63BDFF; border-radius: 0px 0px 10px 10px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+          <form action="forum" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></h1>
               <p style="text-align: center; color: #013289;">
               </p>
@@ -325,8 +296,30 @@
     </div>
   </div>
 
-<!-- Script section -->
   <script>
+    // Function to check textarea and fill label if empty
+    function checkTextareaAndFillLabel() {
+        const commentTextarea = document.getElementById('comment');
+        const commentLabel = document.querySelector('.commentLabel');
+
+        if (commentTextarea.value.trim() === '') {
+            commentLabel.textContent = <?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? "'Sisesta oma kommentaar siia...'" : "'Enter your comment here...'"); ?>;
+        } else {
+            commentLabel.textContent = '';
+        }
+    }
+
+    // Add event listener to the button
+    document.getElementById('createCommentBtn').addEventListener('click', function() {
+        checkTextareaAndFillLabel();
+    });
+</script>
+
+  <script>
+    $(document).ready(function() {
+        $('.commentDescription').richText();
+        $('.editComment').richText();
+    });
     // Display image previews inside selectedImagesContainerEdit
     function displayImagePreview(imgpath, inputId) {
         if (imgpath && inputId) {
@@ -356,8 +349,8 @@
 
         // Populate the form fields with the comment ID, text, and image paths
         $('#editCommentModal input[name="commentId"]').val(commentId);
-        $('#commentInputEdit').html(commentText);
-        $('#rawCommentInputEdit').val(commentText);
+        $('#editComment').val(commentText);
+        $('.richText-editor').html(commentText);
 
         // Display image previews inside selectedImagesContainerEdit
         displayImagePreview(imgpath, 'editImageInput1');
@@ -367,9 +360,9 @@
 
     // Clear form fields and image previews when the modal is closed
     $('#editCommentModal').on('hidden.bs.modal', function() {
-        $('#editCommentModal input[name="comment"]').val('');
         $('#editCommentModal input[name="commentId"]').val('');
-        $('#commentInputEdit').html(''); // Clear the contenteditable div
+        $('#editComment').val('');
+        $('.richText-editor').html('');
         // Clear image previews inside selectedImagesContainerEdit
         clearImagePreviews();
     });
@@ -480,152 +473,6 @@
     initializeFileInputs('#selectedImagesContainerEdit', ['#editImageInput1', '#editImageInput2', '#editImageInput3'], $('#removeImagesBtnEdit'), 3);
 </script>
 
-
-<script>
-    const commentInput = document.getElementById('commentInput');
-    const languageCreate = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
-
-    // Set placeholder text when the div is clicked
-    commentInput.addEventListener('focus', function () {
-        const placeholderText = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-        if (commentInput.textContent.trim() === placeholderText) {
-            commentInput.innerHTML = ''; // Clear the placeholder when the user starts typing
-        }
-    });
-
-    // Clear placeholder text if the div is empty when it loses focus
-    commentInput.addEventListener('blur', function () {
-        const placeholderText = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-        if (commentInput.textContent.trim() === '') {
-            commentInput.innerHTML = `<div style="color: #aaa;">${placeholderText}</div>`;
-        }
-    });
-
-    function validateCommentForm() {
-        const placeholderText = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-        // Trim the content and check if it's not empty
-        if (commentInput.textContent.trim() === placeholderText) {
-            alert(languageCreate === 'est' ? 'Palun sisestage kommentaar enne loomist!' : 'Please enter a comment before creating!');
-            return false; // Prevent form submission
-        }
-
-        // Update the raw input before submitting
-        updateRawInput('commentInput');
-        return true; // Allow form submission
-    }
-
-    function applyStyle(style, elementId) {
-        document.execCommand(style, false, null);
-        updateRawInput(elementId);
-    }
-
-    function applyLink(elementId) {
-        const linkURL = prompt(languageCreate === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
-        if (linkURL) {
-            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-            document.execCommand('createLink', false, absoluteLink);
-        }
-        updateRawInput(elementId);
-    }
-
-    function applyColor(elementId) {
-        const colorValue = document.getElementById('colorPicker').value;
-        document.execCommand('foreColor', false, colorValue);
-        updateRawInput(elementId);
-    }
-
-    function updateRawInput(elementId) {
-        const rawInput = document.getElementById('rawCommentInput');
-        const cleanedContent = commentInput.innerHTML.replace(/<br>$/, '');
-        rawInput.value = cleanedContent;
-    }
-
-    // Initialize placeholder
-    const placeholderTextCreate = languageCreate === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-    if (commentInput.textContent.trim() === '') {
-        commentInput.innerHTML = `<div style="color: #aaa;">${placeholderTextCreate}</div>`;
-    }
-
-    // Add an event listener to trigger updateRawInput on text input
-    commentInput.addEventListener('input', function () {
-        updateRawInput('commentInput');
-    });
-</script>
-
-
-
-<script>
-    const commentInputEdit = document.getElementById('commentInputEdit');
-    const languageEdit = '<?php echo isset($_SESSION['language']) ? $_SESSION['language'] : 'en'; ?>';
-
-    // Set placeholder text when the div is clicked
-    commentInputEdit.addEventListener('focus', function () {
-        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-        if (commentInputEdit.textContent.trim() === placeholderTextEdit) {
-            commentInputEdit.innerHTML = ''; // Clear the placeholder when the user starts typing
-        }
-    });
-
-    // Clear placeholder text if the div is empty when it loses focus
-    commentInputEdit.addEventListener('blur', function () {
-        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-        if (commentInputEdit.textContent.trim() === '') {
-            commentInputEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextEdit}</div>`;
-        }
-    });
-
-    function validateEditCommentForm() {
-        const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-        // Trim the content and check if it's not empty
-        if (commentInputEdit.textContent.trim() === placeholderTextEdit) {
-            alert(languageEdit === 'est' ? 'Palun sisestage kommentaar enne uuendamist!' : 'Please enter a comment before updating!');
-            return false; // Prevent form submission
-        }
-
-        // Update the raw input before submitting
-        updateRawInputEdit('commentInputEdit');
-        return true; // Allow form submission
-    }
-
-    function applyEditStyle(style, elementId) {
-        document.execCommand(style, false, null);
-        updateRawInputEdit(elementId);
-    }
-
-    function applyEditLink(elementId) {
-        const linkURL = prompt(languageEdit === 'est' ? 'Sisesta lingi URL:' : 'Enter the link URL:');
-        if (linkURL) {
-            const isAbsolute = linkURL.startsWith('http://') || linkURL.startsWith('https://') || linkURL.startsWith('//');
-            const absoluteLink = isAbsolute ? linkURL : 'http://' + linkURL;
-            document.execCommand('createLink', false, absoluteLink);
-        }
-        updateRawInputEdit(elementId);
-    }
-
-    function applyEditColor(elementId) {
-        const color = document.getElementById('colorPickerEdit').value;
-        document.execCommand('foreColor', false, color);
-        updateRawInputEdit(elementId);
-    }
-
-    function updateRawInputEdit(elementId) {
-        const rawInput = document.getElementById('rawCommentInputEdit');
-        const cleanedContent = commentInputEdit.innerHTML.replace(/<br>$/, '');
-        rawInput.value = cleanedContent;
-    }
-
-    // Initialize placeholder
-    const placeholderTextEdit = languageEdit === 'est' ? 'Sisesta kommentaari kirjeldus' : 'Enter comment description';
-    if (commentInputEdit.textContent.trim() === '') {
-        commentInputEdit.innerHTML = `<div style="color: #aaa;">${placeholderTextEdit}</div>`;
-    }
-
-    // Add an event listener to trigger updateRawInputEdit on text input
-    commentInputEdit.addEventListener('input', function () {
-        updateRawInputEdit('commentInputEdit');
-    });
-</script>
 
 <?php
 	$content = ob_get_clean();

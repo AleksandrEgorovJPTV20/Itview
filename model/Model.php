@@ -23,7 +23,7 @@ class Model {
 		$sql = "SELECT topics.*, users.username, users.imgpath
         FROM topics
         JOIN users ON topics.userid = users.id
-        ORDER BY topics.id ASC
+        ORDER BY topics.id DESC
         LIMIT :offset, :limit";
 
 		$db = new database();
@@ -107,7 +107,7 @@ class Model {
 
 	
 	// Create topic method
-	public static function createTopic($topicName, $topicDescription, $comment = null) {
+	public static function createTopic($topicName, $topicDescription) {
 		$db = new Database();
 
 		// Start a transaction to ensure data consistency
@@ -121,19 +121,6 @@ class Model {
 			$stmtTopic->bindParam(':name', $topicName, PDO::PARAM_STR);
 			$stmtTopic->bindParam(':description', $topicDescription, PDO::PARAM_STR);
 			$stmtTopic->execute();
-
-			// Retrieve the topic ID
-			$topicId = $db->conn->lastInsertId();
-
-			// Insert into comments table (if comment is provided)
-			if ($comment !== null && $comment !== '') {
-				$sqlComment = "INSERT INTO comments (userid, topicid, text) VALUES (:userid, :topicid, :text)";
-				$stmtComment = $db->conn->prepare($sqlComment);
-				$stmtComment->bindParam(':userid', $_SESSION['userId'], PDO::PARAM_INT);
-				$stmtComment->bindParam(':topicid', $topicId, PDO::PARAM_INT);
-				$stmtComment->bindParam(':text', $comment, PDO::PARAM_STR);
-				$stmtComment->execute();
-			}
 
 			// Commit the transaction
 			$db->conn->commit();
@@ -297,7 +284,7 @@ class Model {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 	// Model method to create a new reply
-	public static function createReply($commentId, $userId, $commentText)
+	public static function createReply($commentId, $userId, $replyText)
 	{
 		$db = new Database();
 
@@ -318,11 +305,11 @@ class Model {
 		}
 		// Prepare the SQL query
 		$sql = "INSERT INTO replies (text, userid, commentid, imgpath, imgpath2, imgpath3, created_at, updated_at) 
-				VALUES (:commentText, :userid, :commentid, :imgpath, :imgpath2, :imgpath3, NOW(), NOW())";
+				VALUES (:replyText, :userid, :commentid, :imgpath, :imgpath2, :imgpath3, NOW(), NOW())";
 
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
-		$stmt->bindParam(':commentText', $commentText, PDO::PARAM_STR);
+		$stmt->bindParam(':replyText', $replyText, PDO::PARAM_STR);
 		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
 		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
 		$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR); // No change if image not uploaded
@@ -387,10 +374,6 @@ class Model {
 		$email = !empty($_POST['email']) ? $_POST['email'] : $user['email'];
 		$password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
 		$description = !empty($_POST['description']) ? $_POST['description'] : '';
-		$twitter = !empty($_POST['twitter']) ? $_POST['twitter'] : '';
-		$instagram = !empty($_POST['instagram']) ? $_POST['instagram'] : '';
-		$facebook = !empty($_POST['facebook']) ? $_POST['facebook'] : '';
-		$discord = !empty($_POST['discord']) ? $_POST['discord'] : '';
 
 		// Handle image upload
 		if (isset($_FILES['userImage']) && $_FILES['userImage']['error'] === UPLOAD_ERR_OK) {
@@ -412,7 +395,7 @@ class Model {
 		}
 
 		// Update the user in the database
-		$sql = "UPDATE users SET username = :username, email = :email, password = :password, imgpath = :imgpath, description = :description, twitter = :twitter, instagram = :instagram, facebook = :facebook, discord = :discord WHERE id = :userId";
+		$sql = "UPDATE users SET username = :username, email = :email, password = :password, imgpath = :imgpath, description = :description WHERE id = :userId";
 		$stmt = $db->conn->prepare($sql);
 
 		$stmt->bindParam(':username', $username, PDO::PARAM_STR);
@@ -420,10 +403,6 @@ class Model {
 		$stmt->bindParam(':password', $password, PDO::PARAM_STR);
 		$stmt->bindParam(':imgpath', $user['imgpath'], PDO::PARAM_STR); // No change if image not uploaded
 		$stmt->bindParam(':description', $description, PDO::PARAM_STR);
-		$stmt->bindParam(':twitter', $twitter, PDO::PARAM_STR);
-		$stmt->bindParam(':instagram', $instagram, PDO::PARAM_STR);
-		$stmt->bindParam(':facebook', $facebook, PDO::PARAM_STR);
-		$stmt->bindParam(':discord', $discord, PDO::PARAM_STR);
 		$stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
 
 		// Execute the query
