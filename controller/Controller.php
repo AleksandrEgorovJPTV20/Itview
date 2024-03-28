@@ -161,6 +161,7 @@ class Controller {
 		// Handle reply creation, editing, or deletion if the form is submitted
 		if (isset($_POST['send']) && isset($_SESSION['userId'])) {
 			$userId = $_SESSION['userId'];
+			$replyIdCreate = isset($_POST['replyIdCreate']) ? $_POST['replyIdCreate'] : null;
 
 			if (isset($_POST['replyId'])) {
 				// Editing a reply
@@ -171,7 +172,7 @@ class Controller {
 			} elseif (isset($_POST['reply'])) {
 				// Creating a new reply
 				$replyText = $_POST['reply'];
-				$result = Model::createReply($commentId, $userId, $replyText);
+				$result = Model::createReply($commentId, $userId, $replyText, $replyIdCreate);
 				$_SESSION['replyMessage'] = $result ? (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus loodud edukalt' : 'Reply created successfully') : (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Viga vastuse loomisel' : 'Error creating reply');
 			} elseif (isset($_POST['deleteId'])) {
 				// Deleting a reply

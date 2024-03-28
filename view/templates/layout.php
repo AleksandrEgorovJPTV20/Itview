@@ -64,7 +64,9 @@ $route = explode('/', $path)[$num];
 
       <nav id="navbar" class="navbar">
         <ul>
-        <?php
+          <li><a class="nav-link scrollto" href="/"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kodu' : 'Home');?></a></li>
+          <li><a class="nav-link scrollto" href="/#contact"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kontaktid' : 'Contacts');?></a></li>
+          <?php
             if (!isset($_SESSION['userId'])) {
               echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#registerModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registreeri' : 'Register') . '</a></li>';
               echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login') . '</a></li>';
@@ -75,12 +77,10 @@ $route = explode('/', $path)[$num];
                   echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '"><img src="'.$_SESSION['imgpath'].'" style="width: 50px; height: 50px; border-radius: 50%;"></a></li>';
               } else {
                   echo '<li><a type="button" style="color: #013289;" class="nav-link" data-toggle="modal" data-target="#logoutModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Välju' : 'Logout') . '</a></li>';
-                  echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiil' : 'Profile') . '</a></li>';
+                  echo '<li><a class="nav-link" href="profile?user=' . $_SESSION['userId'] . '"><img src="'.$_SESSION['imgpath'].'" style="width: 50px; height: 50px; border-radius: 50%;"></a></li>';
               }
             }
           ?> 
-          <li><a class="nav-link scrollto" href="/"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kodu' : 'Home');?></a></li>
-          <li><a class="nav-link scrollto" href="/#contact"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kontaktid' : 'Contacts');?></a></li>
           <form id="languageForm" method="POST">
             <?php
                 $redirectValue = '';
@@ -146,7 +146,7 @@ $route = explode('/', $path)[$num];
               </ul>
             </li>
           </form>
-          <li><a class="getstarted scrollto" href="/forum"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Foorum' : 'Forum');?></a></li>
+          <li><a class="getstarted" href="/forum"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Foorum' : 'Forum');?></a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

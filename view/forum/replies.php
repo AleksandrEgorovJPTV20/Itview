@@ -23,7 +23,7 @@
                 }
             ?>
             <div class="navbar" style="display: flex; flex-wrap: wrap; justify-content: left; margin-bottom: 10px;"> 
-            <a type="button" style="border: none; margin: 0px; margin-right: 10px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#rulesModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></a>
+            <a type="button" style="border: none; margin: 0px; margin-right: 10px; color: white;" variant="primary" class="getstarted" data-toggle="modal" data-target="#rulesModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></a>
             <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku vastuseid -' : 'Total replies -') ;?> 
             <?php 
                 if($searchQuery){
@@ -36,17 +36,17 @@
             </div>
             <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;"><?php echo  (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author') ;?></h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Postitused' : 'Posts') ;?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastused' : 'Replies') ;?></h2>
                 <?php 
                 if(!isset($_SESSION['userId'])){
                     echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                            <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse vastamiseks' : 'Login to reply') . '</a>
-                            <a href="/comments?topic='.$originalComment['topicid'].'" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
+                            <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse vastamiseks' : 'Login to reply') . '</a>
+                            <a href="/comments?topic='.$originalComment['topicid'].'" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
                         </div>';
                   }else{
                     echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                            <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#replyModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo vastus' : 'Create reply') . '</a>
-                            <a href="/comments?topic='.$originalComment['topicid'].'" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted scrollto">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
+                            <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted" data-toggle="modal" data-target="#replyModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Loo vastus' : 'Create reply') . '</a>
+                            <a href="/comments?topic='.$originalComment['topicid'].'" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
                         </div>';
                   }
                 ?>
@@ -83,9 +83,19 @@
 
                         foreach ($replies as $reply) {
                             echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
+                            if (isset($reply['replied_username'])) {
+                                echo '<h2 style="margin: 0; width: 100%; text-align: center;">';
+                                echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: ' . $reply['replied_username'] . ', vastuse ID: ' . $reply['replyid'] : 'Replying to: ' . $reply['replied_username'] . ', reply id: ' . $reply['replyid'];
+                                echo '</h2>';
+                            } else {
+                                echo '<h2 style="margin: 0; width: 100%; text-align: center;">';
+                                echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: Algupärane kommentaar' : 'Replying to: Original comment';
+                                echo '</h2>';
+                            }
                             echo '<a href="profile?user='.$reply['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$reply['userimg'].'"></img></a>';
                             echo '<div class="comment">
-                                <p style="margin: 0; margin-top: 10px;">'.$reply['username'].'</p>
+                                <p style="margin: 0; margin-top: 10px;">ID: '.$reply['id'].'</p>
+                                <p style="margin: 0; margin-top: 10px;">'.$reply['reply_username'].'</p>
                                 <p style="font-size: 16px; margin: 0;">'.$reply['created_at'].'</p>
                                 <p>'.$reply['text'].'</p>';
                                 if (!empty($reply['imgpath'])) {
@@ -100,7 +110,7 @@
                             echo '</div>';
                             if (isset($_SESSION['userId'])) {
                                 echo '<div style="display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start comment-button">';
-                                echo '<a type="button" style="border: none; margin: 5px 5px; margin-bottom: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#replyModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus' : 'Reply') . '</a>';
+                                echo '<a type="button" style="border: none; margin: 5px 5px; margin-bottom: 0px; color: white;" variant="primary" class="getstarted reply-link" data-toggle="modal" data-target="#replyModal" data-reply-id="' . $reply['id'] . '">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus' : 'Reply') . '</a>';
                                 if ($reply['userid'] == $_SESSION['userId']) {
                                     echo '<button type="button" 
                                              style="border: none; margin: 0px; margin-top: 10px; color: white; height: 43px; margin-right: 5px;" 
@@ -126,7 +136,7 @@
                                 echo '</div>';
                             } else {
                                 echo '<div style="flex-basis: 20%; display: flex; align-items: flex-end; justify-content: center;" class="navbar text-center text-lg-start">
-                                <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse vastamiseks' : 'Login to reply') . '</a>
+                                <a type="button" style="border: none; margin: 0px; color: white;" variant="primary" class="getstarted" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse vastamiseks' : 'Login to reply') . '</a>
                                 </div>';
                             }
                             echo '</div>';
@@ -177,6 +187,7 @@
                             echo $redirectValue;
                         }
                     ?>
+                    <input type="hidden" name="replyIdCreate" value="">
                 </div>
                 <div class="mb-3">
                     <label class="replyLabel" style="text-align: center; color: #013289;"></label>
@@ -357,7 +368,20 @@
         $('#selectedImagesContainerEdit').empty();
         $('#removeImagesBtnEdit').hide();
     }
+    // Capture the click event on the "Edit reply" link
+    $('.reply-link').on('click', function() {
+        // Get the reply ID, text, and imgpath from data attributes
+        var replyId = $(this).data('reply-id');
 
+        // Add the reply ID as a hidden input field
+        $('#replyModal input[name="replyIdCreate"]').val(replyId);
+        
+    });
+
+        // Clear form fields and image preview when the modal is closed
+    $('#replyModal').on('hidden.bs.modal', function() {
+        $('#replyModal input[name="replyIdCreate"]').val('');
+    });
     // Capture the click event on the "Edit reply" link
     $('.edit-reply-link').on('click', function() {
         // Get the reply ID, text, and imgpath from data attributes

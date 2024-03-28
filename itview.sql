@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 27 2024 г., 16:22
+-- Время создания: Мар 28 2024 г., 16:19
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -44,8 +44,8 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `text`, `userid`, `topicid`, `imgpath`, `imgpath2`, `imgpath3`, `created_at`, `updated_at`) VALUES
-(115, 'asdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsad', 1, 63, NULL, NULL, NULL, '2024-03-27 16:24:48', '2024-03-27 16:53:23'),
-(116, 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest', 1, 61, NULL, NULL, NULL, '2024-03-27 16:37:44', '2024-03-27 16:37:55');
+(116, 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest', 1, 61, NULL, NULL, NULL, '2024-03-27 16:37:44', '2024-03-27 16:37:55'),
+(117, 'ASDAS', 1, 63, NULL, NULL, NULL, '2024-03-28 16:04:46', '2024-03-28 16:04:46');
 
 -- --------------------------------------------------------
 
@@ -58,6 +58,7 @@ CREATE TABLE `replies` (
   `text` text DEFAULT NULL,
   `userid` int(11) NOT NULL,
   `commentid` int(11) NOT NULL,
+  `replyid` int(11) DEFAULT NULL,
   `imgpath` varchar(255) DEFAULT NULL,
   `imgpath2` varchar(255) DEFAULT NULL,
   `imgpath3` varchar(255) DEFAULT NULL,
@@ -69,8 +70,9 @@ CREATE TABLE `replies` (
 -- Дамп данных таблицы `replies`
 --
 
-INSERT INTO `replies` (`id`, `text`, `userid`, `commentid`, `imgpath`, `imgpath2`, `imgpath3`, `created_at`, `updated_at`) VALUES
-(85, 'sadsadas', 1, 115, '', '', '', '2024-03-27 17:10:49', '2024-03-27 17:11:01');
+INSERT INTO `replies` (`id`, `text`, `userid`, `commentid`, `replyid`, `imgpath`, `imgpath2`, `imgpath3`, `created_at`, `updated_at`) VALUES
+(94, 'SADASDASDASDSA', 1, 117, NULL, NULL, NULL, NULL, '2024-03-28 16:04:54', '2024-03-28 16:04:59'),
+(95, 'DSADA', 1, 117, 94, NULL, NULL, NULL, '2024-03-28 16:05:02', '2024-03-28 16:13:33');
 
 -- --------------------------------------------------------
 
@@ -126,17 +128,19 @@ CREATE TABLE `topics` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `userid` int(11) NOT NULL
+  `userid` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Дамп данных таблицы `topics`
 --
 
-INSERT INTO `topics` (`id`, `name`, `description`, `userid`) VALUES
-(61, 'test', '<font color=\"#0000ff\" style=\"\"><u>wqasdasdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssswqasdasdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</u><b style=\"font-style: italic;\">sssssssssssssssssssssssssssssssssssssssssssss</b></font><u style=\"color: rgb(0, 0, 255);\">sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</u><span style=\"font-weight: bolder; color: rgb(0, 0, 255); font-style: italic;\">sssssssssssssssssssssssssssssssssssssssssssss</span><u style=\"color: rgb(0, 0, 255);\">sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</u><span style=\"font-weight: bolder; color: rgb(0, 0, 255); font-style: italic;\">sssssssssssssssssssssssssssssssssssssssssssss</span>', 1),
-(62, 'Алексей Егоров', '<div>sadsad</div>', 1),
-(63, '12312312', '<div>test</div>', 3);
+INSERT INTO `topics` (`id`, `name`, `description`, `userid`, `created_at`) VALUES
+(61, 'test', '<font color=\"#0000ff\" style=\"\"><u>wqasdasdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssswqasdasdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</u><b style=\"font-style: italic;\">sssssssssssssssssssssssssssssssssssssssssssss</b></font><u style=\"color: rgb(0, 0, 255);\">sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</u><span style=\"font-weight: bolder; color: rgb(0, 0, 255); font-style: italic;\">sssssssssssssssssssssssssssssssssssssssssssss</span><u style=\"color: rgb(0, 0, 255);\">sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</u><span style=\"font-weight: bolder; color: rgb(0, 0, 255); font-style: italic;\">sssssssssssssssssssssssssssssssssssssssssssss</span>', 1, '2024-03-28 16:38:14'),
+(62, 'Алексей Егоров', '<div>sadsad</div>', 1, '2024-03-28 16:38:14'),
+(63, '12312312', '<div>test</div>', 3, '2024-03-28 16:38:14'),
+(69, 'asdasd', '', 1, '2024-03-28 16:42:56');
 
 -- --------------------------------------------------------
 
@@ -185,7 +189,8 @@ ALTER TABLE `comments`
 ALTER TABLE `replies`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`),
-  ADD KEY `commentid` (`commentid`);
+  ADD KEY `commentid` (`commentid`),
+  ADD KEY `replyid` (`replyid`);
 
 --
 -- Индексы таблицы `reports`
@@ -223,13 +228,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT для таблицы `replies`
 --
 ALTER TABLE `replies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT для таблицы `reports`
@@ -247,7 +252,7 @@ ALTER TABLE `tech`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT для таблицы `users`

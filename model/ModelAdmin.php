@@ -254,7 +254,7 @@ class ModelAdmin {
 				INNER JOIN topics ON comments.topicid = topics.id
 				WHERE users.username LIKE :searchQuery
 				OR users.email LIKE :searchQuery
-				OR comments.text LIKE :searchQuery
+				OR comments.id LIKE :searchQuery
 				ORDER BY comments.id DESC";
 	
 		// Bind parameters and execute the query
@@ -312,7 +312,7 @@ class ModelAdmin {
 				INNER JOIN users ON replies.userid = users.id
 				WHERE users.username LIKE :searchQuery
 				OR users.email LIKE :searchQuery
-				OR replies.text LIKE :searchQuery
+				OR replies.id LIKE :searchQuery
 				ORDER BY replies.id DESC";
 	
 		// Bind parameters and execute the query
@@ -373,7 +373,7 @@ class ModelAdmin {
 		$db = new Database();
 	
 		// Define the SQL query for searching users
-		$sql = "SELECT * FROM users WHERE username LIKE :searchQuery OR email LIKE :searchQuery OR role LIKE :searchQuery";
+		$sql = "SELECT * FROM users WHERE username LIKE :searchQuery OR email LIKE :searchQuery OR role LIKE :searchQuery OR id LIKE :searchQuery";
 		
 		$searchQuery = '%' . $searchQuery . '%';
 	
@@ -498,7 +498,8 @@ class ModelAdmin {
                 INNER JOIN users users2 ON reports.reportedUserId = users2.id
                 WHERE users2.username LIKE :searchQuery
                     OR users2.email LIKE :searchQuery
-                    OR users2.role LIKE :searchQuery					
+                    OR users2.role LIKE :searchQuery
+					OR users2.id LIKE :searchQuery						
                 ORDER BY reports.id DESC";
 
         // Bind parameters and execute the query

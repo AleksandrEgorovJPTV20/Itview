@@ -20,7 +20,7 @@
                 }
             ?>
             <div class="navbar" style="display: flex; flex-wrap: wrap; justify-content: left; margin-bottom: 10px;"> 
-              <a type="button" style="border: none; margin: 0px; margin-right: 10px; color: white;" variant="primary" class="getstarted scrollto" data-toggle="modal" data-target="#rulesModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></a>
+              <a type="button" style="border: none; margin: 0px; margin-right: 10px; color: white;" variant="primary" class="getstarted" data-toggle="modal" data-target="#rulesModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></a>
               <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku teemasid -' : 'Total topics -') ;?>  
               <?php 
                   if($searchQuery){
@@ -33,8 +33,8 @@
             </div>
             <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author') ;?></h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema' : 'Topic') ;?></h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Postitused' : 'Posts') ;?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teemad' : 'Topics') ;?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentid' : 'Comments') ;?></h2>
                 <?php 
                 if(!isset($_SESSION['userId'])){
                     echo '<div class="navbar forum-button text-center text-lg-start description" style="display: flex; justify-content: center; flex-wrap: wrap;">
@@ -56,11 +56,12 @@
                             $topicId = $topic['id'];
                             $commentCount = isset($commentCounts[$topicId]) ? $commentCounts[$topicId] : 0;
                             echo '<div style=" border: 2px solid #63BDFF; border-radius: 10px;   text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
-                            echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 25%;"><p>'.$topic['username'].'</p></a>';
+                            echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 100%; text-align: center; margin-bottom: -15px;"><p>'.$topic['created_at'].'</p></a>';
+                            echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 25%; text-align: center;"><p>'.$topic['username'].'</p></a>';
                             echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 25%;"><p>'.$topic['name'].'</p></a>';
                             echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 25%;"><p>'.$commentCount.'</p></a>';
                             echo '<div class="navbar forum-button" style="display: flex; justify-content: center; margin-bottom: 10px;">';
-                            echo '<a href="comments?topic=' . $topic['id'] . '" class="getstarted scrollto" style="margin: 0px; margin-top: 10px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaarid' : 'Comments') . '</a>';
+                            echo '<a href="comments?topic=' . $topic['id'] . '" class="getstarted" style="margin: 0px; margin-top: 10px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vaade' : 'View') . '</a>';
                             if (isset($_SESSION['userId']) && $topic['userid'] == $_SESSION['userId']) {
                                 echo '<button type="button" 
                                        class="getstarted edit-topic-link"

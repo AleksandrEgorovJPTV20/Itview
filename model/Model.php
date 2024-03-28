@@ -47,6 +47,7 @@ class Model {
 				WHERE topics.name LIKE :searchTerm 
 					OR users.username LIKE :searchTerm
 					OR users.email LIKE :searchTerm
+					OR topics.id LIKE :searchTerm
 				ORDER BY topics.id ASC";
 
 		$db = new Database();
@@ -247,9 +248,14 @@ class Model {
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT replies.*, users.username, users.imgpath AS userimg
+		$sql = "SELECT replies.*, 
+					users.username AS reply_username, 
+					users.imgpath AS userimg,
+					replied_users.username AS replied_username
 				FROM replies 
 				INNER JOIN users ON replies.userid = users.id
+				LEFT JOIN replies AS replied_replies ON replies.replyid = replied_replies.id
+				LEFT JOIN users AS replied_users ON replied_replies.userid = replied_users.id
 				WHERE replies.commentid = :commentid 
 				ORDER BY replies.id DESC
 				LIMIT :limit OFFSET :offset";
@@ -263,15 +269,22 @@ class Model {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+
+
 	// Model for searching replies for a certain comment, ordered by replies.id in descending order
 	public static function searchReplies($commentId, $searchQuery) {
 		$db = new Database();
 
-		$sql = "SELECT replies.*, users.username, users.imgpath AS userimg
+		$sql = "SELECT replies.*, 
+					users.username AS reply_username, 
+					users.imgpath AS userimg,
+					replied_users.username AS replied_username
 				FROM replies
 				INNER JOIN users ON replies.userid = users.id
+				LEFT JOIN replies AS replied_replies ON replies.replyid = replied_replies.id
+				LEFT JOIN users AS replied_users ON replied_replies.userid = replied_users.id
 				WHERE replies.commentid = :commentid
-				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery OR replies.text LIKE :searchQuery)
+				AND (users.username LIKE :searchQuery OR users.email LIKE :searchQuery OR replies.id LIKE :searchQuery)
 				ORDER BY replies.id DESC";
 
 		$stmt = $db->conn->prepare($sql);
@@ -299,43 +312,49 @@ class Model {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 	// Model method to create a new reply
-	public static function createReply($commentId, $userId, $replyText)
+	public static function createReply($commentId, $userId, $replyText, $replyIdCreate = null)
 	{
 		$db = new Database();
-
+	
 		$uploadDir = 'uploads/replies/';
 		if ($_FILES['Image1']['error'] === UPLOAD_ERR_OK) {
 			$uploadPath1 = $uploadDir . basename($_FILES['Image1']['name']);
 			move_uploaded_file($_FILES['Image1']['tmp_name'], $uploadPath1);
 		}
-
+	
 		if ($_FILES['Image2']['error'] === UPLOAD_ERR_OK) {
 			$uploadPath2 = $uploadDir . basename($_FILES['Image2']['name']);
 			move_uploaded_file($_FILES['Image2']['tmp_name'], $uploadPath2);
 		}
-
+	
 		if ($_FILES['Image3']['error'] === UPLOAD_ERR_OK) {
 			$uploadPath3 = $uploadDir . basename($_FILES['Image3']['name']);
 			move_uploaded_file($_FILES['Image3']['tmp_name'], $uploadPath3);
 		}
-		// Prepare the SQL query
-		$sql = "INSERT INTO replies (text, userid, commentid, imgpath, imgpath2, imgpath3, created_at, updated_at) 
-				VALUES (:replyText, :userid, :commentid, :imgpath, :imgpath2, :imgpath3, NOW(), NOW())";
 
+	    if (empty($replyIdCreate)) {
+			$replyIdCreate = null; // Set to null if empty
+		}
+	
+		// Prepare the SQL query
+		$sql = "INSERT INTO replies (text, userid, commentid, replyid, imgpath, imgpath2, imgpath3, created_at, updated_at) 
+				VALUES (:replyText, :userid, :commentid, :replyid, :imgpath, :imgpath2, :imgpath3, NOW(), NOW())";
+	
 		// Execute the query
 		$stmt = $db->conn->prepare($sql);
 		$stmt->bindParam(':replyText', $replyText, PDO::PARAM_STR);
 		$stmt->bindParam(':userid', $userId, PDO::PARAM_INT);
 		$stmt->bindParam(':commentid', $commentId, PDO::PARAM_INT);
+		$stmt->bindParam(':replyid', $replyIdCreate, PDO::PARAM_INT); // Bind replyIdCreate if provided
 		$stmt->bindParam(':imgpath', $uploadPath1, PDO::PARAM_STR); // No change if image not uploaded
 		$stmt->bindParam(':imgpath2', $uploadPath2, PDO::PARAM_STR); // No change if image not uploaded
-		$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR); // No change if image not uploaded	
+		$stmt->bindParam(':imgpath3', $uploadPath3, PDO::PARAM_STR); // No change if image not uploaded
 	
 		// Check if the query executed successfully
 		if ($stmt->execute()) {
-			return true; // Comment creation successful
+			return true; // Reply creation successful
 		} else {
-			return false; // Comment creation failed
+			return false; // Reply creation failed
 		}
 	}
 
