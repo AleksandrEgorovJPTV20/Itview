@@ -2688,3 +2688,9 @@ section {
   flex-wrap: wrap; 
   text-align: center;
 }
+
+@media (max-width: 950px) {
+  .h2-mobile {
+    font-size: 24px!important;
+  }
+}
