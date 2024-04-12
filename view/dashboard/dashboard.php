@@ -19,7 +19,7 @@
                     $i++;
                 }
             ?>
-            <h2 class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku teemasid -' : 'Total topics -') ;?> 
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku teemad -' : 'Total topics -') ;?> 
             <?php 
                 if($searchQuery){
                     echo $i;

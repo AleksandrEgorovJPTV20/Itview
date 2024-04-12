@@ -289,9 +289,14 @@ class ModelAdmin {
 
 		$offset = ($page - 1) * $itemsPerPage;
 
-		$sql = "SELECT replies.*, users.username, users.imgpath AS userimg
-				FROM replies
+		$sql = "SELECT replies.*, 
+					users.username AS reply_username, 
+					users.imgpath AS userimg,
+					replied_users.username AS replied_username
+				FROM replies 
 				INNER JOIN users ON replies.userid = users.id
+				LEFT JOIN replies AS replied_replies ON replies.replyid = replied_replies.id
+				LEFT JOIN users AS replied_users ON replied_replies.userid = replied_users.id
 				ORDER BY replies.id DESC
 				LIMIT :limit OFFSET :offset";
 
@@ -302,6 +307,7 @@ class ModelAdmin {
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+
 	// Model method to search replies
 	public static function searchReplies($searchQuery) {
 		$db = new Database();

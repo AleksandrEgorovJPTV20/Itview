@@ -20,7 +20,7 @@
                     $i++;
                 }
             ?>
-            <h2 class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kommentaare -' : 'Total comments -') ;?>
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kommentaare -' : 'Total comments -') ;?>
             <?php 
                 if($searchQuery){
                     echo $i;
