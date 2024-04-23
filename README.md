@@ -37,3 +37,4 @@
 Огромное спасибо преподователям, которые давали советы и помогали усовершенствовать нашу работу. <br>
 Участники команды: Александр Егоров и Рустем Куршутов
 <hr>
+![logo](https://raw.githubusercontent.com/AleksandrEgorovJPTV20/Itview/master/assets/img/logo3.png)
