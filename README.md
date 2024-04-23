@@ -39,12 +39,15 @@
 <hr>
 
 ### Изображения сайта
-![image](https://github.com/AleksandrEgorovJPTV20/Itview/assets/22397787/599581fe-ac45-4ed6-9d94-f018fef88a96)
-![image](https://github.com/AleksandrEgorovJPTV20/Itview/assets/22397787/a28a6dde-8d2a-4afd-a6ba-28c6c4085e43)
-![image](https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/d72c62e2-f815-4aca-8eee-412df3a9f804)
-![image](https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/a0458058-34f3-4b93-8159-15c99474789b)
-![image](https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/bf532626-41e1-4543-9de7-1977fb206fb0)
-![image](https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/0ae21c38-4fd2-4802-b2c0-90dc3811d2e9)
+<p align="center">
+  <img src="https://github.com/AleksandrEgorovJPTV20/Itview/assets/22397787/599581fe-ac45-4ed6-9d94-f018fef88a96" alt="logo"/>
+  <img src="https://github.com/AleksandrEgorovJPTV20/Itview/assets/22397787/a28a6dde-8d2a-4afd-a6ba-28c6c4085e43" alt="logo"/>
+  <img src="https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/0ae21c38-4fd2-4802-b2c0-90dc3811d2e9" alt="logo"/>
+  <img src="https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/d72c62e2-f815-4aca-8eee-412df3a9f804" alt="logo"/>
+  <img src="https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/a0458058-34f3-4b93-8159-15c99474789b" alt="logo"/>
+  <img src="https://github.com/AleksandrEgorovJPTV20/Itview/assets/90320064/bf532626-41e1-4543-9de7-1977fb206fb0" alt="logo"/>
+</p>
+
 
 
 
