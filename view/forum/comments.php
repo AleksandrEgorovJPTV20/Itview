@@ -58,7 +58,7 @@
                     echo '<h2 style="margin-top: 50px; font-size: 30px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ei leitud kommentaare' : 'No comments found') . '</h2>';
                 } else {
                     foreach($topicName as $name){
-                        echo '<h2 style="text-align: center; margin-bottom: 10px;">'.$name['name'].'</h2>';
+                        echo '<h2 style="text-align: center; margin-bottom: 10px;" class="h2-reply-mobile">'.$name['name'].'</h2>';
                     }
                     foreach ($comments as $comment) {
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';

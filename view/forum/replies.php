@@ -40,7 +40,7 @@
                 <?php 
                 if(!isset($_SESSION['userId'])){
                     echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                            <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse vastamiseks' : 'Login to reply') . '</a>
+                            <a type="button" style="border: none; margin: 0px; color: white;" class="getstarted" data-toggle="modal" data-target="#loginModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi vastamiseks' : 'Login to reply') . '</a>
                             <a href="/comments?topic='.$originalComment['topicid'].'" type="button" style="border: none; margin: 0px; margin-left: 5px; color: white;" class="getstarted">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tagasi' : 'Back') . '</a>
                         </div>';
                   }else{
@@ -58,7 +58,7 @@
                     } else {
                         // Display the original comment
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
-                        echo '<h2 style="width: 100%; text-align: center;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Algupärane kommentaar' : 'Original Comment') . '</h2>';
+                        echo '<h2 style="width: 100%; text-align: center;" class="h2-mobilexl">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Algupärane kommentaar' : 'Original Comment') . '</h2>';
                         echo '<a href="profile?user='.$originalComment['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$originalComment['userimg'].'"></img></a>';
                         echo '<div class="comment">
                             <p style="margin: 0; margin-top: 10px;">'.$originalComment['username'].'</p>
@@ -84,11 +84,11 @@
                         foreach ($replies as $reply) {
                             echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
                             if (isset($reply['replied_username'])) {
-                                echo '<h2 style="margin: 0; width: 100%; text-align: center;">';
-                                echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: ' . $reply['replied_username'] . ', vastuse ID: ' . $reply['replyid'] : 'Replying to: ' . $reply['replied_username'] . ', reply id: ' . $reply['replyid'];
+                                echo '<h2 style="margin: 0; width: 100%; text-align: center;" class="h2-mobilexl">';
+                                echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: ' . $reply['replied_username'] . ', vastuse ID: ' . $reply['replyid'] : 'Replying to: ' . $reply['replied_username'] . ', reply ID: ' . $reply['replyid'];
                                 echo '</h2>';
                             } else {
-                                echo '<h2 style="margin: 0; width: 100%; text-align: center;">';
+                                echo '<h2 style="margin: 0; width: 100%; text-align: center;" class="h2-mobilexl">';
                                 echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: Algupärane kommentaar' : 'Replying to: Original comment';
                                 echo '</h2>';
                             }

@@ -307,7 +307,6 @@ class ModelAdmin {
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
-
 	// Model method to search replies
 	public static function searchReplies($searchQuery) {
 		$db = new Database();

@@ -68,7 +68,7 @@
     <div class="container" data-aos="fade-up">
 
       <header class="section-header">
-          <p><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tehnoloogia' : 'Tech');?></p>
+          <p style="font-size: 38px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tehnoloogia' : 'Tech');?></p>
           <p style="font-size: 18px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Õppige populaarsetest ja kasulikest tehnoloogiatest.<br>Kasutage meie filtreerimisvõimalust, vajutades nuppe, et saada teavet aasta populaarsete tehnoloogiate kohta.' : 'Learn about popular and useful technologies<br>Use our filter by clicking buttons to learn about popular tech of the year');?></p>
           <div class="navbar" style="justify-content: space-around;">
           <?php 
@@ -84,7 +84,6 @@
 
       <?php
         if (isset($year)) {
-            // Your existing code
             if (isset($alltech) && $alltech) {
                 foreach ($alltech as $tech) {
                     echo '<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
@@ -145,7 +144,7 @@
             <div class="accordion-item" style="border-radius: 15px;">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                <?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kuidas registreeruda IT Vaade foorumis?' : 'How to register on the IT Vaade forum?');?>
+                <?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kuidas registreeruda IT View foorumis?' : 'How to register on the IT View forum?');?>
                 </button>
             </h2>
             <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
@@ -266,7 +265,7 @@
                         <textarea class="form-control" name="message" rows="6" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sõnum' : 'Message');?>" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></textarea>
                     </div>
                     <div class="col-md-12 text-center navbar" style="display: flex; justify-content: center;">
-                        <button type="submit" class="getstarted" name="send"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Saada sõnum' : 'Send message');?></button>
+                        <button type="submit" class="getstarted" style="margin-left: 0px!important;" name="send"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Saada sõnum' : 'Send message');?></button>
                     </div>
                 </div>
             </form>
@@ -383,7 +382,6 @@
          }, function (error) {
             console.log('Failed to send', error);
             statusMessage.innerHTML = '<?php echo $error; ?>';
-            // Add any error handling here
          });
    });
 </script>

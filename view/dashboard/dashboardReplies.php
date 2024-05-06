@@ -62,7 +62,7 @@
                             echo '<h2 style="margin: 0; width: 100%; text-align: center;" class="h2-mobilexl">';
                             echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: Algupärane kommentaar' : 'Replying to: Original comment';
                             echo '</h2>';
-                        } 
+                        }
                         echo '<a href="profile?user='.$reply['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$reply['userimg'].'"></img></a>';
                         echo '<div class="comment">
                             <p style="margin: 0; margin-top: 10px;">ID: '.$reply['id'].'</p>
