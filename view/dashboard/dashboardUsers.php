@@ -22,7 +22,7 @@
                     }
                 }
             ?>
-            <h2 class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kasutajaid -' : 'Total users -') ;?> 
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kasutajaid -' : 'Total users -') ;?> 
             <?php 
                 if($searchQuery){
                     echo $i;

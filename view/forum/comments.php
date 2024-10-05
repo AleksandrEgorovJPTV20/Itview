@@ -25,7 +25,7 @@
             ?>
             <div class="navbar" style="display: flex; flex-wrap: wrap; justify-content: left; margin-bottom: 10px;"> 
             <a type="button" style="border: none; margin: 0px; margin-right: 10px; color: white;" variant="primary" class="getstarted" data-toggle="modal" data-target="#rulesModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></a>
-            <h2 class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kommentaare -' : 'Total comments -') ;?> 
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku kommentaare -' : 'Total comments -') ;?> 
             <?php 
                 if($searchQuery){
                     echo $i;
@@ -37,7 +37,7 @@
             </div>
             <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 20%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author');?></h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentid' : 'Comments');?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 30%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar' : 'Comment');?></h2>
                 <?php 
                 if(!isset($_SESSION['userId'])){
                     echo '<div class="navbar description text-center text-lg-start" style="display: flex; justify-content: center; flex-wrap: wrap;">
@@ -58,7 +58,7 @@
                     echo '<h2 style="margin-top: 50px; font-size: 30px;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Ei leitud kommentaare' : 'No comments found') . '</h2>';
                 } else {
                     foreach($topicName as $name){
-                        echo '<h2 style="text-align: center; margin-bottom: 10px;">'.$name['name'].'</h2>';
+                        echo '<h2 style="text-align: center; margin-bottom: 10px;" class="h2-reply-mobile">'.$name['name'].'</h2>';
                     }
                     foreach ($comments as $comment) {
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px;  text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';

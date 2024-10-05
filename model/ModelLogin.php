@@ -75,7 +75,7 @@ class ModelLogin {
 			$username =$_POST['username'];
 			$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 			$password = $_POST['password'];
-			$sql = 'SELECT * FROM users WHERE email = "'.$email.'"';
+			$sql = 'SELECT * FROM users WHERE email = "'.$email.'" OR username = "'.$username.'"';
 			$database = new database();
 			$item = $database->getOne($sql);
 			if($item == null){
@@ -93,7 +93,7 @@ class ModelLogin {
 					$_SESSION['registerMessage']= (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vale e-posti' : 'Wrong email');
 				}
 			}else{
-				$_SESSION['registerMessage']= (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja eksisteerib juba' : 'User already exists');
+				$_SESSION['registerMessage']= (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kasutaja eksisteerib juba, palun muuta nimi, e-post.' : 'User already exists, please change username or email.');
 			}
 		}
 	}

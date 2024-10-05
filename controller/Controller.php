@@ -1,6 +1,6 @@
 <?php
 class Controller { 
-	//homepage controller
+	//Language controller
    public static function changeLanguage($language) {
 		$redirectRoute = isset($_POST['redirect_route']) ? $_POST['redirect_route'] : '';
 		if (!empty($redirectRoute)) {

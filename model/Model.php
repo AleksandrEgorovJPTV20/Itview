@@ -417,6 +417,7 @@ class Model {
 
 			// Update the user's image path in the database
 			$user['imgpath'] = $uploadPath;
+			$_SESSION['imgpath'] = $user['imgpath'];
 		}
 
 		// Check if confirm password matches current password

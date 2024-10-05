@@ -9,13 +9,12 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1 data-aos="fade-up"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Asu teele koos <br>IT-foorumiga!' : 'Embark on a Journey with<br>IT Forum');?></h1>
+          <h1 data-aos="fade-up"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Asu teele koos<br>IT-foorumiga!' : 'Embark on a Journey with IT Forum');?></h1>
           <h2 data-aos="fade-up" <?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'class="typewriter-text-est" id="typing-text-est"' : 'class="typewriter-text" id="typing-text"');?> data-aos-delay="400"></h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
               <a href="/forum" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
               <span><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Foorum' : 'Forum');?></span>
-                <i class="bi bi-arrow-right"></i>
               </a>
             </div>
           </div>
@@ -69,13 +68,13 @@
     <div class="container" data-aos="fade-up">
 
       <header class="section-header">
-          <p><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tehnoloogia' : 'Tech');?></p>
+          <p style="font-size: 38px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Tehnoloogia' : 'Tech');?></p>
           <p style="font-size: 18px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Õppige populaarsetest ja kasulikest tehnoloogiatest.<br>Kasutage meie filtreerimisvõimalust, vajutades nuppe, et saada teavet aasta populaarsete tehnoloogiate kohta.' : 'Learn about popular and useful technologies<br>Use our filter by clicking buttons to learn about popular tech of the year');?></p>
           <div class="navbar" style="justify-content: space-around;">
           <?php 
               $years = [2021, 2022, 2023];
                   foreach ($years as $loopYear) {
-                    echo '<a class="getstarted scrollto" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="?year='.$loopYear.'">'.$loopYear.'</a>';
+                    echo '<a class="getstarted" style="margin-left: 0px; margin-top: 10px; width: 120px; justify-content: center;"" href="?year='.$loopYear.'">'.$loopYear.'</a>';
                   }
           ?>
           </div>
@@ -85,14 +84,13 @@
 
       <?php
         if (isset($year)) {
-            // Your existing code
             if (isset($alltech) && $alltech) {
                 foreach ($alltech as $tech) {
                     echo '<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-box blue">
                         <img src="' . $tech['image'] . '" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
                         <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? $tech['nameEST'] : $tech["name"]) . '</h3>
-                        <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? $tech['descriptionEST'] : $tech["description"]) . '</p>
+                        <p style="text-align: justify;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? $tech['descriptionEST'] : $tech["description"]) . '</p>
                     </div>
                     </div>';
                 }
@@ -104,21 +102,21 @@
                 <div class="service-box blue">
                     <img src="https://th.bing.com/th/id/OIP.3ODPI6UHE1z7YMNGBELP_QHaEK?rs=1&pid=ImgDetMain" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
                     <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Apple M1 kiip' : 'Apple M1 Chip') . '</h3>
-                    <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Apple tutvustas oma M1 kiipi aastal 2020, kuid selle mõju oli märkimisväärne ka 2021. M1 on kohandatud ARM-põhine süsteem kiip (SoC), mis toidab mitmeid Applei seadmeid, sealhulgas MacBook Air, MacBook Pro ja Mac mini. See tõi kaasa märkimisväärseid edusamme jõudluse ja energiatõhususe osas, märkides Applei üleminekut Inteli protsessoritest.' : 'Apple introduced its M1 chip in 2020, but its impact continued to be significant in 2021. The M1 is a custom-designed ARM-based system on a chip (SoC) that powers a range of Apple devices, including the MacBook Air, MacBook Pro, and Mac mini. It brought notable improvements in performance and energy efficiency, marking Apple\'s transition away from Intel processors.') . '</p>
+                    <p style="text-align: justify;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Apple tutvustas oma M1 kiipi aastal 2020, kuid selle mõju oli märkimisväärne ka 2021. M1 on kohandatud ARM-põhine süsteem kiip (SoC), mis toidab mitmeid Applei seadmeid, sealhulgas MacBook Air, MacBook Pro ja Mac mini. See tõi kaasa märkimisväärseid edusamme jõudluse ja energiatõhususe osas, märkides Applei üleminekut Inteli protsessoritest.' : 'Apple introduced its M1 chip in 2020, but its impact continued to be significant in 2021. The M1 is a custom-designed ARM-based system on a chip (SoC) that powers a range of Apple devices, including the MacBook Air, MacBook Pro, and Mac mini. It brought notable improvements in performance and energy efficiency, marking Apple\'s transition away from Intel processors.') . '</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="service-box blue">
                     <img src="https://th.bing.com/th/id/OIP.ssfyf2CkcLcvgM2l_1OL9QHaEK?rs=1&pid=ImgDetMain" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
                     <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'NVIDIA GeForce RTX 30 seeria graafikaprotsessorid' : 'NVIDIA GeForce RTX 30 Series GPUs') . '</h3>
-                    <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'NVIDIA avaldas oma GeForce RTX 30 seeria graafikakaardid, mis põhinevad Ampere arhitektuuril. Märkimisväärsed mudelid hõlmavad GeForce RTX 3080, RTX 3070 ja RTX 3060. Need graafikaprotsessorid tõid kaasa edusammud kiirjälgimise ja AI-toega funktsioonides, pakkudes muljetavaldavat jõudlust mängude, sisuloome ja professionaalsete rakenduste jaoks.' : 'NVIDIA released its GeForce RTX 30 series graphics cards based on the Ampere architecture. Notable models include the GeForce RTX 3080, RTX 3070, and RTX 3060. These GPUs introduced advancements in ray tracing and AI-powered features, delivering impressive performance for gaming, content creation, and professional applications.') . '</p>
+                    <p style="text-align: justify;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'NVIDIA avaldas oma GeForce RTX 30 seeria graafikakaardid, mis põhinevad Ampere arhitektuuril. Märkimisväärsed mudelid hõlmavad GeForce RTX 3080, RTX 3070 ja RTX 3060. Need graafikaprotsessorid tõid kaasa edusammud kiirjälgimise ja AI-toega funktsioonides, pakkudes muljetavaldavat jõudlust mängude, sisuloome ja professionaalsete rakenduste jaoks.' : 'NVIDIA released its GeForce RTX 30 series graphics cards based on the Ampere architecture. Notable models include the GeForce RTX 3080, RTX 3070, and RTX 3060. These GPUs introduced advancements in ray tracing and AI-powered features, delivering impressive performance for gaming, content creation, and professional applications.') . '</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="service-box blue">
                     <img src="assets/img/about.png" style="width: 250px; height: 250px; margin-bottom: 10px;"></img>
                     <h3>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'AMD Ryzen 5000 seeria protsessorid' : 'AMD Ryzen 5000 Series CPUs') . '</h3>
-                    <p>' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'AMD jätkas edu protsessoriturul, tuues turule Ryzen 5000 seeria, millel on Zen 3 arhitektuur. Protsessorid nagu Ryzen 9 5950X ja Ryzen 9 5900X pakkusid suurepärast mitmiktuuma jõudlust, muutes need populaarseteks valikuteks mängude ja sisuloome jaoks. AMD Zen 3 arhitektuur tõi kaasa edusamme IPC-s (juhiste arv tsükli kohta) ja üldises efektiivsuses.' : 'AMD continued its success in the CPU market with the release of the Ryzen 5000 series, featuring the Zen 3 architecture. CPUs like the Ryzen 9 5950X and Ryzen 9 5900X offered excellent multi-core performance, making them popular choices for gaming and content creation. AMD\'s Zen 3 architecture brought improvements in IPC (instructions per cycle) and overall efficiency.') . '</p>
+                    <p style="text-align: justify;">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'AMD jätkas edu protsessoriturul, tuues turule Ryzen 5000 seeria, millel on Zen 3 arhitektuur. Protsessorid nagu Ryzen 9 5950X ja Ryzen 9 5900X pakkusid suurepärast mitmiktuuma jõudlust, muutes need populaarseteks valikuteks mängude ja sisuloome jaoks. AMD Zen 3 arhitektuur tõi kaasa edusamme IPC-s (juhiste arv tsükli kohta) ja üldises efektiivsuses.' : 'AMD continued its success in the CPU market with the release of the Ryzen 5000 series, featuring the Zen 3 architecture. CPUs like the Ryzen 9 5950X and Ryzen 9 5900X offered excellent multi-core performance, making them popular choices for gaming and content creation. AMD\'s Zen 3 architecture brought improvements in IPC (instructions per cycle) and overall efficiency.') . '</p>
                 </div>
             </div>';
         }
@@ -146,7 +144,7 @@
             <div class="accordion-item" style="border-radius: 15px;">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1" style="border: 2px solid #63BDFF; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); border-radius: 10px; padding: 15px;">
-                <?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kuidas registreeruda IT Vaade foorumis?' : 'How to register on the IT Vaade forum?');?>
+                <?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kuidas registreeruda IT Vaade foorumis?' : 'How to register on the IT View forum?');?>
                 </button>
             </h2>
             <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1" style="border: 2px solid #63BDFF; border-radius: 10px; box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25); padding: 10px;">
@@ -266,8 +264,8 @@
                     <div class="col-md-12">
                         <textarea class="form-control" name="message" rows="6" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sõnum' : 'Message');?>" required style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></textarea>
                     </div>
-                    <div class="col-md-12 text-center">
-                        <button type="submit" name="send"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Saada sõnum' : 'Send message');?></button>
+                    <div class="col-md-12 text-center navbar" style="display: flex; justify-content: center;">
+                        <button type="submit" class="getstarted" style="margin-left: 0px!important;" name="send"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Saada sõnum' : 'Send message');?></button>
                     </div>
                 </div>
             </form>
@@ -308,10 +306,10 @@
             var screenWidth = window.innerWidth;
 
             if (screenWidth < 768) { // Adjust the breakpoint as needed
-                element.style.fontSize = '21px'; // Set the desired font size for smaller screens
+                element.style.fontSize = '18px'; // Set the desired font size for smaller screens
                 element.style.lineHeight = '1.5'; // Set the desired line height
             } else {
-                element.style.fontSize = '24px'; // Set the default font size for larger screens
+                element.style.fontSize = '28px'; // Set the default font size for larger screens
                 element.style.lineHeight = '1.2'; // Set the default line height
             }
         }
@@ -347,10 +345,10 @@
             var screenWidth = window.innerWidth;
 
             if (screenWidth < 768) { // Adjust the breakpoint as needed
-                element.style.fontSize = '21px'; // Set the desired font size for smaller screens
+                element.style.fontSize = '18px'; // Set the desired font size for smaller screens
                 element.style.lineHeight = '1.5'; // Set the desired line height
             } else {
-                element.style.fontSize = '24px'; // Set the default font size for larger screens
+                element.style.fontSize = '28px'; // Set the default font size for larger screens
                 element.style.lineHeight = '1.2'; // Set the default line height
             }
         }
@@ -384,7 +382,6 @@
          }, function (error) {
             console.log('Failed to send', error);
             statusMessage.innerHTML = '<?php echo $error; ?>';
-            // Add any error handling here
          });
    });
 </script>

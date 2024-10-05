@@ -10,20 +10,15 @@ $route = explode('/', $path)[$num];
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
   <title>IT View</title>
-
-  <!-- Favicons -->
-  <link href="assets/img/logo1.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -31,18 +26,18 @@ $route = explode('/', $path)[$num];
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="assets/css/richtext.min.css">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/carousel.css" rel="stylesheet">
   <!-- Font Awesome CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-
+  <!-- scripts -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-  <link rel="stylesheet" href="assets/css/richtext.min.css">
-  <link href="assets/css/style.css" rel="stylesheet">
-  <link href="assets/css/carousel.css" rel="stylesheet">
+  <!-- CSS -->
+    <!-- Emailjs -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
     emailjs.init("PzVTGjjTExWHlP1xe");
@@ -58,8 +53,7 @@ $route = explode('/', $path)[$num];
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="/" class="logo d-flex align-items-center">
-        <img src="assets/img/logo2.png" alt="" style="border-radius: 50%; width: 70px; height: 60px; flex-shrink: 0;">
-        <span>IT View</span>
+        <img src="assets/img/logo3.png" alt="" style="width: 200px; height: 74px; flex-shrink: 0;">
       </a>
 
       <nav id="navbar" class="navbar">
@@ -170,7 +164,7 @@ $route = explode('/', $path)[$num];
   <!-- Login -->
   <div class="modal fade" id="loginModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <form action="login" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289; margin: 20px 0px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi sisse' : 'Login');?></h1>
               <p style="text-align: center; color: #013289;">
@@ -245,7 +239,7 @@ $route = explode('/', $path)[$num];
 <!-- Register -->
   <div class="modal fade" id="registerModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <form action="register" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289; margin: 20px 0px;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Registeeru' : 'Register');?></h1>
               <p style="text-align: center; color: #013289;">
@@ -320,10 +314,25 @@ $route = explode('/', $path)[$num];
   </div>
     <!-- End Register -->
 
+    <div id="sessionModal" class="modal fade test" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
+            <form action="logout" method="POST" class="content modal-forms">
+                <h1 style="text-align: center; color: #013289;">Session Expiration Reminder</h1>
+                <p style="text-align: center; color: #013289;" id="sessionMessage"></p>
+                <div class="navbar text-center text-lg-start" style="display: flex; justify-content: center; margin-bottom: 10px;">
+                    <button style="margin: 0px; border: none;" variant="primary" type="submit" name="send" class="getstarted"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Välju' : 'Logout');?></button>
+                    <button id="closeButton" type="button" class="getstarted" style="border: none;" variant="primary"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Sulge' : 'Close');?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
     <!-- Logout -->
+    
   <div class="modal fade" id="logoutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none; margin-left: 15px;">
+      <div class="modal-content" style="background-color: rgba(255, 255, 255, 0); border: none;">
           <form action="logout" method="POST" class="content modal-forms">
               <h1 style="text-align: center; color: #013289;"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Logi välja' : 'Logout');?></h1>
               <?php 
@@ -388,7 +397,7 @@ $route = explode('/', $path)[$num];
   <footer id="footer" class="footer" style="position: fixed; bottom: 0%; width: 100%;">
     <div class="container">
       <div class="copyright">
-        &copy; Aleksandr Egorov, Rustem Kurshutov <br>JPTV20
+        &copy; Aleksandr Egorov, Rustem Kurshutov<br>2024 IVKHK JPTV20
       </div>
     </div>
   </footer><!-- End Footer -->

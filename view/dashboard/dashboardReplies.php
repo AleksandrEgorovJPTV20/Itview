@@ -20,7 +20,7 @@
                     $i++;
                 }
             ?>
-            <h2 class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku vastuseid -' : 'Total replies -') ;?>
+            <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku vastuseid -' : 'Total replies -') ;?>
             <?php 
                 if($searchQuery){
                     echo $i;
@@ -54,10 +54,19 @@
                 } else {
                     foreach ($replies as $reply) {
                         echo '<div style="border: 2px solid #63BDFF; border-radius: 10px; text-decoration: none; padding: 10px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; font-size: 20px;">';
+                        if (isset($reply['replied_username'])) {
+                            echo '<h2 style="margin: 0; width: 100%; text-align: center;" class="h2-mobilexl">';
+                            echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: ' . $reply['replied_username'] . ', vastuse ID: ' . $reply['replyid'] : 'Replying to: ' . $reply['replied_username'] . ', reply ID: ' . $reply['replyid'];
+                            echo '</h2>';
+                        } else {
+                            echo '<h2 style="margin: 0; width: 100%; text-align: center;" class="h2-mobilexl">';
+                            echo isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Vastus: Algupärane kommentaar' : 'Replying to: Original comment';
+                            echo '</h2>';
+                        }
                         echo '<a href="profile?user='.$reply['userid'].'" style="flex-basis: 20%; text-align: center;"><img style="width: 152px; height: 158px; margin-top: 10px; border-radius: 50%;" src="'.$reply['userimg'].'"></img></a>';
                         echo '<div class="comment">
                             <p style="margin: 0; margin-top: 10px;">ID: '.$reply['id'].'</p>
-                            <p style="margin: 0; margin-top: 10px;">'.$reply['username'].'</p>
+                            <p style="margin: 0; margin-top: 10px;">'.$reply['reply_username'].'</p>
                             <p style="font-size: 16px; margin: 0;">'.$reply['created_at'].'</p>
                             <p>'.$reply['text'].'</p>';
                             if (!empty($reply['imgpath'])) {

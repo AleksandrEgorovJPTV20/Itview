@@ -6,6 +6,12 @@
     $num = substr_count($path, '/');
     $route = explode('/', $path)[$num];
 ?>
+
+<style>
+  .img-div, img {
+    width: 300px; 
+  }
+</style>
 <!-- HTML section -->
 <div id="forum" class="forum about">
     <div class="container" data-aos="fade-up">
@@ -21,7 +27,7 @@
             ?>
             <div class="navbar" style="display: flex; flex-wrap: wrap; justify-content: left; margin-bottom: 10px;"> 
               <a type="button" style="border: none; margin: 0px; margin-right: 10px; color: white;" variant="primary" class="getstarted" data-toggle="modal" data-target="#rulesModal"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Reeglid' : 'Rules') ;?></a>
-              <h2 class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku teemasid -' : 'Total topics -') ;?>  
+              <h2><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kokku teemad -' : 'Total topics -') ;?>  
               <?php 
                   if($searchQuery){
                       echo $i;
@@ -33,8 +39,8 @@
             </div>
             <div class="col-lg-6 d-flex button-text-container" data-aos="fade-up" data-aos-delay="200">
                 <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Autor' : 'Author') ;?></h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teemad' : 'Topics') ;?></h2>
-                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentid' : 'Comments') ;?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Teema' : 'Topic') ;?></h2>
+                <h2 style="font-size: 30px; padding-top: 10px; flex-basis: 25%;" class="h2-mobile"><?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Kommentaar' : 'Comment') ;?></h2>
                 <?php 
                 if(!isset($_SESSION['userId'])){
                     echo '<div class="navbar forum-button text-center text-lg-start description" style="display: flex; justify-content: center; flex-wrap: wrap;">
@@ -55,7 +61,7 @@
                         foreach ($topics as $topic) {
                             $topicId = $topic['id'];
                             $commentCount = isset($commentCounts[$topicId]) ? $commentCounts[$topicId] : 0;
-                            echo '<div style=" border: 2px solid #63BDFF; border-radius: 10px;   text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
+                            echo '<div class="img-div" style=" border: 2px solid #63BDFF; border-radius: 10px;   text-decoration: none; padding: 0px 20px; background: white; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); text-align: center; color: black; width: 100%; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; font-size: 20px;">';
                             echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 100%; text-align: left; margin-bottom: -15px; font-size: 18px;"><p>Creation date: '.$topic['created_at'].'</p></a>';
                             echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 25%; text-align: center;"><p>'.$topic['username'].'</p></a>';
                             echo '<a href="comments?topic=' . $topic['id'] . '" style="color: black; flex-basis: 25%;"><p>'.$topic['name'].'</p></a>';

@@ -29,7 +29,7 @@
                         }
 
                         if (isset($_SESSION['userId']) && $_SESSION['userId'] == $userId) {
-                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted" data-toggle="modal" data-target="#userProfileModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiili muutmine' : 'Edit profile') . '</a></div>';
+                            echo ' <div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted edit-profile-link" data-toggle="modal" data-target="#userProfileModal" data-profile-description="' . htmlspecialchars($user['description']) . '">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Profiili muutmine' : 'Edit profile') . '</a></div>';
                         }elseif(isset($_SESSION['userId']) && $user['role'] != 'admin'){
                             echo '<div class="navbar" style="justify-content: center;"><a type="button" style="border: none; margin: 15px 0px 5px 0px; color: white;  padding: 8px 16px; border-radius: 5px;" variant="primary" class="getstarted" data-toggle="modal" data-target="#userReportModal">' . (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Aruandlus' : 'Report') . ' '.$user['username'].'</a></div>';
                         }
@@ -66,7 +66,7 @@
                 <input type="email" name="email" class="form-control" style="margin: 20px 0px;" placeholder="<?php echo (isset($_SESSION['language']) && $_SESSION['language'] == 'est' ? 'Muuda e-posti' : 'Edit email') ;?>" value="<?php echo $user['email'] ?>">
             </div>
             <div class="mb-3">
-                <textarea class="profileDescription" name="description" value="<?php $user['description'] ?>"><?php $user['description'] ?></textarea>
+                <textarea class="profileDescription" name="description" id="editDescription" value="<?php $user['description'] ?>"><?php $user['description'] ?></textarea>
             </div>
             <div class="mb-3">
                 <div class="custom-file">
@@ -118,7 +118,13 @@
       $('.profileDescription').richText();
       $('.reportDescription').richText();
     });
+    // Capture the click event on the "Edit profile" link
+    $('.edit-profile-link').on('click', function() {
+        var profileDescription = $(this).data('profile-description');
 
+        $('#editDescription').val(profileDescription);
+        $('.richText-editor').html(profileDescription);
+    });
     function previewImage() {
         var input = document.getElementById('userImageInput');
         var preview = document.getElementById('userImagePreview');
